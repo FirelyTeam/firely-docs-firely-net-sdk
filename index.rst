@@ -1,6 +1,3 @@
-Welcome to the Firely .Net SDK's documentation!
-========================================
-
 .. toctree::
    :maxdepth: 2
    :caption: Firely Products
@@ -15,10 +12,35 @@ Welcome to the Firely .Net SDK's documentation!
 
    start
    model
-   client
+   client 
    parsing
    contact
    releasenotes
+
+.. list-table::
+   :widths: 33 33 33
+   :header-rows: 1
+
+   * - STU3
+     - R4
+     - R5
+   * -  .. image:: https://dev.azure.com/firely/firely-net-sdk/_apis/build/status/Continuous%20Build?branchName=develop-stu3
+           :target: https://dev.azure.com/firely/firely-net-sdk/_build?definitionId=84&_a=summary&repositoryFilter=50&branchFilter=2405%2C2405%2C2405%2C2405%2C2405
+     -  .. image:: https://dev.azure.com/firely/firely-net-sdk/_apis/build/status/Continuous%20Build?branchName=develop-r4
+           :target: https://dev.azure.com/firely/firely-net-sdk/_build?definitionId=84&_a=summary&repositoryFilter=50&branchFilter=2407%2C2407%2C2407
+     -  .. image:: https://dev.azure.com/firely/firely-net-sdk/_apis/build/status/Continuous%20Build?branchName=develop-r5
+           :target: https://dev.azure.com/firely/firely-net-sdk/_build?definitionId=84&_a=summary&repositoryFilter=50&branchFilter=2373%2C2373
+   * - .. image:: https://img.shields.io/nuget/dt/hl7.fhir.stu3.svg
+           :target: https://www.nuget.org/packages/hl7.fhir.stu3
+     -  .. image:: https://img.shields.io/nuget/dt/hl7.fhir.r4.svg
+           :target: https://www.nuget.org/packages/hl7.fhir.r4
+     - .. image:: https://img.shields.io/nuget/dt/hl7.fhir.r5.svg
+           :target: https://www.nuget.org/packages/hl7.fhir.r5
+
+`View our source code on Github <https://github.com/FirelyTeam/firely-net-sdk>`__
+
+Welcome to the Firely .Net SDK's documentation!
+========================================
 
 This is the documentation site for the support SDK for working with `HL7
 FHIR <http://www.hl7.org/fhir>`__ on the Microsoft .NET platform.
