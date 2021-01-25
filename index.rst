@@ -9,10 +9,10 @@ Welcome to the Firely .Net SDK's documentation!
    Back to all Firely Products <https://docs.fire.ly>
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Firely .NET SDK
    :hidden: 
-   
+
    start
    model
    client
