@@ -28,7 +28,7 @@
            :target: https://dev.azure.com/firely/firely-net-sdk/_build?definitionId=84&_a=summary&repositoryFilter=50&branchFilter=2405%2C2405%2C2405%2C2405%2C2405
      -  .. image:: https://dev.azure.com/firely/firely-net-sdk/_apis/build/status/Continuous%20Build?branchName=develop-r4
            :target: https://dev.azure.com/firely/firely-net-sdk/_build?definitionId=84&_a=summary&repositoryFilter=50&branchFilter=2407%2C2407%2C2407
-     -  .. image:: https://dev.azure.com/firely/firely-net-sdk/_apis/build/status/Continuous%20Build?branchName=develop-r5
+     -  .. image:: https://dev.azure.com/firely/firely-net-sdk/_apis/build/status/FirelyTeam.firely-net-sdk?branchName=develop-r5
            :target: https://dev.azure.com/firely/firely-net-sdk/_build?definitionId=84&_a=summary&repositoryFilter=50&branchFilter=2373%2C2373
    * - .. image:: https://img.shields.io/nuget/dt/hl7.fhir.stu3.svg
            :target: https://www.nuget.org/packages/hl7.fhir.stu3
