@@ -188,7 +188,7 @@ This is a minor release.
 This large release fixes about 80 issues - but more importantely introduces a completely new parsing/serialization subsystem that
 allows you to work without POCOs and also is more strictly following the serialization rules for XML and Json. This means you will
 get parse errors on instances that where (incorrectly) accepted as correct by the older versions of the API. More information on
-the new parsing subsystem can be found in `the documentation <http://docs.simplifier.net/fhirnetapi/parsing.html>`__. Please note that
+the new parsing subsystem can be found in `the documentation <https://docs.fire.ly/projects/Firely-NET-SDK/parsing.html>`__. Please note that
 we have strived to keep the exsiting top-level POCO-parsing API intact - your projects should still compile without problems.
 
 - #248 Json output can now be formatted
