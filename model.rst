@@ -27,6 +27,7 @@ Add this ``using`` directive to your code:
    :hidden:
 
    model/classes
+   model/multiple-fhir-versions
    model/datatypes
    model/lists
    model/components

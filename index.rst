@@ -40,7 +40,7 @@
 `View our source code on Github <https://github.com/FirelyTeam/firely-net-sdk>`__
 
 Welcome to the Firely .Net SDK's documentation!
-========================================
+===============================================
 
 This is the documentation site for the support SDK for working with `HL7
 FHIR <http://www.hl7.org/fhir>`__ on the Microsoft .NET platform.
