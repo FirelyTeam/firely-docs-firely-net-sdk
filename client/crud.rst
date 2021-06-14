@@ -11,7 +11,7 @@ server to store it for us. This is done using ``Create``.
 .. code:: csharp
 
     var pat = new Patient() { /* set up data */ };
-    var created_pat = client.Create(pat);
+    var created_pat = client.Create<Patient>(pat);
 
 .. tip:: See :ref:`FHIR-model` for examples on how to fill a resource with values.
 
@@ -81,7 +81,7 @@ takes the resource instance previously retrieved as a parameter:
 
 	// Add a name to the patient, and update
 	pat_A.Name.Add(new HumanName().WithGiven("Christopher").AndFamily("Brown"));
-	var updated_pat = client.Update(pat_A);
+	var updated_pat = client.Update<Patient>(pat_A);
 
 There's always a chance that between retrieving the resource and sending
 an update, someone else has updated the resource as well. Servers
@@ -195,7 +195,7 @@ call, passing it the resource instance as returned by a previous ``Read``,
 
 .. code:: csharp
 
-	var refreshed_pat = client.Refresh(pat_A);
+	var refreshed_pat = client.Refresh<Patient>(pat_A);
 
 This call will go to the server and fetch the latest version and
 metadata of the resource as pointed to by the ``Id`` property in the

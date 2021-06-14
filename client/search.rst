@@ -68,20 +68,20 @@ Devices named "foo" as well.
 Complex searches
 ~~~~~~~~~~~~~~~~
 
-An alternative way to specify a query is by creating a ``Query``
-resource and pass this to the client's ``Search(Query q)`` overload. The
-``Query`` resource has a set of fluent calls to allow you to easily
+An alternative way to specify a query is by creating a ``SearchParam``
+resource and pass this to the client's ``Search<TResource>(SearchParam q)`` overload. The
+``SearchParam`` resource has a set of fluent calls to allow you to easily
 construct more complex queries:
 
 .. code:: csharp
 
-  var q = new Query()
- .For("Patient").Where("name:exact=ewout")
- .OrderBy("birthDate", SortOrder.Descending)
- .SummaryOnly().Include("Patient.managingOrganization")
- .LimitTo(20);
+  var q = new SearchParam()
+            .Where("name:exact=ewout")
+            .OrderBy("birthdate", SortOrder.Descending)
+            .SummaryOnly().Include("Patient:organization")
+            .LimitTo(20);
 
- Bundle result = client.Search(q);
+ Bundle result = client.Search<Patient>(q);
 
 Note that unlike the search options shown before, you can specify search
 ordering and the use of a summary result. As well, this syntax avoids
