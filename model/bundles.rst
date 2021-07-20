@@ -7,7 +7,7 @@ encounter them when you're performing a :ref:`search interaction <searching>`. I
 case, the server will send you a Bundle, and you will browse through the contents to
 process the data. Sometimes you will need to construct a Bundle instance and
 fill in the details, for example when you are going to setup a FHIR document, or want to
-perform a :ref:`transaction <transactions>`, or if you're implementing the server side
+perform a transaction, or if you're implementing the server side
 response to a search request. 
 
 Looking at the content
@@ -55,8 +55,8 @@ When constructing a Bundle, you will need to look at the `definition <http://www
 for the Bundle resource to see which elements are mandatory, just as you would do for other
 resource types. 
 
-.. tip:: If you want to create a Bundle for a batch or transaction, you can use the helper methods
-	in the SDK to construct the Bundle correctly, described in the :ref:`transactions` paragraph.
+.. tip:: If you want to create a Bundle for a batch or transaction, you can use the helper methods on ``TransactionBuilder``
+	in the SDK to construct the Bundle correctly.
 
 Then, for each resource you want to include in the Bundle, you will add an
 ``EntryComponent`` to the ``Entry`` list. This can be done by creating an instance of type

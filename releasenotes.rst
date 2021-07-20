@@ -1,4 +1,5 @@
 .. _sdk_releasenotes:
+
 =============
 Release notes
 =============
@@ -8,6 +9,7 @@ Release notes
 The 2.0 transition docs can be `found here <https://github.com/FirelyTeam/firely-net-sdk/wiki/What's-new-and-changed-in-Firely-.NET-SDK-2.0%3F>`_. 
 
 .. _sdk_releasenotes_1.3.0:
+
 1.3.0 (STU3, R4) (released 20190710)
 ------------------------------------
 
@@ -55,6 +57,7 @@ Note: Active development of DSTU2 has stopped, the included DSTU2 1.3 update is 
 compatibility with the newer shared assemblies but has none of the new features.
 
 .. _sdk_releasenotes_1.2.1:
+
 1.2.1 (STU3, R4) (released 20190416)
 ------------------------------------
 The fix for issue #889 should have been in version 1.2.0, but it was not because of a merge error. In this hotfix (1.2.1) we corrected this mistake 
@@ -65,6 +68,7 @@ Bugfixes
 - #889 Additional rules will get confused by hybrid typed trees
 
 .. _sdk_releasenotes_1.2.0:
+
 1.2.0 (DSTU2, STU3, R4) (released 20190329)
 -------------------------------------------
 

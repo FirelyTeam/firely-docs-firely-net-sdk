@@ -1,4 +1,4 @@
-.. _poco-parsing
+.. _poco-parsing:
 
 ==================
 Parsing with POCOs

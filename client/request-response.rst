@@ -41,7 +41,7 @@ and add that to the ``FhirClient``:
 Chaining Multiple MessageHandlers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 You can chain multiple ``HttpMessageHandlers`` as well to combine their functionality in a single FhirClient. You can do this using 
-``DeligateHandlers``. DelegatingHandler is a handler that is designed to be chained with another handler, effectively forming a pipeline through which requests and responses will pass.
+``DelegatingHandler``. DelegatingHandler is a handler that is designed to be chained with another handler, effectively forming a pipeline through which requests and responses will pass.
 Each handler has a chance to examine and/or modify the request before passing it to the next handler in the chain, and to examine and/or modify the response it receives from the next handler. 
 Typically, the last handler in the pipeline is the ``HttpClientHandler``, which communicates directly with the network.
 
@@ -60,21 +60,22 @@ For example, next to a AuthorizationMessageHandler, you might want to use both a
 
 		protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
 		{
-			_logger.Trace($"Request: {request}");
+			_logger.Trace("Request: " + request);
 			try
 			{
 				// base.SendAsync calls the inner handler
 				var response = await base.SendAsync(request, cancellationToken);
-				_logger.Trace($"Response: {response}");
+				_logger.Trace("Response: " + response);
 				return response;
 			}
 			catch (Exception ex)
 			{
-				_logger.Error($"Failed to get response: {ex}");
+				_logger.Error("Failed to get response: " + ex);
 				throw;
 			}
 		}
 	}
+
 
 source: https://thomaslevesque.com/2016/12/08/fun-with-the-httpclient-pipeline/
 
