@@ -30,13 +30,11 @@ implementation, this could differ from what you've sent. For instance, the serve
 could have filled in fields with default values, if the values for those fields were
 not set in your request.
 
-If you've set the ``PreferredReturn`` property of the :ref:`FhirClient <minimal>`
+If you've set the ``PreferredReturn`` property of the FhirClient
 to ``minimal``, the server will return the technical id and version number of the newly
 created resource in the headers of the response and the ``Create`` method will return
 ``null``. See :ref:`request-response` for an example of how to retrieve the information
 from the returned headers.
-
-For the conditional version of this interaction, see :ref:`conditionals`.
 
 Reading an existing resource
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -90,7 +88,7 @@ return a HTTP status code 409 (Conflict), which causes the ``Update``
 interaction to throw a ``FhirOperationException`` with the same status
 code. Clients that are version-aware can indicate this using the optional
 second parameter ``versionAware`` set to ``true``. This will result in a
-:ref:`conditional call<conditionals>` of the interaction.
+conditional call of the interaction.
 
 Deleting a Resource
 ^^^^^^^^^^^^^^^^^^^
@@ -155,7 +153,7 @@ If no matches are found, the resource will be created. If one match is
 found, the server will not create the resource and will return an
 HTTP 200 (OK). In both cases ``created_pat_A`` will contain the resource
 that was sent back by the server, unless you set the FhirClient to ask for
-the :ref:`minimal representation <minimal>`. When multiple resources match the
+the minimal representation. When multiple resources match the
 conditions, the server will return an error.
 
 To perform a conditional ``Update``, the code is similar to that of the
