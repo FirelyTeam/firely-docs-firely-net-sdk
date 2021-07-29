@@ -12,7 +12,7 @@ This interface is implemented explicitly, so in order to use it, you should cast
 As is clear from the generic parameters, the dictionary is keyed by a string: the element's name. The dictionary will "contain" the key
 if the underlying element is not null, and (in the case of collection elements) has at least one item.
 
-The value found for the key in the dicrionary is of type ``object``, but can really only contain a restricted set of datatypes:
+The value found for the key in the dictionary is of type ``object``, but can really only contain a restricted set of datatypes:
 
 * A .NET primitive type (string, int, long), a byte array or a DateTimeOffset.
 * Another ``IReadOnlyDictionary<string,object>``, specifically:
