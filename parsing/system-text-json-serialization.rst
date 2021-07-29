@@ -36,8 +36,8 @@ will produce the following invalid FHIR Json:
       "contact": [{}]
     }
 
-This is great for round-tripping, and keeping validation duties out of the serializer avoids duplicate work and helps performance, but it also means one
-should use the validation capabilities of the SDK before serialization is done.
+This is great for round-tripping, and keeping validation duties out of the serializer avoids duplicate work and increases performance.
+It also means one should use the validation capabilities of the SDK before serialization is done.
 
 If you do not want to set up a converter, it is possible to invoke the serializer directly, using the 
 ``SerializeToFhirJson(this IReadOnlyDictionary<string, object> members, Utf8JsonWriter writer)`` extension method found in ``JsonFhirDictionarySerializer``.
