@@ -1,3 +1,5 @@
+.. _multiple-versions:
+
 Using multiple FHIR versions in one project
 -------------------------------------------
 
