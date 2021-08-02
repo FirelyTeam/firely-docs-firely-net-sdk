@@ -38,4 +38,4 @@ Add this ``using`` directive to your code:
    model/patient-example
    model/bundles
    model/bundle-example
-
+   model/model-metadata

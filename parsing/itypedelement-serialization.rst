@@ -18,7 +18,7 @@ The SDK provides functionality to turn ``ITypedElement`` data into XML and JSON 
     "ToPoco()", "Base"
     "ToPoco<T>()", "T (where T:Base)"
 
-The last two methods deserve a bit of explanation: from the standpoint of the serializers in the SDK, POCOs are also an output format. This means that in addition to the XML and JSON serializers, there are methods to turn ``ITypedElement`` data directly into POCO's. Continuing with last section's example:
+The last two methods deserve a bit of explanation: from the standpoint of the serializers in the SDK, POCOs are also an output format. This means that in addition to the XML and JSON serializers, there are methods to turn ``ITypedElement`` data directly into POCOs. Continuing with last section's example:
 
 .. code-block:: csharp
 
