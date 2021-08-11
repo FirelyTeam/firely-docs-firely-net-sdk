@@ -14,12 +14,9 @@ if the underlying element is not null, and (in the case of collection elements) 
 
 The value found for the key in the dictionary is of type ``object``, but can really only contain a restricted set of datatypes:
 
-* A .NET primitive type (string, int, long), a byte array or a DateTimeOffset.
-* Another ``IReadOnlyDictionary<string,object>``, specifically:
- 
-  * The ``XHtml`` datatype class
-  * A type implementing ``IFhirPrimitive``
-  * None of the two above
+* A .NET primitive type (string, int, long), a byte array or a DateTimeOffset
+* Another ``IReadOnlyDictionary<string,object>``
+* A collection of the types from the previous buttons
 
 Resources and datatypes (like ``HumanName``, ``Identifier``, but also ``FhirString`` and the backbone types like ``ContactComponent`` in ``Patient``)
 are represented using ``IReadOnlyDictionary``. You can navigate down the tree by using the indexer or the ``TryGetValue()`` function of the interface. 
@@ -31,11 +28,10 @@ Continuing the example above:
 	// since the underlying type is of course a FhirBoolean you could also do:
 	FhirBoolean active = (FhirBoolean)activeDict;
 
-Resources will have an additional magic `resourceType` entry in their dictionary that contains the name of the resource's type, just like
-in the Json representation of FHIR resources.
+Note that, in contrast to the Json serialization of FHIR, resources will not additional magic `resourceType` entry in their dictionary.
 
 Datatypes come in two flavours in FHIR: complex datatypes (and their sub-type, the anonymous backbone types like
-``Patient.ContactComponent``) and primitives. Note that in FHIR, even primitives are complex since they not only
+``Patient.ContactComponent``) and primitives. In FHIR, even primitives are complex since they not only
 contain a primitive value, but also possibly an ``extension`` and/or an ``id``. All datatypes are represented as a normal nested ``IReadOnlyDictionary``, but
 the primitives have two additional features. First off, the dictionary for a FHIR primitive has a key ``value`` that contain the actual .NET primitive
 for the vlaue of a FHIR primitive (see the table below for details). Additionally, these FHIR primitives all implement ``IFhirPrimitive``, and interface
@@ -47,7 +43,7 @@ that contains a property ``ObjectValue`` of type ``object``. This property can b
    object val2 = ((IFhirPrimitive)activeDict).ObjectValue;
    Assert.AreEqual(val1,val2);
 
-This is even true for narrative XML (found in each resource's ``Text`` property), which is represented using the ``XHtml`` datatype in the dictionary,
+This is even true for narrative XML (found in each resource's ``Text`` property), which is represented using the ``XHtml`` datatype in the dictionary.
 even though ``Text.Div`` is of type string in the POCO itself:
 
 .. code-block:: csharp
@@ -104,9 +100,7 @@ The table below lists the exact .NET type used for the representation of primiti
  * - Code<T>
    - string
  
-Choice elements are present in the dictionary both by their "normal" element name (i.e. ``onset`` for ``Condition.onset``) and their "suffixed" name,
-where the type of the element is appended to the element name (i.e. ``onsetDateTime``). Accessing the element by the suffixed name will only return the
-element when it has a value *and* is of the given type:
+Choice elements are present in the dictionary both by their "normal" unsuffixed name (i.e. ``onset`` for ``Condition.onset``, not ``onsetPeriod`` for example).
 
 .. code-block:: csharp
 
@@ -115,14 +109,10 @@ element when it has a value *and* is of the given type:
 
    var onset1 = conditionDict["onset"];
    Assert.IsTrue( onset1 is FhirDateTime );
-   var onset2 = conditionDict["onsetDateTime"];
-   Assert.IsTrue( onset2 is FhirDateTime );
-   var onset3 = condictionDict["onsetString"];
-   Assert.IsNull( onset3 );
- 
+    
    Assert.IsTrue( conditionDict.ContainsKey("onset") );
-   Assert.IsTrue( conditionDict.ContainsKey("onsetDateTime") );
+   Assert.IsFalse( conditionDict.ContainsKey("onsetDateTime") );
    Assert.IsFalse( conditionDict.ContainsKey("onsetString") );
 
-Note that, since the POCO's implement ``IReadOnlyDictionary<string,object>`` they also implement ``IEnumerable<KeyValuePair<string,object>>``.
-This enumeration will contain the suffixed name for such choice elements, not the normal element name.
+Since the classes for the resources and datatypes implement ``IReadOnlyDictionary<string,object>`` they also implement ``IEnumerable<KeyValuePair<string,object>>``.
+Similarly, this enumeration will contain the unsuffixed name for such choice elements.
