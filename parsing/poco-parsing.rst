@@ -44,7 +44,7 @@ You can then use C# constructions like the ``is`` operator to make your code beh
 
 The ``Parse`` method has a few overloads, one of which allows you to pass in an ``XmlReader`` instead of a string, which makes sense if you have a stream of data that you don't want to read into a string first.
 
-POCO's and parsing incorrect data
+POCOs and parsing incorrect data
 ---------------------------------
 
 The POCO parsers are pretty strict about what data they will accept: since the data read and parsed must fit the POCO structure there is little room in allowing incorrect FHIR data. It is possible to allow a bit of flexibility however, which is controlled by passing a `ParserSettings` instance to the constructor of the xml or json parser:
