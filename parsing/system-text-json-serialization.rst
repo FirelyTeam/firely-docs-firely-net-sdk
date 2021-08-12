@@ -15,9 +15,12 @@ To use it, set up a new ``JsonSerializerOptions`` to add this converter, and the
     string patientJson = JsonSerializer.Serialize(p, options);
 
 The ``ForFhir()`` method initializes the options to use the FHIR Json converter. Additionally, we have specified that we want
-idented output. Both methods take an ``Assembly`` as an argument, which is the assembly where the SDK's POCO classes can be found. This
+idented output. This methods has an overload that takes an ``Assembly`` as an argument, which is the assembly where the SDK's POCO classes can be found. This
 determines which version of FHIR to use for serialization and is used by deserializer to locate the classes to instantiate when parsing
-FHIR data. More details can be found on the section on :ref:`deserialization<systemtextjsondeserialization>`.
+FHIR data. If you are working with one specific version of FHIR (i.e. you are using a NuGet assembly for R4), there will be an overload
+that does not require the ``Assembly`` argument, and it will default to the version of FHIR you have included in your project.
+
+More details can be found on the section on :ref:`deserialization<systemtextjsondeserialization>`.
 
 Note that the serializer will *not* validate the data passed to it, so it can easily be driven to produce Json that is incorrect, e.g.
 this code:
@@ -40,9 +43,8 @@ will produce the following invalid FHIR Json:
 This is by design, as this is useful for round-tripping incorrect stored historical data. It avoids duplicate validation work and increases performance as well.
 To ensure correct json output, you should :ref:`validate<validation>` the instances first.
 
-If you do not want to set up a converter, it is possible to invoke the serializer directly, using the 
-``SerializeToFhirJson(this IReadOnlyDictionary<string, object> members, Utf8JsonWriter writer)`` extension method found in ``JsonFhirDictionarySerializer`` or  by
-directly instantiating a ``JsonFhirDictionarySerializer``, and then calling its ``Serialize()`` method. The ``JsonFhirDictionarySerializer`` can be subclassed
+If you do not want to set up a converter, it is possible to invoke the serializer directly by
+instantiating a ``JsonFhirDictionarySerializer``, and then calling its ``Serialize()`` method. The ``JsonFhirDictionarySerializer`` can be subclassed
 to change the way primitives are serialized in the virtual method ``SerializePrimitiveValue()``. This will become especially useful in .NET 6, which adds
 functionality to allow the user to write "raw" json to the output stream. An example is overriding the handling of very large decimals.
 
