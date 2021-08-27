@@ -75,7 +75,7 @@ construct more complex queries:
 
 .. code:: csharp
 
-  var q = new SearchParam()
+  var q = new SearchParams()
             .Where("name:exact=ewout")
             .OrderBy("birthdate", SortOrder.Descending)
             .SummaryOnly().Include("Patient:organization")
