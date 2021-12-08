@@ -139,7 +139,7 @@ of a resource, we can setup that search parameter with a value:
     var conditions = new SearchParams();
     conditions.Add("identifier", "http://ids.acme.org|123456");
 
-.. tip:: See :ref:`search` for more explanation about ``SearchParams`` and 
+.. tip:: See :ref:`Searching for resources<searching>` for more explanation about ``SearchParams`` and 
 	example search syntax.
 
 For the ``Create`` interaction you can have the server check if an
