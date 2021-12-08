@@ -4,14 +4,17 @@
 Validation of FHIR data
 =========================
 
-This section has not yet beetn written, but will need to talk about the two ways of validating data:
+There are two approaches to validation in the SDK: 
 
-* The minimal bits done by the parser.
-* The validation done by the POCO attributes
-* The full profile validator.
+* A validation based on ``System.ComponentModel.DataAnnotations``, that runs the most important validation checks on the POCO FHIR datamodel in memory. This is useful to do validation of the core FHIR resources and datatypes when working with POCO data.
 
-(insert toc tree below)
+* A *profile validator*, which can validate FHIR data against `profiles <http://hl7.org/fhir/profilelist.html>`_ . This validator uses ``ITypedElement`` as input for instance data, and any number of `StructureDefinitions` expressing profiles to validate against. See :ref:`elementmodel-intro` for more information on ``ITypedElement``.
+
+.. toctree::   
+   :maxdepth: 3
+   :hidden:
    
-   
-
+   validation/poco-validation
+   validation/profile-validation
+      
 
