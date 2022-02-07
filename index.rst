@@ -14,6 +14,7 @@
    model
    client 
    parsing
+   validation
    contact
    releasenotes
 
@@ -70,7 +71,3 @@ as parsing and serializing FHIR data, working with transactions, and using the R
 
 Please look at the :ref:`sdk-contact` page for ways to ask questions, contribute to the SDK, or reach out to other
 .Net developers in the FHIR community.
-
-
-
-
