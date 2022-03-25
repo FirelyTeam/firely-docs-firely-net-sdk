@@ -15,7 +15,7 @@ To use it, set up a new ``JsonSerializerOptions`` to add this converter, and the
     string patientJson = JsonSerializer.Serialize(p, options);
 
 The ``ForFhir()`` method initializes the options to use the FHIR Json converter. Additionally, we have specified that we want
-idented output. This methods has an overload that takes an ``Assembly`` as an argument, which is the assembly where the SDK's POCO classes can be found. This
+indented output. This method has an overload that takes an ``Assembly`` as an argument, which is the assembly where the SDK's POCO classes can be found. This
 determines which version of FHIR to use for serialization and is used by deserializer to locate the classes to instantiate when parsing
 FHIR data. If you are working with one specific version of FHIR (i.e. you are using a NuGet assembly for R4), there will be an overload
 that does not require the ``Assembly`` argument, and it will default to the version of FHIR you have included in your project.
