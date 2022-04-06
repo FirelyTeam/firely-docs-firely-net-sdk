@@ -1,4 +1,4 @@
-.. _poco-validation:
+.. _profile-validation:
 
 ================================
 Validating data against profiles
