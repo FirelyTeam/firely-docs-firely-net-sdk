@@ -47,7 +47,7 @@ The ``ForFhir()`` method can take an argument of type ``FhirJsonPocoDeserializer
 * You can pass in a callback that is called when a primitive json value fails to parse. Using this callback, you can customize what happens when the deserializer
   encounters a primitive value that does not strictly adhere to FHIR's rules and regexes for the primitive datatypes.
 * You can set a validator to use, which is called just after a value is parsed and just before it is used to set a property on the POCO. By default this setting
-  contains and instance of the ``DataAnnotationDeserialzationValidator``, which validates the values according to the validation attributes specified on the element
+  contains an instance of the ``DataAnnotationDeserialzationValidator``, which validates the values according to the validation attributes specified on the element
   in the generated POCO, and which will generally validate the basic structural validations provided by FHIR. See :ref:`poco validation<poco-validation>` for more
   information about POCO validation with data attributes.
 
