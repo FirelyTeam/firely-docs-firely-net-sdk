@@ -42,7 +42,7 @@ The following table lists the attributes used by the SDK:
    * - IdPatternAttribute
      - Verifies whether the string property is a correctly formatted FHIR ``id``.
    * - InstantPatternAttribute
-     - Verifies whether the string property is a correctly formatted FHIR ``id``.
+     - Verifies whether the string property is a correctly formatted FHIR ``instance``.
    * - NarrativeXhtmlPattern
      - Verifies whether the string property (normally inside Div) in ``Div`` is valid XML and (if configured to do so), validates whether this XML adheres to the `additional rules for FHIR narrative <https://www.hl7.org/fhir/narrative.html>`_.
    * - OidPatternAttribute
