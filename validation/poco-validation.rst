@@ -73,6 +73,8 @@ As is clear from the set of validations described above, the attribute-based val
 * **Slices** - these are not used in the definitions of the core resources from which the POCOs are generated. There is also no trivial method to express these constraints in a .NET class model, so attribute validation does not cover them.
 * **FhirPath invariants** - FHIR model definitions generally contain additional invariants specified using `FhirPath <http://hl7.org/fhirpath/>`_. These are not generated into the POCO classes and require an external FhirPath engine.
 
+If you need to include these aspects in your validation, you should use full (and slower) :ref:`poco validation<poco-validation>`.
+
 How to invoke attribute validation
 ----------------------------------
 Attribute can be invoked using the familiar validation methods from ``System.ComponentModel.DataAnnotations``, so it is possible to call ``Validator.ValidateObject()`` or ``IValidatableObject.Validate()`` directly. However, the attributes mentioned in this section use specific extensions on the ``ValidationContext`` to work properly, so the SDK provides an extension method  ``Validation.Validate(this Base, ...)`` that can be used to ensure this context is properly instantiated:
