@@ -21,6 +21,8 @@ which is the assembly where the SDK's POCO classes can be found and which will b
 with one specific version of FHIR (i.e. you are using a NuGet assembly for R4), there will be an overload
 that does not require the ``Assembly`` argument, and it will default to the version of FHIR you have included in your project.
 
+NB: It is very important that you reuse instances of ``JsonSerializerOptions`` across all your deserialization calls, otherwise performance will degrade tremendously.
+
 Finding errors while deserializing
 ----------------------------------
 When calling `JsonSerializer.Deserialize()`, the SDK will throw a ``DeserializationFailedException`` when it encounters errors, so it might be wise to add some error handling:

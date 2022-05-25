@@ -20,6 +20,8 @@ determines which version of FHIR to use for serialization and is used by deseria
 FHIR data. If you are working with one specific version of FHIR (i.e. you are using a NuGet assembly for R4), there will be an overload
 that does not require the ``Assembly`` argument, and it will default to the version of FHIR you have included in your project.
 
+NB: It is very important that you reuse instances of ``JsonSerializerOptions`` across all your deserialization calls, otherwise performance will degrade tremendously.
+
 More details can be found on the section on :ref:`deserialization<systemtextjsondeserialization>`.
 
 Note that the serializer will *not* validate the data passed to it, so it can easily be driven to produce Json that is incorrect, e.g.
