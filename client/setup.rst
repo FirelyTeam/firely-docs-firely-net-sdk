@@ -62,7 +62,7 @@ latter by default, but if you want, you can use the ``_format`` parameter instea
 
 .. code:: csharp
 
-	client.Settings.UseFormatParam = true;
+	client.Settings.UseFormatParameter = true;
 
 If you perform a ``Create``, ``Update`` or ``Transaction`` interaction, you can request the server
 to either send back the complete representation of the interaction, or a minimal data set, as
