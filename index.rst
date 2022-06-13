@@ -15,6 +15,7 @@
    client 
    parsing
    validation
+   fhir-package-source/package-source
    contact
    releasenotes
 
