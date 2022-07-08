@@ -8,7 +8,7 @@ These can be FHIR core packages or any other FHIR NPM packages. Such packages ca
 
 Initiate a FHIR Package Source 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-There are multiple ways to create a ``FhirPackageSource`` that to query for artifacts in packages.
+There are multiple ways to create a ``FhirPackageSource`` that queries for artifacts in packages.
 If you have a local copy of the packages you want to use, you can just specify the package file paths to create your ``FhirPackageSource``.
 
 .. code:: csharp
