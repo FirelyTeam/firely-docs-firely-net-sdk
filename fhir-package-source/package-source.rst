@@ -4,7 +4,7 @@ FHIR Package Source
 ---------------------------
 
 As of SDK version 4.0 you can use a FHIR Package source to resolve FHIR artifacts like ``StructureDefinitions``, ``ValueSets``, and ``CodeSystems`` from one ore multiple FHIR NPM package.
-This can be from the FHIR core packages, but also from any FHIR NPM Package you like. These FHIR artifacts are needed for example for validating resources. Or to generate snapshots of profiles.
+These can be FHIR core packages or any other FHIR NPM packages. Such packages can be used in resource validation or snapshot generation, for example.
 
 Initiate a FHIR Package Source 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
