@@ -93,7 +93,7 @@ When we take a look at the code of ``FhirPackageSource`` we can see how it actua
             return await _resolver.ResolveByCanonicalUriAsync(uri).ConfigureAwait(false);
         }
 
-We see that a ``CommonFhirPackageSource`` including the ModelInspector of the currect FHIR version is created in the constructor, and that all functions in ``FhirPackageSource`` actually just call it's ``CommonFhirPackageSource`` equivalent right away.
+We see that a ``CommonFhirPackageSource``, including the ModelInspector of the currect FHIR version is created in the constructor, and that all functions in ``FhirPackageSource`` actually just call their ``CommonFhirPackageSource`` equivalent right away.
 In practice this means that you can't combine packages of different FHIR versions in a single ``FhirPackageSource``, because the operations will then need to resolve to different FHIR models, which isn't an option.
 
 
