@@ -25,7 +25,7 @@ However, if you don't have the packages you want to resolve your artifacts from 
 	var package2 = "hl7.fhir.r3.expansions@3.0.2";
 	FhirPackageSource resolver = new("https://packages.simplifier.net", new string[] { package1, package 2});
 
-.. note:: You may need an active internet connection to use this. This function will first check if the specified packages are already installed locally before searching for the packages online. FHIR NPM packages are installed by default in ``C:\Users\{user}\.fhir\packages\`` (Windows), ``/.fhir/packages/`` (macOS), or ``~/.fhir/packages/`` (Linux).
+.. note:: You may need an active internet connection to use this. This function will first check if the specified packages are already installed locally before searching for the packages online. FHIR NPM packages are installed by default in ``C:\Users\{user}\.fhir\packages\`` (Windows), ``~/.fhir/packages/`` (macOS), or ``~/.fhir/packages/`` (Linux).
 	
 
 How to resolve artifacts from packages
