@@ -1,4 +1,4 @@
-.. _packge_source:
+.. _package_source:
 
 FHIR Package Source
 ---------------------------
