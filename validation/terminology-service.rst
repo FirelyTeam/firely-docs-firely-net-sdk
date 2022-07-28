@@ -36,7 +36,7 @@ The input parameters can be easily created using the ``ExpandParameters`` class.
 
 - ``Task<Parameters> Lookup(Parameters parameters, bool useGet = false)``
 
-Represents the ``$lookup`` operation (http://hl7.org/fhir/codesystem-operation-lookup.html), which given a given a code/system, or a Coding, get additional details about the concept, including definition, status, designations, and properties.
+Represents the ``$lookup`` operation (http://hl7.org/fhir/codesystem-operation-lookup.html), which given a given a code, system, or a Coding, get additional details about the concept, including definition, status, designations, and properties.
 The input parameters can be easily created using the ``LookupParameters`` class.
 
 - ``Task<Parameters> Translate(Parameters parameters, string id = null, bool useGet = false)``
