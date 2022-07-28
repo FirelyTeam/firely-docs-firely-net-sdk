@@ -14,7 +14,7 @@ return a result based on the input parameters. Both ``LocalTerminologyService`` 
 ITerminologyService
 --------------------------
 ``ITerminologyService`` is an interface that describes all functions of a terminology service. ITerminologyService can for example be added to a FHIR validator to handle everything terminology related. 
-All functions represent a FHIR Terminology operation and have a ``Parameters`` resource as input that represents the input parameters of the FHIR operation. There is a specific helper class for each operation to easily create this parameters resource.
+All functions represent a FHIR Terminology operation and have a ``Parameters`` resource as input that represents the input parameters of the FHIR operation. There is a specific helper class for each operation to easily create this ``Parameters`` resource.
 Each function returns the output of that specific operation, this can be a ``Parameters`` resource including all output parameters, or just a single ``Resource`` which was the result of your request.
 
 The following functions are defined in the interface are:
