@@ -61,7 +61,7 @@ The Firely SDK support some terminology logic itself using the ``LocalTerminolog
 but does as much as it can internally.
 
 .. note:: The ``LocalTerminologyService`` doesn't support all terminology features. To fully support all features a lot of terminology expertise is needed. So to make use of all advanced terminology features, use the ``ExternalTerminologyServer`` 
-    to let a dedicated terminology server handle your requests``.
+    to let a dedicated terminology server handle your requests.
 
 The ``LocalTerminologyService`` requires an ``IResourceResolver`` to resolve all the FHIR resources needed to perform it's terminology logic. 
 
