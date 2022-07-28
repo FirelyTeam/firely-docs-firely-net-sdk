@@ -8,7 +8,7 @@ FHIR defines several operations related to terminologies. These operations let h
 and value sets without having to become experts in the fine details of code system, value set and concept map resources, and the underlying code systems and 
 terminological principles. 
 
-We have added support in the Firely SDK to use these operations, both locally, as calling an external "Terminology Server" that have implemented these operations and 
+We have added support in the Firely .NET SDK to use these operations, both locally, as calling an external "Terminology Server" that have implemented these operations and 
 return a result based on the input parameters. Both ``LocalTerminologyService`` as ``ExternalTerminologyService`` implement ``ITerminologyService``.
 
 ITerminologyService
