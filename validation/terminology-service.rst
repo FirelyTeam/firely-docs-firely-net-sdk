@@ -65,7 +65,7 @@ but does as much as it can internally.
 
 The ``LocalTerminologyService`` requires an ``IResourceResolver`` to resolve all the FHIR resources needed to perform it's terminology logic. 
 
-The following functions are currently supported by the ``LocalTerminologyService``:
+The following function is currently supported by the ``LocalTerminologyService``:
 
 - ``Task<Parameters> ValueSetValidateCode(Parameters parameters, string id = null, bool useGet = false)``
 
