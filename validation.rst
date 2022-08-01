@@ -17,5 +17,6 @@ There are two approaches to validation in the SDK:
 
    validation/poco-validation
    validation/profile-validation
+   validation/terminology-service
 
 

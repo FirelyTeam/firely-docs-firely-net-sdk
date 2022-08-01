@@ -1,4 +1,4 @@
-.. _packge_source:
+.. _package_source:
 
 FHIR Package Source
 ---------------------------
@@ -80,6 +80,7 @@ There is also a class in the SDK called ``CommonFhirPackageSource``. This class 
 When we take a look at the code of ``FhirPackageSource`` we can see how it actually works:
 
 .. code:: csharp
+	
 	 public FhirPackageSource(string packageServer, string[] packageNames)
         {
             var inspector = ModelInfo.ModelInspector;
