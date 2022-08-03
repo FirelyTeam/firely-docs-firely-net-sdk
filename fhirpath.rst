@@ -22,7 +22,7 @@ and on :ref:`ITypedElement-based data <elementmodel-intro>`. For both, the follo
    * - ``IsBoolean()``
      - Determines whether the expression evaluates to a given boolean value.
 
-These functions exists as extension methods, so they can conveniently be called on either a POCO or ``ITypedElement``:
+These functions exist as extension methods, so they can conveniently be called on either a POCO or ``ITypedElement``:
 
 .. code-block:: csharp
 
