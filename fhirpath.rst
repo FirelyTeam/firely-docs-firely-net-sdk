@@ -44,7 +44,7 @@ When running FhirPath on ``ITypedElement``, the nodes will be of type ``ITypedEl
 
 ``Select()`` consistently returns a list of nodes, even on a non-repeating element of a primitive type, ``p.Select("Patient.active")``
 would therefore return an ``IEnumerable<Base>``, for which the only member is a POCO of type ``FhirBoolean``, not a string (true/false).
-If you want this, you can use the convience method ``ToFhirValues()``:
+If you want this, you can use the convenience method ``ToFhirValues()``:
 
 .. code-block:: csharp
 
