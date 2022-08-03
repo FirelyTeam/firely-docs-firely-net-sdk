@@ -70,7 +70,7 @@ will have support for these extra functions. So:
      Base fhirData = new FhirString("hello!");
      Assert.IsTrue(fhirData.IsTrue("hasValue()"));
 
-     // FHIR specific functions does not work via the ITypedElement extension methods
+     // FHIR specific functions do not work via the ITypedElement extension methods
      ITypedElement data = ElementNode.ForPrimitive("hello!");
      Assert.ThrowsException<ArgumentException>(() => data.IsTrue("hasValue()"));
 
