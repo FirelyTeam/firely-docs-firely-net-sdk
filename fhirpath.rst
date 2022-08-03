@@ -66,7 +66,7 @@ will have support for these extra functions. So:
 
 .. code-block:: csharp
 
-     // FHIR specific function are supported via the POCO extension methods
+     // FHIR specific functions are supported via the POCO extension methods
      Base fhirData = new FhirString("hello!");
      Assert.IsTrue(fhirData.IsTrue("hasValue()"));
 
