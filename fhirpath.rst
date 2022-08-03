@@ -16,7 +16,7 @@ and on :ref:`ITypedElement-based data <elementmodel-intro>`. For both, the follo
    * - ``Scalar()``
      - Returns a single scalar value produced by the expression.
    * - ``Predicate()``
-     - Returns true if the expression evaluates to ``true`` or ``{}`` (empty) and ``false`` otherwise/
+     - Returns true if the expression evaluates to ``true`` or ``{}`` (empty) and ``false`` otherwise.
    * - ``IsTrue()``
      - Returns true if the expression evaluates to ``true`` and ``false`` otherwise.
    * - ``IsBoolean()``
