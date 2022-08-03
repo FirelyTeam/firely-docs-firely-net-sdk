@@ -154,7 +154,7 @@ FhirPath functions, even though they are optional:
    var hasName = p.IsTrue("Patient.name.exists()", new FhirEvaluationContext(p.ToScopedNode()));
 
 As you can see, we are passing in a new ``FhirEvaluationContext``, constructed with a reference to the root of the object. Additionally, the FhirPath engine needs
-its data to be a `ScopedNode`. This is a wrapper for ``ITypedElement`` that keeps track of parent nodes, contained nodes
+its data to be a ``ScopedNode``. This is a wrapper for ``ITypedElement`` that keeps track of parent nodes, contained nodes
 an entry nodes in a ``Bundle``, and does the heavy lifting for making ``resolve()`` work (see previous section).
 
 
