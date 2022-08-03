@@ -161,7 +161,7 @@ an entry nodes in a ``Bundle``, and does the heavy lifting for making ``resolve(
 Set the Resolver property in the FhirEvaluationContext
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Finally, the engine needs you to supply a delegate when you want ``resolve()`` to be able to reach out to instances of Resources (via uri) that it cannot locate itself.
-The delegate you needs to supply takes a single string parameter (the uri), and returns an ``ITypedElement``. Just like in the previous section, it would be best
+The delegate you need to supply takes a single string parameter (the uri), and returns an ``ITypedElement``. Just like in the previous section, it would be best
 if you call ``ToScopedNode()`` on it, before you return the instance.
 
 
