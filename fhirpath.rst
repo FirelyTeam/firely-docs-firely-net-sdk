@@ -112,7 +112,7 @@ The context can normally be ignored, but is used to set specific environment-var
    * - ``EvaluationContext.RootResource``
      - Gets or sets the node returned by the ``%rootResource`` environment variable. Default is null.
    * - ``EvaluationContext.Tracer``
-     - A delegate that handles the output for the <c>trace()</c> function.
+     - A delegate that handles the output for the ``trace()`` function.
    * - ``FhirEvaluationContext.ElementResolver``
      - A delegate that resolves an uri to an instance of FHIR data (``ITypedElement``). This callback is used by the FHIR specific method ``resolve()``.
 
