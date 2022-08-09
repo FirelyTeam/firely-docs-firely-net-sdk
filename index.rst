@@ -8,13 +8,14 @@
 .. toctree::
    :maxdepth: 3
    :caption: Firely .NET SDK
-   :hidden: 
+   :hidden:
 
    start
    model
-   client 
+   client
    parsing
    validation
+   fhirpath
    fhir-package-source/package-source
    contact
    releasenotes
