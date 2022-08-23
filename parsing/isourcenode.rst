@@ -18,7 +18,7 @@ This interface exposes serialization-level, untyped instance data of a single re
 
 The interface represents a single node in the tree. Each node has a name, and a location (as a dot separated list of paths leading to the current node). The property ``Text`` contains the node's primitive data (if any).  
 
-Note that the name of the node is often, but not always, the same as the name of the element in the FHIR specification. The two may differ if the element has a choice of types (e.g. ``Observation.value``). In this case, the name of of the source node is suffixed by the type, exactly as it would be in the serialized form. For the root of the tree, the name is the same as the type of the resource present in the instance.
+Note that the name of the node is often, but not always, the same as the name of the element in the FHIR specification. The two may differ if the element has a choice of types (e.g. ``Observation.value``). In this case, the name of the source node is suffixed by the type, exactly as it would be in the serialized form. For the root of the tree, the name is the same as the type of the resource present in the instance.
 
 Navigation through the tree is done by enumerating the children using the ``Children()`` method, optionally filtering on the name of the children.
 
