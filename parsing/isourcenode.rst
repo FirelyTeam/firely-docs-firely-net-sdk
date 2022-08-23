@@ -60,7 +60,7 @@ The FHIR parsers available (currently for the FHIR Xml and Json formats) impleme
 * ``Parse()``, to parse data from a string.
 * ``Create()``, to turn XElements, XDocuments or JObjects into an ``ISourceNode``
 
-All methods optionally take a ``settings`` parameter and return an ``ISourceNode``, which reprents the root of the data read. 
+All methods optionally take a ``settings`` parameter and return an ``ISourceNode``, which represents the root of the data read. 
 
 Here is an example parsing a string of xml and then quering some of its data:
 
