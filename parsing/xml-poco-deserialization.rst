@@ -4,7 +4,7 @@
 Deserialization with POCOs and XmlReader
 ===============================================
 
-With the ``FhirXmlPocoDeserializer`` have added a deserializer that deserializes POCO's directly to ``XmlReader`` objects, achieving higher throughput than the existing serializers with a much smaller memory footprint.
+With the ``FhirXmlPocoDeserializer`` have added a deserializer that deserializes POCO's directly from ``XmlReader`` objects, achieving higher throughput than the existing serializers with a much smaller memory footprint.
 
 To use it, we first create an ``XmlReader`` and a ``FhirXmlPocoDeserializer`` and then use the ``Deserialize`` function to deserialize the xml to the desired POCO:
 
