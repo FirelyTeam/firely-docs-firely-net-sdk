@@ -29,6 +29,8 @@ The second approach, using the ``ElementModel`` abstraction, has been designed t
    parsing/poco-serialization
    parsing/system-text-json-serialization
    parsing/system-text-json-deserialization
+   parsing/xml-poco-serialization
+   parsing/xml-poco-deserialization
    parsing/intro-to-elementmodel
    parsing/isourcenode
    parsing/itypedelement
