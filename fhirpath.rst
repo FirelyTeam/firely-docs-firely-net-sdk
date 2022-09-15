@@ -79,6 +79,26 @@ To achieve this, you have to manipulate the default table of symbols used by the
 This is, however, a global setting, which might (or better: will) cause problems when different parts of your applications need to use different dialects.
 To circumvent this problem, you will need to use the lower-level FhirPath support functions, as shown in the next section.
 
+The following functions of the FHIR dialect are currently supported by the SDK:
+
+.. list-table:: Supported functions of the FHIR dialect
+   :widths: 10 90
+
+   * - ``extension(url: string)``
+     -  Will filter the input collection for items named "extension" with the given url. 
+   * - ``hasValue()``
+     - Returns true if the input collection contains a single value which is a FHIR primitive, and it has a primitive value.
+   * - ``trace(name : string; selector : expression)``
+     -  A selection expression that can be used to shape what is logged for the collection that is traced. 
+   * - ``resolve()``
+     - For each item in the collection locate the target of the reference, and add it to the resulting collection.
+   * - ``ofType(type : identifier)``
+     - Determines whether an element is of a specific type.    
+   * - ``memberOf(valueset : string)``
+     - Determines whether input is a member of a specific valueset.
+   * - ``htmlChecks()``
+     - When invoked on an xhtml element returns true if the rules around HTML usage are met, and false if they are not.
+
 Invoking the FhirPath Compiler directly
 ---------------------------------------
 The FhirPath compiler is just another public class in the ``Hl7.FhirPath`` namespace. It has a constructor which takes an argument of type ``SymbolTable`` - the key
