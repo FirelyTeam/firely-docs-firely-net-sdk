@@ -44,13 +44,15 @@ When running FhirPath on ``ITypedElement``, the nodes will be of type ``ITypedEl
 
 ``Select()`` consistently returns a list of nodes, even on a non-repeating element of a primitive type, ``p.Select("Patient.active")``
 would therefore return an ``IEnumerable<Base>``, for which the only member is a POCO of type ``FhirBoolean``, not a string (true/false).
-If you want this, you can use the convenience method ``ToFhirValues()``:
+It's worth noting that this function will still return .NET primitive values (as in .NET int32 etc) when these are encountered in the FhirPath expression, e.g.
+``Select("4+5")``. If you want to avoid this, you can use the convenience method ``ToFhirValues()``, which will translate all such
+.NET primitive values to their equivalent FHIR primitive types:
 
 .. code-block:: csharp
 
    Patient p = new() {...}
-   var active = p.Select("Patient.active").ToFhirValues().Single();
-
+   var t = p.Select("true").ToFhirValues().Single();
+   Assert.IsTrue(t is FhirBoolean);
 
 Dialects of FhirPath
 --------------------
