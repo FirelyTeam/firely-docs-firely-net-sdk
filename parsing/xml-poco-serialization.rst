@@ -10,9 +10,11 @@ To use it, we first create an ``Xmlwriter`` and a ``FhirXmlPocoSerializer``, and
 
     Patient p = new() {  };
     var sb = new StringBuilder();
-    var w = XmlWriter.Create(sb);   
-    var serializer = new FhirXmlPocoSerializer(Specification.FhirRelease.STU3);
-    serializer.Serialize(p, w);
+    using (var w = XmlWriter.Create(sb))
+    {   
+       var serializer = new FhirXmlPocoSerializer(Specification.FhirRelease.STU3);
+       serializer.Serialize(p, w);
+    }
     var xmlString = sb.ToString();
 
 When initializing the ``FhirXmlPocoSerializer`` you have to specify which FHIR version you are using for serialization.
@@ -57,9 +59,11 @@ Once created, such a filter must then be passed to the serialize method, like so
     var summaryFilter = SerializationFilter.ForSummary();
     Patient p = new() {  };
     var sb = new StringBuilder();
-    var w = XmlWriter.Create(sb);   
-    var serializer = new FhirXmlPocoSerializer(Specification.FhirRelease.STU3);
-    serializer.Serialize(p, w, summaryFilter);
+    using (var w = XmlWriter.Create(sb))
+    {   
+       var serializer = new FhirXmlPocoSerializer(Specification.FhirRelease.STU3);
+       serializer.Serialize(p, w, summaryFilter);
+    }
 
 The filters are highly configurable and it is possible to write your own by subclassing ``SerializationFilter``. Please refer to the (pretty trivial)
 implementation of the current summary filters (e.g. ``ElementMetadataFilter.cs`` and ``BundleFilter.cs``) in the source code for more information.
