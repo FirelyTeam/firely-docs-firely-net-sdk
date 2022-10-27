@@ -11,21 +11,21 @@ To use it, we first create an ``XmlReader`` and a ``FhirXmlPocoDeserializer`` an
 .. code-block:: csharp
 
     var xml = "<Patient xmlns=\"http://hl7.org/fhir\"> .. </Patient>";
-    var xmlReader = XmlReader.Create(new StringReader(xml))
-    var deserializer = new FhirXmlPocoDeserializer(typeof(TestPatient).Assembly)
+    var xmlReader = XmlReader.Create(new StringReader(xml));
+    var deserializer = new FhirXmlPocoDeserializer(typeof(Patient).Assembly);
     var patient = deserializer.Deserialize<Patient>(xml);
 
 You can see that the ``FhirXmlPocoDeserializer`` takes an ``Assembly`` as an argument, which is the assembly where the SDK's POCO classes can be found and which will be used to create the resource encountered in the xml input text.
 
 Finding errors while deserializing
 ----------------------------------
-When calling `Deserialize()`, the SDK will throw a ``DeserializationFailedException`` when it encounters errors, so it might be wise to add some error handling:
+When calling ``Deserialize()``, the SDK will throw a ``DeserializationFailedException`` when it encounters errors, so it might be wise to add some error handling:
 
 .. code-block:: csharp
 
     var xml = "<Patient xmlns=\"http://hl7.org/fhir\"> .. </patient>";
-    var xmlReader = XmlReader.Create(new StringReader(xml))
-    var deserializer = new FhirXmlPocoDeserializer(typeof(TestPatient).Assembly)
+    var xmlReader = XmlReader.Create(new StringReader(xml));
+    var deserializer = new FhirXmlPocoDeserializer(typeof(Patient).Assembly);
   
     try
     {
