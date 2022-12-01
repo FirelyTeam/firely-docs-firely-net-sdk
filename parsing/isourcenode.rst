@@ -54,7 +54,7 @@ The SDK offers a set of extension methods on top of ``ISourceNode`` (like ``Visi
 
 Parsing
 -------
-The FHIR parsers available (currently for the FHIR Xml and Json formats) implement the ``ISourceNode`` interface and can be found in the ``Hl7.Fhir.Serialization`` assembly. The parsers are not created directly, instead there are two sets of factory methods, one for each serialization format: ``FhrXmlNode`` and ``FhirJsonNode``. The factory methods are:
+The FHIR parsers available (currently for the FHIR Xml and Json formats) implement the ``ISourceNode`` interface and can be found in the ``Hl7.Fhir.Serialization`` assembly. The parsers are not created directly, instead there are two sets of factory methods, one for each serialization format: ``FhirXmlNode`` and ``FhirJsonNode``. The factory methods are:
 
 * ``Read()``, to read data directly from an ``XmlReader`` or ``JsonReader``.
 * ``Parse()``, to parse data from a string.
