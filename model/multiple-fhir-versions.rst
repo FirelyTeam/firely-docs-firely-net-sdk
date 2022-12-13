@@ -58,7 +58,7 @@ So in your code you can this to expend the namespace, for example like this for 
 
     var patient = new  r4::Hl7.Fhir.Model.Patient();
 
-When do not want to fully express the namespace everytime, you can use an alias 
+When you don't want to fully express the namespace everytime, you can use an alias 
 in the using part:
 
 .. code-block:: csharp

@@ -28,13 +28,13 @@ Continuing the example above:
 	// since the underlying type is of course a FhirBoolean you could also do:
 	FhirBoolean active = (FhirBoolean)activeDict;
 
-Note that, in contrast to the Json serialization of FHIR, resources will not additional magic `resourceType` entry in their dictionary.
+Note that, in contrast to the Json serialization of FHIR, resources will not contain additional magic `resourceType` entry in their dictionary.
 
 Datatypes come in two flavours in FHIR: complex datatypes (and their sub-type, the anonymous backbone types like
 ``Patient.ContactComponent``) and primitives. In FHIR, even primitives are complex since they not only
 contain a primitive value, but also possibly an ``extension`` and/or an ``id``. All datatypes are represented as a normal nested ``IReadOnlyDictionary``, but
 the primitives have two additional features. First off, the dictionary for a FHIR primitive has a key ``value`` that contain the actual .NET primitive
-for the vlaue of a FHIR primitive (see the table below for details). Additionally, these FHIR primitives all implement ``IFhirPrimitive``, and interface
+for the value of a FHIR primitive (see the table below for details). Additionally, these FHIR primitives all implement ``IFhirPrimitive``, an interface
 that contains a property ``ObjectValue`` of type ``object``. This property can be used to retrieve the .NET-based primitive value of the FHIR primitive as well:
 
 .. code-block:: csharp
