@@ -2,7 +2,7 @@
 Accessing FHIR model metadata
 -----------------------------
 The classes representing the FHIR resources and datatypes are all generated from the metadata artifacts from the FHIR specification. More or less, each datatype and resource is a single class, and each element a property of those classes. Additional, the most important valuesets from the specification are converted to enumeration. Each of these carry
-additional metadata expresses as attributes on the classes and properties. This is metadata like cardinality, allowed "datatype choices" for a polymorphic property etcetera. Here is a fragment of such a generated class:
+additional metadata expressed as attributes on the classes and properties. This is metadata like cardinality, allowed "datatype choices" for a polymorphic property etcetera. Here is a fragment of such a generated class:
 
 .. code-block:: csharp
 
@@ -14,7 +14,7 @@ additional metadata expresses as attributes on the classes and properties. This 
         /// </summary>
         public override string TypeName { get { return "Patient"; } }
 
-As you can see, this declaration expresses a few things:
+As you can see, this declaration shows a few things:
 
 * This is a C# class ``Patient``, which represents the FHIR resource ``Patient``.
 * The URL for the definition of this resoure
