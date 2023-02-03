@@ -24,6 +24,7 @@ namespace.
 
    client/setup
    client/crud
+   client/transactions
    client/request-response
    client/history
    client/paging
