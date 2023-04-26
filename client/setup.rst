@@ -22,7 +22,7 @@ cloud-based FHIR server, you don't have to worry about this. Note: the FhirClien
 so you will need to create one for each thread, if necessary. But don't worry: creating an instance
 of a FhirClient is cheap, the connection will not be opened until you start working with it.
 
-There's a list of `publically available test 
+There's a list of `publicly available test 
 servers <http://wiki.hl7.org/index.php?title=Publicly_Available_FHIR_Servers_for_testing>`__ you can use.
 
 .. _sdk-minimal:
@@ -33,15 +33,15 @@ To specify some specific settings, you add a ``FhirClientSettings`` to the const
 
 .. code:: csharp
 
-	 var settings = new FhirClientSettings
+	var settings = new FhirClientSettings
             {
                 Timeout = 0,
                 PreferredFormat = ResourceFormat.Json,
                 VerifyFhirVersion = true,
-                PreferredReturn = Prefer.ReturnMinimal
+                ReturnPreference = ReturnPreference.Minimal
             };
             
-    	var client = new FhirClient("http://server.fire.ly", settings)
+    var client = new FhirClient("http://server.fire.ly", settings)
 
 You can also toggle these settings after the client has been initialized.
 
@@ -72,7 +72,7 @@ change that request, you can set the ``PreferredReturn`` attribute:
 
 .. code:: csharp
 
-	client.Settings.PrefferedReturn = Prefer.ReturnMinimal;
+	client.Settings.ReturnPreference = ReturnPreference.Minimal;
 	
 This sets the ``Prefer`` HTTP header in the request to ``minimal``, asking the
 server to return no body in the response.
@@ -82,3 +82,38 @@ You can set the timeout to be used when making calls to the server with the ``Ti
 .. code:: csharp
 
 	client.Timeout = 120000; // The timeout is set in milliseconds, with a default of 100000
+
+Selecting a serializer
+^^^^^^^^^^^^^^^^^^^^^^
+As described in the section on :ref:`serialization <FHIR-parsing>`, there are two parser families: the legacy XML and Json parsers that have been 
+in the SDK for years, and the improved ones, introduced in SDK 4. Each of these parsers can be configured
+to ignore certain kind of errors (for example, to allow unknown elements). It is possible to configure the 
+``FhirClient`` to use the serializer family of your chosing. Here is an example, where we configure the FhirClient
+to use the newer serializer (and deserializer), in "strict" mode (refusing all syntactical errors in the json):
+
+.. code:: csharp
+          
+    var client = new FhirClient("http://server.fire.ly").WithStrictSerializer();
+
+There are several other predefined options available:
+
+* ``WithLegacySerializer`` - The default. Use the legacy parser, configured to be "lenient", allowing most errors that do not cause data loss. Note: these 
+  parsers will not allow unknown values for enumerated elements or unknown elements. It can be further configured using the
+  ``FhirClient.Settings.ParserSettings`` property. This is basically the default behaviour since SDK 1.
+* ``WithStrictSerializer`` - Use the improved serializer, configured to parse the incoming data strictly.
+* ``WithStrictLegacySerializer`` - Use the legacy serializer, configured to parse the incoming data strictly.
+* ``WithLenientSerializer`` - Use the improved serializer, configured to ignore recoverable errors in the incoming data.
+* ``WithPermissiveLegacySerializer`` - Use the legacy serializer, configured to be permissive.
+* ``WithBackwardsCompatibleSerializer`` - Use the improved serializer, configured to ignore errors that can be caused when encountering data from a newer version of FHIR. NB: This may cause data loss.
+* ``WithBackwardsCompatibleLegacySerializer`` - Use the legacy serializer, configured to ignore errors that can be caused when encountering data from a newer version of FHIR. NB: This may cause data loss.
+* ``WithOstrichModeSerializer`` - Use the improved serializer, configured to ignore all errors. NB: This may cause data loss.
+* ``WithOstrichModeLegacySerializer`` - Use the legacy serializer, configured to ignore all errors. NB: This may cause data loss.
+
+The most obvious difference between the two families, in the context of the ``FhirClient`` will be the fact that
+the new deserializer will throw a ``DeserializationFailed`` exception, while the legacy deserializer throws a ``FormatException``
+(or subclass). For more info on the advantages of the new parsers, see the sections on :ref:`serialization <FHIR-parsing>`. 
+
+These extension methods will allow you to easily configure the ``FhirClient`` to support common scenario's. If you need
+even more control of the parsing and serialization behaviour of the client, you can implement the ``IFhirSerializationEngine`` interface, 
+and update the ``Settings.SerializationEngine`` setting accordingly.
+
