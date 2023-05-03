@@ -100,6 +100,12 @@ The following functions of the FHIR dialect are currently supported by the SDK:
      - Determines whether input is a member of a specific valueset.
    * - ``htmlChecks()``
      - When invoked on an xhtml element returns true if the rules around HTML usage are met, and false if they are not.
+   * - ``lowBoundary : T``
+     - This function returns the lowest possible value in the natural range expressed by the type it is invoked on.
+   * - ``highBoundary : T``
+     - This function returns the lowest possible value in the natural range expressed by the type it is invoked.
+   * - ``comparable(quantity) : boolean``
+     - This function returns true if the engine executing the FHIRPath statement can compare the singleton Quantity with the singleton other Quantity and determine their relationship to each other.
 
 Invoking the FhirPath Compiler directly
 ---------------------------------------
@@ -199,3 +205,16 @@ if you call ``ToScopedNode()`` on it before you return the instance.
    }
 
 If you are thinking: couldn't this be easier? Yes, we think so - but most of the solutions would be breaking changes. We are working on it ;-)
+
+Set the TerminologyService in the FhirEvaluationContext
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+To utilize the FhirPath function ``memberOf(valueset)``, you must define the ``TerminologyService`` property in the ``FhirEvaluationContext``. 
+This is necessary to provide the FhirPath engine with a means to search for codes.
+
+.. code-block:: csharp
+
+   var ctx = FhirEvaluationContext.CreateDefault();
+   ctx.TerminologyService = new LocalTerminologyService(resolver: ZipSource.CreateValidationSource());
+
+   var result = new Code("male").Scalar("memberOf('http://hl7.org/fhir/ValueSet/administrative-gender')", context);
+
