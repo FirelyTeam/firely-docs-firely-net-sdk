@@ -3,8 +3,7 @@
 Using multiple FHIR versions in one project
 -------------------------------------------
 
-It could happen that in your .NET project you need FHIR version STU3 and R4 simultaneously. But how 
-how can you distinguish a STU3 ``Patient`` from a R4 ``Patient``?
+It could happen that in your .NET project you need FHIR version STU3 and R4 simultaneously. But how can you distinguish a STU3 ``Patient`` from a R4 ``Patient``?
 
 The solution lies in creating aliases for the different projects. See the inclusion of the different Firely .NET SDK packages in the 
 project file here:
