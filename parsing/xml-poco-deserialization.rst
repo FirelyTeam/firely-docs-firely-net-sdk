@@ -12,10 +12,13 @@ To use it, we first create an ``XmlReader`` and a ``FhirXmlPocoDeserializer`` an
 
     var xml = "<Patient xmlns=\"http://hl7.org/fhir\"> .. </Patient>";
     var xmlReader = XmlReader.Create(new StringReader(xml));
-    var deserializer = new FhirXmlPocoDeserializer(typeof(Patient).Assembly);
+    var deserializer = new FhirXmlPocoDeserializer(ModelInfo.ModelInspector);
     var patient = deserializer.Deserialize<Patient>(xml);
 
-You can see that the ``FhirXmlPocoDeserializer`` takes an ``Assembly`` as an argument, which is the assembly where the SDK's POCO classes can be found and which will be used to create the resource encountered in the xml input text.
+You can see that the ``FhirXmlPocoDeserializer`` takes an takes a ``ModelInspector`` as an argument,
+which is the metadata about where the SDK's POCO classes can be found and which will be used to create the resource encountered in the xml input text. If you are working
+with one specific version of FHIR (i.e. you are using a NuGet assembly for R4), there will be an overload
+that does not require the ``ModelInspector`` argument, and it will default to the version of FHIR you have included in your project.
 
 Finding errors while deserializing
 ----------------------------------
@@ -25,7 +28,7 @@ When calling ``Deserialize()``, the SDK will throw a ``DeserializationFailedExce
 
     var xml = "<Patient xmlns=\"http://hl7.org/fhir\"> .. </patient>";
     var xmlReader = XmlReader.Create(new StringReader(xml));
-    var deserializer = new FhirXmlPocoDeserializer(typeof(Patient).Assembly);
+    var deserializer = new FhirXmlPocoDeserializer(ModelInfo.ModelInspector);
   
     try
     {
