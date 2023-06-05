@@ -13,13 +13,13 @@ To use it, set up a new ``JsonSerializerOptions`` to add this converter, and the
 .. code-block:: csharp
 
     var jsonInput = "{.....}";
-    var options = new JsonSerializerOptions().ForFhir(typeof(Patient).Assembly);
+    var options = new JsonSerializerOptions().ForFhir(ModelInfo.ModelInspector);
     var patient = JsonSerializer.Deserialize<Patient>(jsonInput, options);
 
-The ``ForFhir()`` method initializes the options to use the FHIR Json converter. This methods has an overload that takes an ``Assembly`` as an argument,
-which is the assembly where the SDK's POCO classes can be found and which will be used to create the resource encountered in the json input text. If you are working
+The ``ForFhir()`` method initializes the options to use the FHIR Json converter. This methods has an overload that takes a ``ModelInspector`` as an argument,
+which is the metadata about where the SDK's POCO classes can be found and which will be used to create the resource encountered in the json input text. If you are working
 with one specific version of FHIR (i.e. you are using a NuGet assembly for R4), there will be an overload
-that does not require the ``Assembly`` argument, and it will default to the version of FHIR you have included in your project.
+that does not require the ``ModelInspector`` argument, and it will default to the version of FHIR you have included in your project.
 
 NB: It is very important that you reuse instances of ``JsonSerializerOptions`` across all your deserialization calls, otherwise performance will degrade tremendously.
 
@@ -30,7 +30,7 @@ When calling `JsonSerializer.Deserialize()`, the SDK will throw a ``Deserializat
 .. code-block:: csharp
 
     string patientString = "{\"resourceType\": \"Patient\",\"id\": \"example-patient\"}";
-    var options = new JsonSerializerOptions().ForFhir(typeof(Patient).Assembly);
+    var options = new JsonSerializerOptions().ForFhir(ModelInfo.ModelInspector);
     try
     {
         Patient p = JsonSerializer.Deserialize<Patient>(patientString, options);
