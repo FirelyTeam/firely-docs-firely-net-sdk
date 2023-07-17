@@ -1,6 +1,8 @@
 
+========================================
 Using ``IReadOnlyDictionary`` with POCOs
-----------------------------------------
+========================================
+
 All POCOs in the SDK implement the ``IReadOnlyDictionary`` interface, through which the POCO's data can be accessed dynamically. 
 This interface is implemented explicitly, so in order to use it, you should cast a POCO to this interface:
 
