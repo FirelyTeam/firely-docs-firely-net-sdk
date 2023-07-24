@@ -1,3 +1,5 @@
+.. _introduction:
+
 =========================
 Parsing and serialization
 =========================
