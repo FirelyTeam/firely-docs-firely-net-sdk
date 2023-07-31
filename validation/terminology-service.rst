@@ -100,4 +100,55 @@ After processing your request, the terminology server returns the expanded ``Val
     var result = await svc.Expand(parameters) as ValueSet;
 
 
+MultiTerminologyService
+-----------------------
+
+``MultiTerminologyService`` allows you to combine multiple terminology services. This is useful when you have terminology service that are specialized in certain ValueSet or if you want to first check if you can process codes locally before consulting an external terminology service.
+The order of the terminology services added to the constructor decides which terminology service is consulted first. If a terminology service comes back with a result (true of false), the fallback services are not consulted anymore.
+
+.. code-block:: csharp
+
+    var local = new LocalTerminologyService(ZipSource.CreateValidationSource());
+    
+    var client = new FhirClient("https://someterminologyserver.org/fhir");
+    var multi = new ExternalTerminologyService(client);
+
+    var multiTermService = new MultiTerminologyService(local, multi);
+
+In this example above, the local terminology service is always consulted first, but if the local service is indecisive (a ``FhirOperationException`` is thrown), the external service is consulted.
+
+Routing
+^^^^^^^^
+
+Sometimes, you already know that certain ValueSets should be handled by a specific terminology service. 
+For example, if you have a LocalTerminologyService with all your custom ValueSets, you already know that all other services will not be able to validate codes from those ValueSets.
+That's when you want to introduce routing in your ``MultiTerminologyService``.
+
+You can add routing information to the ``MultiTerminologyService`` by adding a ``TerminologyServiceRoutingSettings`` to the constructor.
+
+
+.. code-block:: csharp
+
+    var local = new LocalTerminologyService(ZipSource.CreateValidationSource());
+    var localRouting = new TerminologyServiceRoutingSettings(local)
+    {
+        PreferredValueSets = new string[]{"http://fire.ly/ValueSet/*"}
+    };
+
+    var client = new FhirClient("https://someterminologyserver.org/fhir");
+    var multi = new ExternalTerminologyService(client);
+    var localRouting = new TerminologyServiceRoutingSettings(multi);
+    {
+        PreferredValueSets = new string[]{"http://hl7.fhir.org/ValueSet/*"}
+    }
+
+    var multiTermService = new MultiTerminologyService(localRouting, multiRouting);
+
+.. note:: You can use a '*' to specify wildcards in the routing mechanism.
+
+The example above will route all ValueSets starting with "http://fire.ly/ValueSet/" to the local terminology service first, and the ValueSets starting with "http://hl7.fhir.org/ValueSet/" to the external service.
+All other incoming requests will be handles by the order the services have been passed to the constructor, in this case, first local, then external.
+
+
+
 
