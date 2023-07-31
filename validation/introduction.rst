@@ -1,5 +1,3 @@
-.. _introduction:
-
 =========================
 Validation of FHIR data
 =========================

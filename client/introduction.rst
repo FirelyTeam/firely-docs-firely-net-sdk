@@ -1,5 +1,3 @@
-.. _introduction:
-
 =================
 Working with REST
 =================

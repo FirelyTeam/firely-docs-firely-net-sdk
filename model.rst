@@ -21,4 +21,5 @@
    model/bundle-example
    model/readonlydictionary
    model/model-metadata
+   model/other-features
 
