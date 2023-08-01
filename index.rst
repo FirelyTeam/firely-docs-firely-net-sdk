@@ -16,7 +16,7 @@
    parsing
    validation
    fhirpath
-   fhir-package-source/package-source
+   package-source
    contact
    releasenotes
 
