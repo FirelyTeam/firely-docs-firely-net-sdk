@@ -73,3 +73,5 @@ as parsing and serializing FHIR data, working with transactions, and using the R
 
 Please look at the :ref:`sdk-contact` page for ways to ask questions, contribute to the SDK, or reach out to other
 .Net developers in the FHIR community.
+
+.. note:: This is a test note, that shows that the new config works.
