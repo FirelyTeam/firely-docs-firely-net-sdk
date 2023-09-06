@@ -16,6 +16,7 @@
    parsing
    validation
    fhirpath
+   cql
    package-source
    contact
    releasenotes
