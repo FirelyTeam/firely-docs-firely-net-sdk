@@ -48,6 +48,14 @@ a.icon-home:hover {
 	font-size: 14px;
 }
 
+.highlight-csharp{
+	max-width: 1000px;
+}
+
+.admonition{
+	max-width: 1000px;
+}
+
 .wy-nav-content {
 	background: #fff;
 }
