@@ -1,4 +1,4 @@
-.. _package_source:
+.. _package-source:
 
 .. include:: fhir-package-source/introduction.rst
 
