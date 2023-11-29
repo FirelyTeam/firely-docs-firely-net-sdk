@@ -11,6 +11,11 @@ The profile validator is distributed as a separate package, and can be found on 
 * Optional, but recommended: pass in an ``IExternalReferenceResolver``. This service allows the validator to retrieve the resources that are referenced by the instance being validated. If this service is not supplied, the validator will simply not try to validate the resources that these references point to.
 * Optional: pass in a configured ``FhirPathCompiler``. This allows you to configure the FhirPath compiler that is used to evaluate the FhirPath expressions in the profile. If not supplied, the default compiler will be used.
 
+.. note::
+
+   The validator translates the StructureDefinitions to an optimized, internal representation, which are cached in the validator. It is therefore recommended to reuse the same instance of the validator for multiple validations.
+
+
 .. code-block:: csharp
 
     var packageServer = "https://packages.simplifier.net";
