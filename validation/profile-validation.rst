@@ -4,12 +4,12 @@
 Validating data against profiles
 ================================
 
-The profile validator is distributed as a separate package, and can be found on NuGet, by searching for ``Firely.Fhir.Validation.<spec version>``. The main class in this package is the `Validator`. To construct a new instance, we need to supply it with two required dependencies:
+The profile validator is distributed as a separate package, and can be found on NuGet, by searching for ``Firely.Fhir.Validation.<spec version>``. The main class in this package is the `Validator`. To construct a new instance, we can supply the constructor with several dependencies:
 
-* A reference to a terminology service (see :ref:`terminology-service`), specifically a ``ICodeValidationTerminologyService``. This service is needed to validate the codes used in the instance against the code systems and value sets specified in the profile.
-* A reference to a resource resolver (see :ref:`package-source`), specifically an ``IAsyncResourceResolver``. This service allows the validator to retrieve the profiles that are referenced by the profile being validated.
-
-The last dependency is optional, but highly recommended, and that is an ``IExternalReferenceResolver``. This service allows the validator to retrieve the resources that are referenced by the instance being validated. If this service is not supplied, the validator will simply not try to validate the resources that these references point to.
+* Required: A reference to a terminology service (see :ref:`terminology-service`), specifically a ``ICodeValidationTerminologyService``. This service is needed to validate the codes used in the instance against the code systems and value sets specified in the profile.
+* Required: A reference to a resource resolver (see :ref:`package-source`), specifically an ``IAsyncResourceResolver``. This service allows the validator to retrieve the profiles that are referenced by the profile being validated.
+* Optional, but recommended: pass in an ``IExternalReferenceResolver``. This service allows the validator to retrieve the resources that are referenced by the instance being validated. If this service is not supplied, the validator will simply not try to validate the resources that these references point to.
+* Optional: pass in a configured ``FhirPathCompiler``. This allows you to configure the FhirPath compiler that is used to evaluate the FhirPath expressions in the profile. If not supplied, the default compiler will be used.
 
 .. code-block:: csharp
 
@@ -48,44 +48,43 @@ Finally, the extension method ``ToOperationOutcome()`` can be used to convert th
 
 External references
 -------------------
-TODO
+FHIR instances can contain references to other resources, which can be used to validate the instance. For example, a Patient resource can contain a reference to a Practitioner. The validator can be configured with an ``IExternalReferenceResolver`` to retrieve these resources. If this service is not supplied, the validator will simply not try to validate the resources that these references point to.
+
+The interface looks like this:
+
+.. code-block:: csharp
+
+  /// <summary>
+  /// A service that can resolve external references to other resources.
+  /// </summary>
+  public interface IExternalReferenceResolver
+  {
+      /// <summary>
+      /// Resolves the reference to a resource. The returned object must be either a <see cref="Resource"/> or <see cref="ElementNode"/>
+      /// </summary>
+      /// <returns>The resource or element node, or null if the reference could not be resolved.</returns>
+      Task<object?> ResolveAsync(string reference);
+  }
+
+When implementing this interface, you can return either a ``Resource`` or an ``ElementNode``, depending on whether you are working with POCO's or ``ITypedElement``-based models. Return ``null`` if the reference cannot be resolved.
 
 Other configuration operations
 ------------------------------
+Several other properties of the Validator can be configured to change the behaviour of the validator, even between calls to the ``Validate()`` method. These properties are:
 
-* FhirPathCompiler
-*         /// <summary>
-        /// Determines how to deal with failures of FhirPath constraints marked as "best practice". Default is <see cref="ValidateBestPracticesSeverity.Warning"/>.
-        /// </summary>
-        /// <remarks>See <see cref="FhirPathValidator.BestPractice"/>, <see cref="ValidateBestPracticesSeverity"/> and
-        /// https://www.hl7.org/fhir/best-practices.html for more information.</remarks>
-        public ValidateBestPracticesSeverity ConstraintBestPractices = ValidateBestPracticesSeverity.Warning;
+.. list-table::
+   :header-rows: 1
 
-        /// <summary>
-        /// The <see cref="MetaProfileSelector"/> to invoke when a <see cref="Meta.Profile"/> is encountered. If not set, the list of profiles
-        /// is used as encountered in the instance.
-        /// </summary>
-        public MetaProfileSelector? MetaProfileSelector = null;
-
-        /// <summary>
-        /// The <see cref="Validation.ExtensionUrlFollower"/> to invoke when an <see cref="Extension"/> is encountered in an instance.
-        /// If not set, then a validation of an Extension will warn if the extension cannot be resolved, or will return an error when 
-        /// the extension cannot be resolved and is a modififier extension.
-        /// </summary>
-        public ExtensionUrlFollower? ExtensionUrlFollower = null;
-
-        /// <summary>
-        /// A function that maps a type name found in <c>TypeRefComponent.Code</c> to a resolvable canonical.
-        /// If not set, it will prefix the type with the standard <c>http://hl7.org/fhir/StructureDefinition</c> prefix.
-        /// </summary>
-        public TypeNameMapper? TypeNameMapper { get; set; }
-
-        /// <summary>
-        /// StructureDefinition may contain FhirPath constraints to enfore invariants in the data that cannot
-        /// be expresses using StructureDefinition alone. This validation can be turned off for performance or
-        /// debugging purposes. Default is 'false'.
-        /// </summary>
-        public bool SkipConstraintValidation { get; set; } // = false;
-
-
+   * - Property
+     - Use
+   * - ValidateBestPracticesSeverity
+     - Determines how to deal with failures of FhirPath constraints marked as "best practice". Default is ``Warning``
+   * - MetaProfileSelector
+     - Determines which profiles from a Resource's ``Meta`` to validate the instance against. Default is to use all profiles in ``Meta``.
+   * - ExtensionUrlFollower
+     - Determines what do do when an extension is encountered. If not set, then a validation of an Extension will warn if the extension cannot be resolved, or will return an error when the extension cannot be resolved and is a modififier extension.
+   * - TypeNameMapper
+     - A function that maps a type name found in ``TypeRefComponent.Code`` to a resolvable canonical. If not set, it will prefix the type with the standard ``http://hl7.org/fhir/StructureDefinition`` prefix.
+   * - SkipConstraintValidation
+     - Enables or disables the validation of FhirPath constraints. Default is ``false``.
 
