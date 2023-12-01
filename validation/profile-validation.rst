@@ -24,12 +24,12 @@ The profile validator is distributed as a separate package, and can be found on 
     var resourceResolver = new CachedResolver(packageResolver);
     var terminologyService = new LocalTerminologyService(resourceResolver);
 
-    var validator = new Validator(terminologyService, resourceResolver);
+    var validator = new Validator(resourceResolver, terminologyService);
     var testOrganization = new Organization { };
 
     var result = validator.Validate(testOrganization, "http://hl7.org/fhir/StructureDefinition/Organization");
 
-The above code initializes a package resolver, which is configured to retrieve the basic core FHIR STU3 packages. It also creates a terminology service, which is configured to use the same resource resolver to retrieve the code systems and value sets that are referenced by the profiles. Finally, it creates a validator, and runs a validation against a new instance of the Organization resource, using the Organization profile.
+The above code initializes a package resolver, which is configured to retrieve the basic core FHIR STU3 packages. It also creates a terminology service, which is configured to use the same resource resolver to retrieve the code systems and value sets that are referenced by the profiles. Finally, it creates a validator, and runs a validation against a new instance of the Organization resource, using the standard Organization profile. 
 
 In practice, you would configure additional resolvers (using a ``MultiResolver``), which could combine the core packages with profiles found on a shared drive storage, a database etcetera.
 
@@ -73,6 +73,13 @@ The interface looks like this:
 
 When implementing this interface, you can return either a ``Resource`` or an ``ElementNode``, depending on whether you are working with POCO's or ``ITypedElement``-based models. Return ``null`` if the reference cannot be resolved.
 
+Selecting profiles to validate against
+--------------------------------------
+
+In the ``Validate()`` call in the examples above, we passed an explicit profile url to validate against. This is not always necessary. If you leave out the profile url, the validator will try to find a profile url in the ``Meta`` of the instance. If it finds one, it will validate against that profile. If it does not find one, it will validate against the "default" core profile for the resource type. You would normally only pass in an explicit profile url if you want to validate against a specific profile, e.g. one for US Core or other national profiles. 
+
+The behaviour of following the profiles in Meta can be changed by setting the ``MetaProfileSelector`` property.
+
 Other configuration operations
 ------------------------------
 Several other properties of the Validator can be configured to change the behaviour of the validator, even between calls to the ``Validate()`` method. These properties are:
@@ -92,4 +99,8 @@ Several other properties of the Validator can be configured to change the behavi
      - A function that maps a type name found in ``TypeRefComponent.Code`` to a resolvable canonical. If not set, it will prefix the type with the standard ``http://hl7.org/fhir/StructureDefinition`` prefix.
    * - SkipConstraintValidation
      - Enables or disables the validation of FhirPath constraints. Default is ``false``.
+
+Full Example
+------------
+We have created a full example that shows how to use the validator using a terminology service and the FHIR core package resolvers. See `this GitHub repo <https://github.com/FirelyTeam/Firely.Fhir.ValidationDemo>`_ for more information.
 
