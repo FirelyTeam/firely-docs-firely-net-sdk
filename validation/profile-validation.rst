@@ -9,7 +9,7 @@ The profile validator is distributed as a separate package, and can be found on 
 * Required: A reference to a resource resolver (see :ref:`package-source`), specifically an ``IAsyncResourceResolver``. This service allows the validator to retrieve the profiles that are referenced by the profile being validated.
 * Required: A reference to a terminology service (see :ref:`terminology-service`), specifically a ``ICodeValidationTerminologyService``. This service is needed to validate the codes used in the instance against the code systems and value sets specified in the profile.
 * Optional, but recommended: pass in an ``IExternalReferenceResolver``. This service allows the validator to retrieve the resources that are referenced by the instance being validated. If this service is not supplied, the validator will simply not try to validate the resources that these references point to.
-* Optional: a set of additional settings, as an instance of a `ValidationContext`.
+* Optional: a set of additional settings, as an instance of a `ValidationSettings`.
 
 .. note::
 
@@ -37,7 +37,7 @@ In practice, you would configure additional resolvers (using a ``MultiResolver``
 Validation results
 ------------------
 
-The validator returns a FHIR ``OperationOutcome`` resource. It has an additional ``Success`` property that can be checked to see if there are any important issues. The ``Fatals``, ``Errors`` and ``Warnings`` contain the number pf issues that were found during validation for each caterory. 
+The validator returns a FHIR ``OperationOutcome`` resource. It has an additional ``Success`` property that can be checked to see if there are any important issues. The ``Fatals``, ``Errors`` and ``Warnings`` contain the number pf issues that were found during validation for each category. 
 
 .. 
   The ``Issues`` property contains all the issues that were found during validation, including the fatals, errors and warnings, but also trace information. The ``Issues`` property is never ``null``, but can be empty if no issues were found. The ``Issues`` property is a list of ``IssueAssertion`` objects, which contain the following information:
@@ -88,7 +88,7 @@ The behaviour of following the profiles in Meta can be changed by setting the ``
 
 Other configuration operations
 ------------------------------
-You can pass in an instance of the ``ValidationContext`` class to the constructor of the ``Validator``. This class contains several properties that can be used to configure the behaviour of the validator. The most important ones are:
+You can pass in an instance of the ``ValidationSettings`` class to the constructor of the ``Validator``. This class contains several properties that can be used to configure the behaviour of the validator. The most important ones are:
 
 .. list-table::
    :header-rows: 1
