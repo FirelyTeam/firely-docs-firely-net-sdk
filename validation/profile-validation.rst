@@ -27,7 +27,7 @@ The profile validator is distributed as a separate package, and can be found on 
     var validator = new Validator(resourceResolver, terminologyService);
     var testOrganization = new Organization { };
 
-    var profile = Canonical.ForCoreType("Patient").ToString();
+    var profile = Canonical.ForCoreType("Organization").ToString();
     var result = validator.Validate(testOrganization, profile);
 
 The above code initializes a package resolver, which is configured to retrieve the basic core FHIR STU3 packages. It also creates a terminology service, which is configured to use the same resource resolver to retrieve the code systems and value sets that are referenced by the profiles. Finally, it creates a validator, and runs a validation against a new instance of the Organization resource, using the standard Organization profile.
