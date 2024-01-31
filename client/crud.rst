@@ -162,7 +162,7 @@ There are two ways to do this:
 	patch.AddReplacePatchOperation("Patient.name[0].given[0]", new FhirString("John"));
 	
 
-Both methods will result in the same patch operation being sent to the server: It will replace the first given name of the first name of the patient with "John".
+Both methods will result in the same patch operation being sent to the server: it will replace the first given name of the first name of the patient with "John".
 
 Next to the ``AddReplacePatchOperation`` method, there are also ``AddAddPatchOperation``, ``AddInsertPatchOperation``, ``AddMovePatchOperation`` and ``AddDeletePatchOperation`` methods available. To be used for the kind of patch operation you want to perform.
 
