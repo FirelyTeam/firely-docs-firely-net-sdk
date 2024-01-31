@@ -166,7 +166,7 @@ Both methods will result in the same patch operation being sent to the server: i
 
 Next to the ``AddReplacePatchOperation`` method, there are also ``AddAddPatchOperation``, ``AddInsertPatchOperation``, ``AddMovePatchOperation`` and ``AddDeletePatchOperation`` methods available, for the right kind of patch operation you want to perform.
 
-After you have created the ``Parameters`` resource you want to use to patch a resource, you can call the ``Patch`` interaction on the FhirClient:
+After you have created the ``Parameters`` resource, you can call the ``Patch`` interaction on the FhirClient:
 
 .. code:: csharp
 
