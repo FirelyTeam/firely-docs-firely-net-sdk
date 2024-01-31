@@ -90,7 +90,7 @@ code. Clients that are version-aware can indicate this using the optional
 second parameter ``versionAware`` set to ``true``. This will result in a
 conditional call of the interaction.
 
-Deleting a Resource
+Deleting a resource
 ^^^^^^^^^^^^^^^^^^^
 The ``Delete`` interaction on the FhirClient deletes a resource from the
 server. It is up to the server to decide whether the resource is
@@ -116,12 +116,72 @@ deletion, and the server returned an error indicating that.
 Note that sending an update to a resource after it has been deleted is
 not considered an error and may effectively "undelete" it.
 
+Patching resources
+^^^^^^^^^^^^^^^^^^
+The ``Patch`` interaction on the ``FhirClient`` allows you to send a patch to a FHIR server to update a resource.
+The patch is in the 'FHIRPath Patch' format, which allows you to define a set of operations to apply to a resource using a Paramaters resource in the body of the request.
+Full documentation of FHIRPath Patch can be found `in the FHIR specification <http://hl7.org/fhir/fhirpatch.html>`__.
+
+To use the ``Patch`` interaction, you need to create a ``Parameters`` resource containing the patch operations you want to apply to the resource.
+There are two ways to do this:
+
+1. Create a ``Parameters`` resource and add the patch operations to the ``Parameter`` list manually.
+
+.. code:: csharp
+
+	var patch = new Parameters();
+	patch.Parameter.Add(new Parameters.ParameterComponent()
+	{
+		Name = "OPERATION",
+		Part = new List<Parameters.ParameterComponent>()
+		{
+			new Parameters.ParameterComponent()
+			{
+				Name = "type",
+				Value = new FhirString("replace")
+			},
+			new Parameters.ParameterComponent()
+			{
+				Name = "path",
+				Value = new FhirString("Patient.name[0].given[0]")
+			},
+			new Parameters.ParameterComponent()
+			{
+				Name = "value",
+				Value = new FhirString("John")
+			}
+		}
+	});
+	
+
+2. Create a ``Parameters`` resource and use an extension method of your choice to add the patch operations to the ``Parameter`` list.
+
+.. code:: csharp
+
+	var patch = new Parameters();
+	patch.AddReplacePatchOperation("Patient.name[0].given[0]", new FhirString("John"));
+	
+
+Both methods will result in the same patch operation being sent to the server: It will replace the first given name of the first name of the patient with "John".
+
+Next to the ``AddReplacePatchOperation`` method, there are also ``AddAddPatchOperation``, ``AddInsertPatchOperation``, ``AddMovePatchOperation`` and ``AddDeletePatchOperation`` methods available. To be used for the kind of patch operation you want to perform.
+
+After you have created the ``Parameters`` resource you want to use to patch a resource, you can call the ``Patch`` interaction on the FhirClient:
+
+.. code:: csharp
+
+	var patientId = "Patient/1";
+	var patched_pat = await client.PatchAsync<Patient>(patientId, patch);
+
+The ``Patch`` interaction will return the patched resource if the patch was successful. If the patch was not successful, it will throw a ``FhirOperationException`` with the error details.
+
+
 .. _sdk_conditionals:
 
 Conditional interactions
 ------------------------
 The SDK provides support for the conditional versions of the ``Create``,
-``Update`` and ``Delete`` interactions.
+``Update``, ``Delete``, and ``Patch`` interactions.
 Not all servers will support conditional interactions and can return
 an HTTP 412 error with an `OperationOutcome`_ to indicate that.
 
@@ -168,6 +228,19 @@ add it to your request:
 If a match is found, the update is performed on that match. If no matches are found,
 the server will perform the interaction as if it were a ``Create``.
 When multiple resources match, the server will return an error.
+
+The conditional ``Patch`` interaction works in the same way as the
+``Update`` interaction. The only difference is that the ``Patch`` uses a ``Parameters`` resource to define the patch operations to apply to the resource. Like described in the patch section above.
+
+.. code:: csharp
+
+	// using the same conditions as in the previous example
+	// and a patch parameters defined in the patch section
+	var patched_pat_A = client.Patch<Patient>(conditions, patchparams);
+
+If a match is found, the patch is performed on that match. 
+If no matches are found, the server will return a ``404 Not Found``. 
+If multiple matches are found, the server will return a ``412 Precondition Failed`` response.
 
 The conditional ``Delete`` takes a string as first argument,
 indicating the resource type. The search parameters are passed as second argument:
