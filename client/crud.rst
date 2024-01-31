@@ -118,7 +118,7 @@ not considered an error and may effectively "undelete" it.
 
 Patching resources
 ^^^^^^^^^^^^^^^^^^
-The ``Patch`` interaction on the ``FhirClient`` allows you to send a patch to a FHIR server to update a resource.
+The ``Patch`` interaction on the ``FhirClient`` allows you to send a partial update to a resource on the server - without having to send the entire resource.
 The patch is in the 'FHIRPath Patch' format, which allows you to define a set of operations to apply to a resource using a Paramaters resource in the body of the request.
 Full documentation of FHIRPath Patch can be found `in the FHIR specification <http://hl7.org/fhir/fhirpatch.html>`__.
 
