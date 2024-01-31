@@ -230,7 +230,7 @@ the server will perform the interaction as if it were a ``Create``.
 When multiple resources match, the server will return an error.
 
 The conditional ``Patch`` interaction works in the same way as the
-``Update`` interaction. The only difference is that the ``Patch`` uses a ``Parameters`` resource to define the patch operations to apply to the resource. Like described in the patch section above.
+``Update`` interaction. The only difference is that the ``Patch`` uses a ``Parameters`` resource to define the patch operations to apply to the resource, as described in the patch section above.
 
 .. code:: csharp
 
