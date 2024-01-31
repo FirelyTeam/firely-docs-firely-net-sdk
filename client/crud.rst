@@ -164,7 +164,7 @@ There are two ways to do this:
 
 Both methods will result in the same patch operation being sent to the server: it will replace the first given name of the first name of the patient with "John".
 
-Next to the ``AddReplacePatchOperation`` method, there are also ``AddAddPatchOperation``, ``AddInsertPatchOperation``, ``AddMovePatchOperation`` and ``AddDeletePatchOperation`` methods available. To be used for the kind of patch operation you want to perform.
+Next to the ``AddReplacePatchOperation`` method, there are also ``AddAddPatchOperation``, ``AddInsertPatchOperation``, ``AddMovePatchOperation`` and ``AddDeletePatchOperation`` methods available, for the right kind of patch operation you want to perform.
 
 After you have created the ``Parameters`` resource you want to use to patch a resource, you can call the ``Patch`` interaction on the FhirClient:
 
