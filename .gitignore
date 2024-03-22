@@ -1,6 +1,7 @@
 
 _build/
 .vscode/
+._buildhtml/
 /.vs/slnx.sqlite
 /.vs/slnx.sqlite-journal
 /.vs/firely-docs/v16/.suo
