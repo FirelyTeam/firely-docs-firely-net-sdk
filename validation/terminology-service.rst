@@ -100,6 +100,42 @@ After processing your request, the terminology server returns the expanded ``Val
     var result = await svc.Expand(parameters) as ValueSet;
 
 
+CustomValueSetTerminologyService
+--------------------------------
+
+``CustomValueSetTerminologyService`` is an abstract implementation of ``ITerminologyService`` that allows you to specify a custom ``ValueSet`` to validate codes against.
+The base class implements most of the functionality, but if you wish to define your own terminology service, you will need to implement the ``ValidateCodeType`` function yourself. You should also populate some fields (required by the constructor). Some examples from the Mime type terminology service:
+
+- ``ValidateCodeType``: This function should validate a string against the custom ``ValueSet``. It should return true if the code is valid, and false if it is not.
+- ``terminologyType``: String representation of the code type which is being checked. Exclusively used for error messages.
+- ``codeSystem``: Name of the specification defining the members of the value set.
+- ``codeValueSets``: uri's of the definitions of the code system. This can be multiple, if a FHIR version has changed this at some point.
+
+Two terminology services which use a custom ``ValueSet`` are already implemented:
+
+- ``MimeTypeTerminologyService``: Can be used to verify that a code is a valid mime type.
+- ``LanguageTerminologyService``: Can be used to verify that a code is a valid language code.
+
+An example of a custom terminology service (LanguageTerminologyService) is shown below:
+
+.. code-block:: csharp
+
+    public class LanguageTerminologyService : CustomValueSetTerminologyService
+    {
+        private const string LANGUAGE_SYSTEM = "urn:ietf:bcp:47";
+        public const string LANGUAGE_VALUESET = "http://hl7.org/fhir/ValueSet/all-languages";
+
+        public LanguageTerminologyService() : base("language", LANGUAGE_SYSTEM, [LANGUAGE_VALUESET])
+        {
+        }
+
+        override protected bool ValidateCodeType(string code)
+        {
+            var regex = new Regex("^[a-z]{2}(-[A-Z]{2})?$"); // matches either two lowercase letters OR 2 lowercase letters followed by a dash and two uppercase letters
+            return regex.IsMatch(code);
+        }
+    }
+
 MultiTerminologyService
 -----------------------
 
