@@ -59,6 +59,7 @@ To enable summary generation, create a concrete subclass of the ``SerializationF
 * SerializationFilter.ForSummary() - returns a new serialization filter to support ``_summary=true``
 * SerializationFilter.ForText() - returns a new serialization filter for ``_summary=text``
 * SerializationFilter.ForData() - returns a new serialization filter for ``_summary=data``
+* SerializationFilter.ForCount() - returns a new serialization filter for ``_summary=count``
 * SerializationFilter.ForElements() - returns a new serialization filter for ``_elements=``
 
 The other summary forms mentioned in the FHIR specification do not need specific support from the serializer and can be constructed by hand.
