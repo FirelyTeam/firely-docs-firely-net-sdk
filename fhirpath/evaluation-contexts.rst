@@ -14,5 +14,7 @@ The context can normally be ignored, but is used to set specific environment-var
      - A delegate that handles the output for the ``trace()`` function.
    * - ``FhirEvaluationContext.ElementResolver``
      - A delegate that resolves an uri to an instance of FHIR data (``ITypedElement``). This callback is used by the FHIR specific method ``resolve()``.
+   * - ``FhirEvaluationContext.Environment``
+     - A dictionary that can be used to store custom environment variables which will then be available in the FhirPath expression. These environment variables can be accessed using the ``%%`` prefix in the expression.
 
 Note that ``FhirEvaluationContext`` is only used by the POCO extension methods for FhirPath, as it provides a property for setting the resolver.
