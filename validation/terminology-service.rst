@@ -173,7 +173,7 @@ You can add routing information to the ``MultiTerminologyService`` by adding a `
 
     var client = new FhirClient("https://someterminologyserver.org/fhir");
     var multi = new ExternalTerminologyService(client);
-    var localRouting = new TerminologyServiceRoutingSettings(multi);
+    var multiRouting = new TerminologyServiceRoutingSettings(multi);
     {
         PreferredValueSets = new string[]{"http://hl7.fhir.org/ValueSet/*"}
     }
