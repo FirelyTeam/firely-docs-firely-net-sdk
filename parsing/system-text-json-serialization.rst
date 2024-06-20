@@ -5,7 +5,7 @@ Serialization with POCOs and System.Text.Json
 With the introduction of the NET 5.0 target of the SDK, we have added a serializer based on the new ``System.Text.Json`` namespace. 
 These serializers serialize POCO's directly to ``Utf8JsonWriter`` objects, achieving higher throughput than the existing serializers with a much smaller memory footprint.
 
-The functionality is exposed through ``JsonFhirConverter``, which is an implementation of ``System.Text.Json``'s ``JsonConvert<T>``.
+The functionality is exposed through ``FhirJsonConverter``, which is an implementation of ``System.Text.Json``'s ``JsonConvert<T>``.
 To use it, set up a new ``JsonSerializerOptions`` to add this converter, and then call the ``JsonSerializer``:
 
 .. code-block:: csharp
