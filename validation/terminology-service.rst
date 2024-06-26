@@ -69,7 +69,8 @@ The following function is currently supported by the ``LocalTerminologyService``
 
 - ``Task<Parameters> ValueSetValidateCode(Parameters parameters, string id = null, bool useGet = false)``
 
-This function validates that a coded value is in the set of codes allowed by a value set. The ValueSet is searched using the provided ``IResourceResolver``, for example an :ref:`package_source` containing all FHIR artifacts from a given package. 
+This function validates that a coded value is in the set of codes allowed by a value set. The ValueSet is searched using the provided 
+``IResourceResolver``, for example an :ref:`FhirPackageSource<resource-resolving/fhir-package-source>` containing all FHIR artifacts from a given package. 
 Once the ValueSet is found, the provides code will be validates against that ValueSet. 
 
 In some cases ``ValueSets`` are implicitly defined using the  ``valueSet`` element in a ``CodeSystem`` resource, which implicitly defines a ValueSet containing all codes from that CodeSystem.

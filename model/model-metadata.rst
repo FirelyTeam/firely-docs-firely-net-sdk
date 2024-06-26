@@ -1,3 +1,4 @@
+.. _model-metadata:
 
 Accessing FHIR model metadata
 -----------------------------
