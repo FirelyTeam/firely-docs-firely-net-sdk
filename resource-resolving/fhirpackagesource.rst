@@ -1,6 +1,19 @@
-Initiate a FHIR Package Source 
-------------------------------
+.. _fhir-package-source:
 
+-----------------------
+The FHIR Package Source 
+-----------------------
+
+Since version 5 of the SDK (and version R4 of FHIR), the FHIR specification has introduced a new way to manage and distribute FHIR artifacts using 
+NPM packages. This method of distribution enables third parties and standardization bodies a way to distribute their own FHIR artifacts for
+FHIR implementation guides. Implementation guides usually depend on other implementation guides, and NPM's versioning and dependency management
+provided a strong, and standard way to manage these dependencies.
+
+Conceptually, a FHIR NPM Package is a collection of FHIR Resources (like a directory with a JSON file-per-resource), and the ``FhirPackageSource``
+can resolve conformance resources (like ValueSets) from one or multiple of these packages. 
+
+.. note:: This functionality can be found in a separate NuGet package called ``Firely.Fhir.Packages``. 
+	
 There are multiple ways to create a ``FhirPackageSource`` that queries for artifacts in packages.
 
 .. note::  

@@ -17,7 +17,7 @@
    validation
    fhirpath
    cql
-   package-source
+   resource-resolving
    contact
    releasenotes
 
