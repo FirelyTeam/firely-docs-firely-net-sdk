@@ -86,7 +86,7 @@ So all together it looks like this:
 
 Dealing with Specification.zip
 ==============================
-Although the recommended way of working with FHIR metadata is using the :ref:`FhirPackageSource <package-source>`, the SDK originally depended on the ``specification.zip`` file. Since the different SDK versions all use the same physical file, it is not possible to use different versions of the SDK in one project when using the ``specification.zip`` file, unless we tweak our projects files:
+Although the recommended way of working with FHIR metadata is using the :ref:`FhirPackageSource <fhir-package-source>`, the SDK originally depended on the ``specification.zip`` file. Since the different SDK versions all use the same physical file, it is not possible to use different versions of the SDK in one project when using the ``specification.zip`` file, unless we tweak our projects files:
 
 .. code-block:: csharp
 
