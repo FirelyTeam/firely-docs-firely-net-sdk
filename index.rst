@@ -20,6 +20,7 @@
    resource-resolving
    contact
    releasenotes
+   versionsix
 
 .. list-table::
    :widths: 33 33 33
