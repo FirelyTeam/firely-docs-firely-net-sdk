@@ -8,9 +8,9 @@
 Introduction <model/introduction>
 model/classes
 model/datatypes
-model/components
+model/backbone-elements
 model/enumerations
-model/choice-properties
+model/choice-elements
 model/initializers
 model/extensions
 model/patient-example
