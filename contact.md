@@ -1,5 +1,3 @@
-(sdk-contact)=
-
 # Contact us
 
 We actively monitor the [issues](https://github.com/FirelyTeam/firely-net-sdk/issues)
