@@ -1,6 +1,6 @@
 ```{toctree}
 :caption: Firely Products
-:hidden: false
+:hidden: true
 :maxdepth: 2
 
 Back to all Firely Products <https://docs.fire.ly>
@@ -8,7 +8,7 @@ Back to all Firely Products <https://docs.fire.ly>
 
 ```{toctree}
 :caption: Firely .NET SDK
-:hidden: false
+:hidden: true
 :maxdepth: 3
 
 Introduction <introduction>

@@ -1,0 +1,26 @@
+```{include} model/introduction.md
+```
+
+```{toctree}
+:maxdepth: 3
+:hidden: true
+
+Introduction <model/introduction>
+model/classes
+model/datatypes
+model/components
+model/enumerations
+model/choice-properties
+model/initializers
+model/extensions
+model/patient-example
+model/bundles
+model/bundle-example
+model/readonlydictionary
+model/dynamic-features
+model/equality-and-cloning
+model/model-metadata
+model/other-features
+model/multiple-fhir-versions
+```
+
