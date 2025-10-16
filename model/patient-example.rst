@@ -31,14 +31,13 @@ see the possibilities and choose what suits your programming style best.
 	
 	pat.BirthDate = "1983-04-23";
 	
-	var birthplace = new Extension();
-	birthplace.Url = "http://hl7.org/fhir/StructureDefinition/birthPlace";
-	birthplace.Value = new Address() { City = "Seattle" };
-	pat.Extension.Add(birthplace);
-	
-	var birthtime = new Extension("http://hl7.org/fhir/StructureDefinition/patient-birthTime",
-	                               new FhirDateTime(1983,4,23,7,44));
-	pat.BirthDateElement.Extension.Add(birthtime);
+	var birthAddress = new Address() { City = "Seattle" };
+	pat.AddExtension("http://hl7.org/fhir/StructureDefinition/birthPlace", birthAddress);
+
+	pat.BirthDate = "1983-04-23";
+	pat.BirthDateElement.AddExtension("http://hl7.org/fhir/StructureDefinition/patient-birthTime", 
+  		new FhirDateTime(1983, 4, 23, 7, 44));
+	pat.SetString("http://hl7.org/fhir/StructureDefinition/patient-mothersMaidenName", "Kramer");
 	
 	var address = new Address()
 	{

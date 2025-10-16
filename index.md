@@ -13,7 +13,7 @@ Back to all Firely Products <https://docs.fire.ly>
 
 Introduction <introduction>
 getting-started
-model
+Working with the Model <model>
 client
 parsing
 validation

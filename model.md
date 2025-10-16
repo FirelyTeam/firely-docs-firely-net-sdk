@@ -11,7 +11,6 @@ model/datatypes
 model/backbone-elements
 model/enumerations
 model/choice-elements
-model/initializers
 model/extensions
 model/patient-example
 model/bundles

@@ -1,13 +1,12 @@
-# Choice elements
+# Choice Elements
 
-In the FHIR specification, some resource elements are defined as "choice elements." These allow you to select the type of value to assign to the element from a predefined list of possible types.
+In the FHIR specification, certain resource elements are defined as "choice elements." These elements allow you to assign a value from a predefined set of possible types.
 
-For example, the `deceased[x]` element in the `Patient` resource is a choice element, as indicated by the `[x]` suffix. The specification also lists the allowed types for the element:
+For example, the `deceased[x]` element in the `Patient` resource is a choice element, as indicated by the `[x]` suffix. The specification also defines the allowed types for this element:
 
-```{image} ../images/fhir_patient_deceased.png
-```
+![Example with deceased[x]](../images/fhir_patient_deceased.png)
 
-In the SDK, the corresponding property is of type `DataType`, which serves as the base class for all complex and primitive data types. The SDK enhances the generated property with attributes that specify the allowed data types. These attributes are used during validation to ensure that only permissible types are assigned:
+In the SDK, the corresponding property is represented as a `DataType`, which is the base class for all complex and primitive data types. The SDK augments the generated property with attributes that specify the permissible data types. These attributes are used during validation to ensure that only valid types are assigned:
 
 ```csharp
 /// <summary>
@@ -22,14 +21,14 @@ public Hl7.Fhir.Model.DataType? Deceased
 }
 ```
 
-This means that in your code, you must first create an instance of the desired data type before assigning it to the field. For instance, if you want to use a date for the `Deceased` field of a `Patient`, you could implement it as follows:
+This means that in your code, you must first create an instance of the appropriate data type before assigning it to the property. For example, to use a date for the `Deceased` field of a `Patient`, you could write:
 
 ```csharp
 pat.Deceased = new FhirDateTime("2015-04-23");   // Assigning a date
 pat.Deceased = new FhirBoolean(true);           // Assigning a boolean
 ```
 
-To access the property, it is recommended to use a `switch` statement:
+To access the property, it is recommended to use a `switch` statement to handle the different possible types:
 
 ```csharp
 switch (pat.Deceased)
