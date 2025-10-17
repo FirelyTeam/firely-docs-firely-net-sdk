@@ -87,3 +87,6 @@ There are two sets of shared data types:
 
 This split exists because the latter set was not normative in STU3 and underwent incompatible changes, preventing sharing across versions.
 ```
+
+## Code and Code&lt;T&gt;
+TODO

@@ -2,7 +2,7 @@
 
 Bundles are a fundamental concept in FHIR, serving as containers for sets of resources. While `Bundle` is technically just another resource type, it has unique characteristics that make it special. Bundles are primarily used to facilitate the exchange of resource collections. For example, you will often encounter Bundles when performing a [search interaction](../client/search). In such cases, the server responds with a `Bundle`. Bundles are also used in other scenarios where FHIR requires the exchange of resource lists, as detailed in the [Bundle documentation](https://hl7.org/fhir//bundle.html#scope).
 
-## Understanding the Content
+## Reading a Bundle
 
 A `Bundle` includes metadata, such as its type and, in cases of [search](../client/search) or [history](../client/history) interactions, a `total` property indicating the number of results. The individual resources within a `Bundle` are stored in the `Bundle.Entry` property.
 
@@ -67,4 +67,3 @@ tb.Create(res2);
 
 var transactionBundle = tb.ToBundle();
 ```
-

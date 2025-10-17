@@ -14,9 +14,9 @@ model/choice-elements
 model/extensions
 model/patient-example
 model/bundles
+model/equality-and-cloning
 model/readonlydictionary
 model/dynamic-features
-model/equality-and-cloning
 model/model-metadata
 model/other-features
 model/multiple-fhir-versions
