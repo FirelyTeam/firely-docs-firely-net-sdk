@@ -1,6 +1,6 @@
 # Backbone Elements
 
-Backbone elements are a key concept in FHIR, used to group related data within a resource. These elements are not standalone types but are instead complex structures embedded within a resource. In FHIR terminology, they are referred to as `BackboneElements`. For instance, the `Patient` resource includes a backbone element called `contact`.
+Backbone elements are a key concept in FHIR, used to group related data within a resource. These elements are not standalone types but are instead complex structures embedded within a resource. In FHIR terminology, they are referred to as [Backbone Elements](https://www.hl7.org/fhir/R4/backboneelement.html). For instance, the `Patient` resource includes a backbone element called `contact`.
 
 ```{image} ../images/fhir_patient_component.png
 ```

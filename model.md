@@ -14,7 +14,6 @@ model/choice-elements
 model/extensions
 model/patient-example
 model/bundles
-model/bundle-example
 model/readonlydictionary
 model/dynamic-features
 model/equality-and-cloning

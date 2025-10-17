@@ -62,7 +62,7 @@ To simplify working with multiple FHIR versions, all *normative* data types are 
 The term "normative" refers to parts of the specification that are stable and will not undergo breaking changes. While this does not guarantee no breaking changes in POCOs, it ensures these classes are reusable across different FHIR versions and NuGet packages.
 ```
 
-For instance, the `size` element in `Attachment` changed from an unsigned int in STU3 to a 64-bit integer in R5. Since there is only one shared class for `Attachment`, the `size` element is represented as a `PrimitiveType`. Similar to [choice types](choice-properties), you can assign the appropriate value based on the FHIR version. IntelliSense also indicates the correct type to use for each FHIR version:
+For instance, the `size` element in `Attachment` changed from an unsigned int in STU3 to a 64-bit integer in R5. Since there is only one shared class for `Attachment`, the `size` element is represented as a `PrimitiveType`. Similar to [choice elements](choice-elements), you can assign the appropriate value based on the FHIR version. IntelliSense also indicates the correct type to use for each FHIR version:
 
 ```csharp
 var att = new Attachment();
