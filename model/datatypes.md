@@ -22,13 +22,14 @@ pat.Active = true;
 ```
 
 ### The "Element" Property
-The other property appends the suffix 'Element' to the name, such as `ActiveElement`. This property is used when you need access to the element's `ElementId` or `Extension`:
+The other property appends the suffix 'Element' to the name, such as `ActiveElement`. This property is used when you need access to the element's `ElementId` or `Extension`. It also has the `Value` property, which holds the actual primitive value - which is exactly the value returned by the helper property:
 
 ```csharp
 pat.ActiveElement = new FhirBoolean(true);
 pat.ActiveElement.ElementId = "patActive";
 pat.ActiveElement.Extension.Add(...);
 pat.ActiveElement.Value.Should().Be(true);
+pat.Active.Should().Be(pat.ActiveElement.Value);
 ```
 
 The helper property automatically creates a new instance of the data type for the element property and sets the `Value` property. This allows you to combine both styles:
@@ -87,6 +88,3 @@ There are two sets of shared data types:
 
 This split exists because the latter set was not normative in STU3 and underwent incompatible changes, preventing sharing across versions.
 ```
-
-## Code and Code&lt;T&gt;
-TODO

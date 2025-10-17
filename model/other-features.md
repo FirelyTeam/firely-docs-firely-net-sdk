@@ -1,4 +1,4 @@
-# Other (Smaller) Features of the POCOs
+# Other Features of the POCOs
 
 ## Fluent Initializers
 

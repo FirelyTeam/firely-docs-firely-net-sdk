@@ -1,5 +1,9 @@
 # Welcome to the Firely .NET SDK Documentation!
 
+```{tip}
+This is the documentation for the new SDK version 6.x. If you were familiar with version 5.x, we recommend checking out the section on what is new in SDK6 in the [release notes](releasenotes).
+```
+
 This site provides comprehensive documentation for the Firely .NET SDK, a support SDK designed for working with [HL7 FHIR](http://www.hl7.org/fhir) on the Microsoft .NET platform.
 
 The SDK offers the following features:
