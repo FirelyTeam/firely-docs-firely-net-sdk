@@ -19,6 +19,7 @@ model/dynamic-features
 model/poconode-navigation
 model/model-metadata
 model/other-features
+model/model-overview
 model/multiple-fhir-versions
 ```
 

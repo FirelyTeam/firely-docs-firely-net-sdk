@@ -27,7 +27,8 @@ author = 'Firely'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.intersphinx', 'sphinx_rtd_theme', 'myst_parser']
+extensions = ['sphinx.ext.intersphinx', 'sphinx_rtd_theme', 'myst_parser', 'sphinxcontrib.mermaid']
+myst_fence_as_directive = ["mermaid"]
 
 intersphinx_mapping = {
     'main_docs': ('https://docs.fire.ly', None),
