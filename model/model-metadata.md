@@ -1,9 +1,9 @@
 # FHIR model metadata
 
-The classes representing the FHIR resources and datatypes are all generated from the metadata artifacts from the FHIR specification. More or less, each datatype and resource is a single class, and each element is a property of those classes. Additionally, the most important ValueSets from the specification are converted to enumeration. Each of these carries additional metadata expressed as attributes on the classes and properties. This is metadata like cardinality, allowed “datatype choices” for a polymorphic property etcetera. Here is a fragment of such a generated class:
+The C# classes that represent FHIR resources and datatypes are generated from the metadata in the published FHIR specification. Generally, each FHIR datatype or resource maps to a single C# class, and each element becomes a property on that class. Important `ValueSet`s from the specification are converted to C# enumerations. The classes and properties carry additional metadata expressed as attributes—information such as cardinality, allowed datatype choices for polymorphic properties, and so on. Here is a fragment of a generated class:
 
 ```csharp
-[FhirType("Patient","http://hl7.org/fhir/StructureDefinition/Patient", IsResource=true)]
+[FhirType("Patient","http://hl7.org/fhir/StructureDefinition/Patient")]
 public partial class Patient : Hl7.Fhir.Model.DomainResource
 {
     /// <summary>
@@ -12,16 +12,15 @@ public partial class Patient : Hl7.Fhir.Model.DomainResource
     public override string TypeName { get { return "Patient"; } }
 ```
 
-As you can see, this declaration shows a few things:
+This declaration illustrates a few points:
 
-- This is a C# class `Patient`, which represents the FHIR resource `Patient`.
-- The URL for the definition of this resoure
-- The fact that this is a `DomainResource` and hence a `Resource`.
+- This is a C# class called `Patient`, which represents the FHIR resource `Patient`.
+- The attribute specifies the canonical URL for the FHIR definition of this resource.
+- The class derives from `DomainResource` (see also [FHIR resource hierarchy](model-overview)), indicating that it is a `Resource`.
 
-Additionally, each datatype has a `TypeName` property that contains the FHIR name for the type
-(exactly the same value as in the `FhirType` attribute above it, but easier to access).
+Each datatype also exposes a `TypeName` property containing the FHIR type name (the same value used in the `FhirType` attribute, but easier to access).
 
-Properties are a bit more interesting:
+Properties include additional metadata, for example:
 
 ```csharp
 /// <summary>
@@ -31,45 +30,21 @@ Properties are a bit more interesting:
 [CLSCompliant(false)]
 [AllowedTypes(typeof(Hl7.Fhir.Model.FhirDateTime),typeof(Hl7.Fhir.Model.Period))]
 [DataMember]
-public Hl7.Fhir.Model.DataType Effective
+public Hl7.Fhir.Model.DataType? Effective
 {
 ```
 
-This is a FHIR element called "effective" as we can see, and the metadata tells us that this element
-is defined to be present "in summary", a feature of FHIR to represent summarized search results.
-As well, this is a *choice* property, which allows the property to take a FHIR `dateTime` or
-`period` type (encoded here as the implementing C# type). Additional attributes will specify the
-cardinality of repeating elements and other details.
+This example shows an element named `effective`. The attributes indicate this element is included "in summary" (a FHIR feature for concise search results), and that it is a *choice* element: it can be either a FHIR `dateTime` or a FHIR `period` (represented here by the corresponding C# types). Other attributes describe cardinality and additional constraints.
 
-It is of course feasible to retrieve these attributes using the classes in the familiar `System.Reflection` namespace, but as the SDK itself frequently needs this data too, we have included a few heavily cached and optimized classes to easily retrieve the metadata present in these attributes. These are the `ClassMapping`, the `PropertyMapping` and `ModelInspector` classes, which we will detail below.
+You can of course access these attributes using `System.Reflection`, but the SDK needs this metadata frequently and therefore provides cached, optimized helpers: `ClassMapping`, `PropertyMapping`, and `ModelInspector`. These types make it easy and efficient to retrieve the metadata encoded in the attributes. We describe those classes below.
 
-Before we dive into those, however, it is important to understand how the different releases of FHIR (STU3, R5, etc.) are reflected in the generated assemblies. The FHIR SDK is packaged as a set of NuGet packages, one for each FHIR release, but there is a set of FHIR datatypes that are stable and practically the same across the releases. We call these classes the "common" classes, and these are packaged in a shared, common NuGet package. The common package contains classes like `Resource`, `HumanName` and `Identifier`, just to name a few. So, even if you are dealing with just one release, you will find the classes you need spread out over two assemblies: the "common" assembly and the assembly with the classes that represent FHIR datatypes and resources that are specific for a release, or at least vary too much from release to release to include in a shared assembly.
-
-## The ClassMapping
-
-ClassMapping holds much of the metadata for a given FHIR resource or datatype that is present on the `FhirTypeAttribute` shown above. In addition it lists the properties for the type, using a `PropertyMapping`. You can get a (cached) ClassMapping for any POCO type by calling `TryGetMappingForType()`, which will return `false` if the type has no FHIR metadata associated with it. The result is cached, so asking for the same mapping multiple times will return the same ClassMapping instance:
-
-```csharp
-bool success = ClassMapping.TryGetMappingForType(typeof(Patient), FhirRelease.R4, out ClassMapping? mapping);
-```
-
-Note that you need to pass in a `FhirRelease`, even if you are just working with a single version of the specification. Most of the time, therefore, it is easier to use the `ModelInspector` documented below, which will do the release-specific housekeeping for you.
-
-## The PropertyMapping
-
-By far the most useful methods on the `ClassMapping` are those to find a specific property: there are three ways to get to the properties.
-
-- Using the `PropertyMappings` property will get you a list of all the properties representing the elements of the FHIR datatype.
-- `FindMappedElementByName()` finds the `PropertyMapping` passing it the exact name of the element.
-- `FindMappedElementByChoiceName()` will do the former, but additionally enables you to find an element by its fully suffixed name when it is a choice element, e.g. passing `onsetDateTime` will return the PropertyMapping for the `onset` element.
-
-The PropertyMapping contains all the metadata from the `FhirElementAttribute`, including its element name, "in summary", order, just to name a few. Using its `NativeProperty` property, you can refer back to the underlying `PropertyInfo` if necessary.
+In the section on [datatypes](datatypes), we discussed that shared datatypes, such as `Resource`, `HumanName`, and `Identifier` are distributed in a shared assembly called either `Hl7.Fhir.Base` and `Hl7.Fhir.Common`. As a result, when working with a single FHIR release you will typically use three assemblies: the two shared common assemblies and the release-specific assembly that contains types that vary between releases.
 
 ## The ModelInspector
 
-The SDK's `ModelInspector` is a set of ClassMappings for the datatypes and resources of *a single release of the FHIR specification*. It allows you to retrieve a ClassMapping by name, by .NET type or by it's "canonical", which is a unique URL assigned to that FHIR type by the FHIR specification (it normally looks like `http://hl7.org/fhir/StructureDefinition/<typename>`). If you would be dealing with multiple releases of the specification, you would have one inspector for each of these releases.
+The SDK's `ModelInspector` represents the metadata (in the form of `ClassMapping` instances) for the datatypes and resources of a single FHIR release. You can retrieve a `ClassMapping` by FHIR name, by .NET type, or by its canonical URL (the URL assigned to the FHIR type, usually `http://hl7.org/fhir/StructureDefinition/<typename>`). For multiple FHIR releases, you would use one `ModelInspector` per release.
 
-You can create a ModelInspector yourself, and import types and mappings from assemblies by hand, but this is not necessary. You can either use the static `ModelInfo.ModelInspector` property or more explicitly call the static `ModelInspector.ForAssembly()` method, passing it a reference to the assembly with the POCO classes for a release of FHIR:
+You can create a `ModelInspector` and import assemblies manually, but this is usually unnecessary. You can use the static `ModelInfo.ModelInspector` property or call `ModelInspector.ForAssembly()` with a reference to the assembly that contains the POCO classes for the release:
 
 ```csharp
 var inspector = ModelInfo.ModelInspector;
@@ -79,6 +54,48 @@ var aResourceMapping = inspector.FindClassMapping(typeof(Observation));
 var anotherResource = inspector.FindClassMappingByCanonical("http://hl7.org/fhir/StructureDefinition/Procedure");
 ```
 
-As you can see, we are using a static reference to the `ModelInfo` class to get a reference to the model assembly. If you are working with {ref}`multiple versions <multiple-versions>`, you would use `external alias` to make each of these `ModelInfo` type references remain unique. Finally, you could use `Assembly.Load()` to dynamically load the necessary assemblies from storage, depending on which releases of FHIR you need to support.
+When working with multiple versions, you can use `external alias` to keep each `ModelInfo` reference distinct. You can also construct your own `ModelInspector` and add specific assemblies dynamically.
 
-It's perfectly fine to call `ModelInfo.ModelInspector` or `ModelInspector.ForAssembly()` repeatedly for the same assembly: it will return you the same `ModelInspector` instance.
+Calling `ModelInfo.ModelInspector` or `ModelInspector.ForAssembly()` repeatedly for the same assembly returns the same `ModelInspector` instance, so it is cheap and safe to do so.
+
+## The ClassMapping
+
+A `ClassMapping` contains the metadata derived from the `FhirTypeAttribute` and lists the type's properties via `PropertyMapping` instances. When you obtain `ClassMapping`s through `ModelInspector` you typically do not need to construct them yourself. Each `ClassMapping` also maintains a reference to its parent `ModelInspector`, allowing you to navigate back to the inspector if you need related metadata.
+
+```{note}
+At this moment, there is little need to create your own `ClassMappings`, but in a future release we may add functionality to create custom mappings at runtime, for example to represent resources that were unknown at compile time.
+```
+
+## The PropertyMapping
+
+The `PropertyMapping` contains metadata from the `FhirElementAttribute`, such as the element name, whether it is "in summary", and its serialization order. You can access the underlying `PropertyInfo` via the `NativeProperty` property if you need reflection-level details.
+
+There are three common ways to access properties on a `ClassMapping`:
+
+- The `PropertyMappings` collection returns all properties that represent the FHIR elements of the type.
+- `FindMappedElementByName()` finds a `PropertyMapping` by the exact element name.
+- `FindMappedElementByChoiceName()` also supports choice elements: for example, passing `onsetDateTime` will return the `PropertyMapping` for the `onset` element.
+
+It is possible to create custom `PropertyMapping` instances. This can be useful when building custom `ClassMapping`s or when providing metadata for dynamic elements stored in the overflow (see [dynamic features](dynamic-features.md)). Supplying type information for such elements enables the serialization and deserialization infrastructure to handle them correctly, including correct treatment of choice and repeating elements.
+
+The example below shows how to add three custom properties to the existing `Patient` mapping so that three dynamic elements stored in the overflow will be serialized and deserialized with the intended types:
+
+```csharp
+var patientMapping = inspector.FindClassMapping(typeof(Patient))!;
+
+// Create custom PropertyMappings for new element `patientLocation` of type `FhirUri`. This ensures that when deserializing,
+// the overflow will contain a `FhirUri` instance for this element.
+var customPropertyA = new PropertyMapping(patientMapping, "patientLocation", typeof(FhirUri));
+patientMapping.PropertyMappings.Add(customPropertyA);
+
+// Create custom PropertyMapping for new choice element `remarks` of type `FhirString` or `Markdown`. This will ensure that
+// when (de)serializing, the element will be recognized as a choice type, and contain the type suffix.
+var customPropertyB = new PropertyMapping(patientMapping, "remarks", typeof(DataType), [typeof(FhirString), typeof(Markdown)]);
+patientMapping.PropertyMappings.Add(customPropertyB);
+
+// Create custom PropertyMapping for new element `newList` of type `List<FhirString>`.
+// This will ensure that when (de)serializing, the element will be treated as a repeating element.
+var customPropertyC = new PropertyMapping(patientMapping, "newList", typeof(List<FhirString>));
+patientMapping.PropertyMappings.Add(customPropertyC);
+```
+
