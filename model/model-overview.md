@@ -140,7 +140,7 @@ classDiagram
 ```
 
 ## Modifier extensions in the model
-The FHIR specification treats modifier extensions differently from regular extensions: modifier extensions convey additional information that must not change the core meaning of the element they modify, and they therefore require careful handling. The SDK indicates which classes may carry modifier extensions by using the `IModifierExtendable` interface.
+The FHIR specification treats modifier extensions differently from regular extensions: modifier extensions convey additional information that changes the core meaning of the element they modify, and they therefore require careful handling. The SDK indicates which classes may carry modifier extensions by using the `IModifierExtendable` interface.
 
 As shown in the diagram, most typical FHIR resources support both `Extension` and modifier extensions, but some infrastructure resources such as `Bundle` and `Parameters` (which derive directly from `Resource`) do not support extensions at all. Also, primitive types may have regular `Extension` instances but cannot have modifier extensions.
 

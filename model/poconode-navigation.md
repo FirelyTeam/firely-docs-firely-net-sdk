@@ -36,8 +36,8 @@ The parent pointers and location are established when you call `ToPocoNode()`. H
 
 In the POCO tree, a node can be either a single node (represented by `PocoNode`) or a list of nodes (represented by `PocoNodeList`). Both derive from the abstract class `PocoNodeOrList` and implement `IEnumerable<PocoNode>`. This allows you to traverse the tree using LINQ — for example `SelectMany(Children)` — similar to how `ITypedElement` is often consumed.
 
-Because any child can be a single POCO or a collection of POCOs, the return type of `Parent`, `Child()` and `Children()` is `PocoNodeOrList`. Likewise, a node itself may be an element of a parent list, so the `Parent` property is also a `PocoNodeOrList`.
-
+Because any child can be a single POCO or a collection of POCOs (if the fhir data is repeating), the return type of `Child()` is `PocoNodeOrList?`. The `Parent` property will always provide a single `PocoNode` (or null, if the node in question is the root of the tree).
+ 
 ## Common uses for `PocoNode`
 
 The SDK provides several extension methods that leverage the extra information in `PocoNode`. These make `PocoNode` a suitable replacement for the earlier `ScopedNode` used by the FhirPath engine and the profile validator.

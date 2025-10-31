@@ -29,7 +29,7 @@ class Code
     ...
 }
 
-class Code<T> // details omitted
+class Code<T> : Code // other details omitted
 {
     ...
     new public T? Value { ... }
