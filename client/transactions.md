@@ -1,78 +1,75 @@
 # Transactions
 
-Next to the normal individual CRUD operations, the `FhirClient` has the ability to send transactions to a FHIR server.
-You can use transactions by calling the `Transaction(Bundle transaction)` function of the `FhirClient`. This functions requires a transaction bundle as input parameter that describes the transaction the server has to carry out.
-The easiest way to create a transaction bundle is by using `TransactionBuilder`.
+In addition to individual CRUD operations, the `FhirClient` can submit transaction bundles to a FHIR server.
+Use `TransactionAsync(Bundle transaction)` to send a transaction; the call requires a transaction `Bundle` that describes the set of operations the server should perform. The simplest way to construct such a bundle is with the `TransactionBuilder` helper.
 
 ## Using TransactionBuilder
 
-`TransactionBuilder` is a function to easily create a `Bundle` resource to describe a transaction or a batch, instead of creating a `Bundle` and adding all the entries manually.
-Simple interactions can be done by just calling the corresponding function of the builder e.g. (`Create()`, `Update()`, `Read()`, `Delete()` etc. ).
-After you have added all your instructions all you need to do is call the `ToBundle()` function. This will return the transaction Bundle that you've just created, which you can then pass to the `Transaction()` function of the `FhirClient`.
+`TransactionBuilder` provides a convenient API to build a transaction or batch `Bundle` without manually constructing the `Bundle` and its entries.
+You can add interactions by calling the corresponding builder methods (for example `Create()`, `Update()`, `Read()`, `Delete()`). When you've added all entries, call `ToBundle()` to obtain the `Bundle` to pass to `TransactionAsync()`.
 
 ```csharp
 var pat = new Patient() { /* set up data */ };
 var client = new FhirClient("http://server.fire.ly");
 var builder = new TransactionBuilder("http://server.fire.ly", Bundle.BundleType.Transaction); // or Batch
 
-//Add a new entry to the bundle including the patient resource that needs to be created.
+// Add a new entry to the bundle including the patient resource that needs to be created.
 builder.Create(pat);
 
-//Add a new entry to the bundle with instructions that Patient witd id "1337" needs to be deleted.
+// Add a new entry to the bundle with instructions that Patient with id "1337" needs to be deleted.
 builder.Delete("Patient", "1337");
 
-//returns the transaction bundle
+// returns the transaction bundle
 var bundle = builder.ToBundle();
 
-//Send the transaction to the server.
+// Send the transaction to the server.
 var response = await client.TransactionAsync(bundle);
 ```
 
-Below is the list of all interactions you can add to the transaction bundle using the `TransactionBuilder` :
+Below are the interactions you can add to a transaction bundle using `TransactionBuilder`:
 
-- `Create()`: Creates a resource on the server.
-- `Read()`: Returns a resource from the server.
-- `Update()`: Updates a resource on the server.
-- `Delete()`: Deletes a resources on the server.
-- `Patch()`: Patches a resource on the server.
-- `Search()`: Searches for resources on the server based on search criteria.
-- `CapabilityStatement()`: Returns the `CapabilityStatement` of the server.
-- `ResourceHistory()`: Returns all known historical versions of the resource from the server.
-- `CollectionHistory()`: Returns all known historical versions of resources of a specific type from the server.
-- `ServerHistory()`: Returns all known historical versions of all resources from the server.
-- `Transaction()`: Call a sub-transaction on the server.
+- `Create()`: create a resource on the server.
+- `Read()`: return a resource from the server.
+- `Update()`: update a resource on the server.
+- `Delete()`: delete a resource on the server.
+- `Patch()`: patch a resource on the server.
+- `Search()`: search for resources on the server using search criteria.
+- `CapabilityStatement()`: request the server's `CapabilityStatement`.
+- `ResourceHistory()`: request the historical versions of a specific resource.
+- `CollectionHistory()`: request historical versions of all resources of a given type.
+- `ServerHistory()`: request server-wide historical versions of resources.
+- `Transaction()`: execute a nested transaction on the server.
 
 ## Conditional interactions
 
-Next to the 'standard' interactions, `TransactionBuilder` also allows you to add the conditional interactions specified by the FHIR specification.
-The conditional interactions can be added by using the optional `SearchParam` parameter that some of the standard interactions have.
-You can use `SearchParam` to specify the conditions you want.
-
-See the example below:
+In addition to the standard interactions, `TransactionBuilder` supports the
+conditional interactions defined by the FHIR specification. Several
+builder methods accept an optional `SearchParams` parameter to express
+the condition to use for the interaction. Example:
 
 ```csharp
 var pat = new Patient() { /* set up data */ };
 var client = new FhirClient("http://server.fire.ly");
 var builder = new TransactionBuilder("http://server.fire.ly", Bundle.BundleType.Transaction);
 
-//Update the patient resource with family name "Levin", and date of birth "01-01-1990"
+// Update the patient resource with family name "Levin", and date of birth "01-01-1990"
 var updateConditions = new SearchParams();
 updateConditions.Add("birthdate", "1990-01-01");
 updateConditions.Add("family", "Levin");
 builder.Update(updateConditions, pat);
 
-//Delete the patient with email address "test@example.org"
+// Delete the patient with email address "test@example.org"
 var deleteCondition = new SearchParams("email", "test@example.com");
 builder.Delete("Patient", deleteCondition);
 
- //returns the transaction bundle
+// returns the transaction bundle
 var bundle = builder.ToBundle();
 
-//Send the transaction to the server.
+// Send the transaction to the server.
 var response = await client.TransactionAsync(bundle);
 ```
 
-Below is the list of functions that support conditional interactions:
+The following builder methods support conditional interactions:
 
 - `Create()`
 - `Update()`

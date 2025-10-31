@@ -1,16 +1,16 @@
 # Message Handlers
 
-The FhirClient provides you an option to add `HttpMessageHandlers`, which you can use to hook
-into the request/response cycle. With these handlers you can implement
-extra code to be executed right before a request is sent, or directly after
-a response has been received.
+The `FhirClient` provides an option to add `HttpMessageHandler`s that hook
+into the HTTP request/response cycle. These handlers let you run custom
+logic immediately before a request is sent or directly after a response
+is received.
 
 ## Adding extra headers
 
-It could be necessary to add extra headers to the requests your FhirClient
-sends out, for example when you want to send an authorization token with your
-request. Or perhaps you need other code to be executed each time the FhirClient
-sends a request. This can be achieved by implementing your own message handler, for example an AuthorizationMessageHandler:
+Often you need to add headers to outgoing requests (for example an
+authorization token), or to execute logic on every request. Implement a
+custom message handler to perform these tasks. The example below shows an
+`AuthorizationMessageHandler` implementation:
 
 ```csharp
 public class AuthorizationMessageHandler : HttpClientHandler
@@ -25,24 +25,26 @@ public class AuthorizationMessageHandler : HttpClientHandler
 }
 ```
 
-and add that to the `FhirClient`:
+Add that handler to a `FhirClient` instance like this:
 
 ```csharp
 var handler = new AuthorizationMessageHandler();
 var bearerToken = "AbCdEf123456" //example-token;
 handler.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
 var client = new FhirClient(handler);
-client.Read<Patient>("example");
+client.ReadAsync<Patient>("example");
 ```
 
 ## Chaining Multiple MessageHandlers
 
-You can chain multiple `HttpMessageHandlers` as well to combine their functionality in a single FhirClient. You can do this using
-`DelegatingHandler`. DelegatingHandler is a handler that is designed to be chained with another handler, effectively forming a pipeline through which requests and responses will pass.
-Each handler has a chance to examine and/or modify the request before passing it to the next handler in the chain, and to examine and/or modify the response it receives from the next handler.
-Typically, the last handler in the pipeline is the `HttpClientHandler`, which communicates directly with the network.
+You can chain multiple `HttpMessageHandler`s to combine functionality. Use
+`DelegatingHandler` to form a pipeline: each handler can inspect or
+modify the request before passing it to the next handler and inspect or
+modify the response returned by the inner handler. Typically the final
+handler is `HttpClientHandler`, which performs the network I/O.
 
-For example, next to a AuthorizationMessageHandler, you might want to use both and a LoggingHandler:
+For example, besides an `AuthorizationMessageHandler` you might add a
+`LoggingHandler`:
 
 ```csharp
 public class LoggingHandler : DelegatingHandler
@@ -73,10 +75,11 @@ public class LoggingHandler : DelegatingHandler
 }
 ```
 
-source: <https://thomaslevesque.com/2016/12/08/fun-with-the-httpclient-pipeline/>
+Source: <https://thomaslevesque.com/2016/12/08/fun-with-the-httpclient-pipeline/>
 
-If you want to combine this with the AuthorizationMessageHandler from the previous section, you can add that to the LoggingHandler as an `InnerHeader`, because the LoggingHandler implements `DelegatingHandler`.
-Like this:
+To combine the handlers, set the `AuthorizationMessageHandler` as the
+`InnerHandler` of the `LoggingHandler` (since `LoggingHandler` is a
+`DelegatingHandler`):
 
 ```csharp
 var authHandler = new AuthorizationMessageHandler();
@@ -87,11 +90,13 @@ var loggingHandler = new LoggingHandler()
 var client = new FhirClient("http://server.fire.ly", FhirClientSettings.CreateDefault(), loggingHandler);
 ```
 
-This puts the AuthorizationMessageHandler inside the LoggingHandler, which is added to the client. Resulting in that both handlers form a pipeline through which requests and responses will pass.
+This results in a pipeline where requests and responses flow through the
+`LoggingHandler` and then the `AuthorizationMessageHandler` before
+reaching the network layer.
 
 ## OnBeforeRequest and OnAfterResponse
 
-To make use `OnBeforeRequest` and `OnAfterResponse` features that were on the previous implementation of the FhirClient, you can use the pre-defined `HttpClientEventHandler`.
+To make use `OnBeforeRequest` and `OnAfterResponse` features that were in use on the pre-SDK5 FhirClient, you can use the pre-defined `HttpClientEventHandler`.
 Use the `OnBeforeRequest` to add extra code before a request is executed by the FhirClient, and the `OnAfterResponse` event to add extra code that needs to be executed every time a response is received by the FhirClient:
 
 ```csharp

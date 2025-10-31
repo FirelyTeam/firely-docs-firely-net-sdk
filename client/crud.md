@@ -34,7 +34,10 @@ var pat_B = await client.ReadAsync<Patient>("Patient/32/_history/4");
 ```
 
 ```{tip}
-See the [paragraph about ResourceIdentity](resource-identity) for methods to construct URIs from separate values and other helpful helper methods.
+The SDK provides a `ResourceIdentity` class to help construct resource URIs. Since `ReadAsync` only takes URLs as parameters, if you have the resource type and its ID as distinct data variables, use `ResourceIdentity`:
+
+```csharp
+var patResultC = await client.ReadAsync<Patient>(ResourceIdentity.Build("Patient","33"));
 ```
 
 Note that `ReadAsync` can be used to fetch the most recent version of a resource as well as a specific version, and thus covers the two logical REST interactions `read` and `vread`.
