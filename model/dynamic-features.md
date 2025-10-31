@@ -142,9 +142,10 @@ These legacy methods are still available for backward compatibility, but we reco
 
 The `Children()` method returns an `IEnumerable<Base>` with all child elements. Note that `Children()` flattened lists and returned strings for `Narrative.div` and `Element.id`, whereas `EnumerateElements()` returns the corresponding FHIR model instances (`XHtml` and `FhirUri`, respectively).
 
-### IReadOnlyDictionary
-
-Previously, `POCO`s implemented `IReadOnlyDictionary<string, object>`, but this caused issues in many development tools, debugger viewers, and serializers. The new dynamic access methods align closely with the `IReadOnlyDictionary` however, so transitioning should be easy. You can also call `ToPocoNode()` on any `Base` instance; `PocoNode` implements `IReadOnlyDictionary`. See the chapter on [PocoNode navigation](poconode-navigation) for more information.
+% ### IReadOnlyDictionary
+% [2051031] Oops, we did not let PocoNode implement IReadOnlyDictionary directly, so I commented this out. Maybe we should.
+% Previously, `POCO`s implemented `IReadOnlyDictionary<string, object>`, but this caused issues in many development tools, debugger viewers, % and serializers. The new dynamic access methods align closely with the `IReadOnlyDictionary` however, so transitioning should be easy. You % can also call `ToPocoNode()` on any `Base` instance; `PocoNode` implements `IReadOnlyDictionary`. See the chapter on 
+% [PocoNode navigation](poconode-navigation) for more information.
 
 ### ITypedElement
 

@@ -22,7 +22,7 @@ Each SDK version is tailored to its respective FHIR release, ensuring compatibil
 
 It is also possible to write software that supports multiple FHIR specification releases by [using external aliases](model/multiple-fhir-versions).
 
-Most of the SDK's code can be found in the [main repository](https://github.com/FirelyTeam/firely-net-sdk). However, the code for [working with packages](https://github.com/FirelyTeam/Firely.Fhir.Packages) and [profile validation](https://github.com/FirelyTeam/firely-validator-api) is maintained in separate repositories. The SDK includes generated code for the FHIR classes, which is created using a [custom-built code generator](https://github.com/microsoft/fhir-codegen).
+Most of the SDK's code can be found in the [main repository](https://github.com/FirelyTeam/firely-net-sdk). However, the code for [working with packages](https://github.com/FirelyTeam/Firely.Fhir.Packages) and [profile validation](https://github.com/FirelyTeam/firely-validator-api) is maintained in separate repositories. The SDK includes generated code for the FHIR classes, which is created using a [custom-built code generator](https://github.com/FirelyTeam/fhir-codegen).
 
 ```{note}
 All code examples on these pages are for the R4 version of the library.
