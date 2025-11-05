@@ -6,7 +6,7 @@ Validating data against profiles
 
 The profile validator is distributed as a separate package, and can be found on NuGet, by searching for ``Firely.Fhir.Validation.<spec version>``. The main class in this package is the `Validator`. To construct a new instance, we can supply the constructor with several dependencies:
 
-* Required: A reference to a resource resolver (see :ref:`package-source`), specifically an ``IAsyncResourceResolver``. This service allows the validator to retrieve the profiles that are referenced by the profile being validated.
+* Required: A reference to a resource resolver (see :ref:`fhir-package-source`), specifically an ``IAsyncResourceResolver``. This service allows the validator to retrieve the profiles that are referenced by the profile being validated.
 * Required: A reference to a terminology service (see :ref:`terminology-service`), specifically a ``ICodeValidationTerminologyService``. This service is needed to validate the codes used in the instance against the code systems and value sets specified in the profile.
 * Optional, but recommended: pass in an ``IExternalReferenceResolver``. This service allows the validator to retrieve the resources that are referenced by the instance being validated. If this service is not supplied, the validator will simply not try to validate the resources that these references point to.
 * Optional: a set of additional settings, as an instance of a `ValidationSettings`.

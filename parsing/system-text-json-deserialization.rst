@@ -52,7 +52,7 @@ When no exception is thrown, the returned POCO can be considered complete and st
 profiles, and the deserializer does not perform profile validation, just basic structural validation (e.g. cardinalities). See :ref:`poco validation<poco-validation>`
 for more information.
 
-The ``Exceptions`` property will contain a list of ``CodedException``, and these might contain a mix of exceptions encountered by the parser (``FhirJsonException``) and the validator (``CodedValidationException``). These exceptions are coded, so they do not only contain a human-readable message, but a persistent code as well. The codes are defined as constants on the ``FhirJsonException`` class. Rather than maintaining a (probably outdated) table of codes here, it is preferable to glance the current set `from the code <https://github.com/FirelyTeam/firely-net-common/blob/develop/src/Hl7.Fhir.Support.Poco/Serialization/FhirJsonException.cs>`_.
+The ``Exceptions`` property will contain a list of ``CodedException``, and these might contain a mix of exceptions encountered by the parser (``FhirJsonException``) and the validator (``CodedValidationException``). These exceptions are coded, so they do not only contain a human-readable message, but a persistent code as well. The codes are defined as constants on the ``FhirJsonException`` class. Rather than maintaining a (probably outdated) table of codes here, it is preferable to glance the current set `from the code <https://github.com/FirelyTeam/firely-net-common/blob/develop/src/Hl7.Fhir.Support.Poco/Serialization/FhirJsonException.cs>`__.
 
 
 Configuration options for the deserializer

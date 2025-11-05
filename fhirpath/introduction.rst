@@ -2,7 +2,7 @@
 Using FhirPath
 ==============
 
-The SDK contains a compiler and runtime for `FhirPath <http://hl7.org/fhirpath/>`_.
+The SDK contains a compiler and runtime for `FhirPath <http://hl7.org/fhirpath/>`__.
 FhirPath is an extraction and navigation language and you can execute FhirPath expression both on :ref:`FHIR POCO classes <FHIR-model>`
 and on :ref:`ITypedElement-based data <elementmodel-intro>`. For both, the following (extension) methods are available:
 

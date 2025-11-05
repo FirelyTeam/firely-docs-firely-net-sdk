@@ -1,12 +1,13 @@
 	
-Code example for Patient
-------------------------
+# Code example for Patient
+
+
 With the code examples from the previous paragraphs, plus some additions, we have constructed a code
 example that sets up an instance of the Patient resource, with some information covering all of the
 topics of this section. We have tried to include different ways to fill in the fields, so you can
 see the possibilities and choose what suits your programming style best.
 
-.. code-block:: csharp
+```csharp
 
 	// example Patient setup, fictional data only
 	var pat = new Patient();
@@ -31,14 +32,13 @@ see the possibilities and choose what suits your programming style best.
 	
 	pat.BirthDate = "1983-04-23";
 	
-	var birthplace = new Extension();
-	birthplace.Url = "http://hl7.org/fhir/StructureDefinition/birthPlace";
-	birthplace.Value = new Address() { City = "Seattle" };
-	pat.Extension.Add(birthplace);
-	
-	var birthtime = new Extension("http://hl7.org/fhir/StructureDefinition/patient-birthTime",
-	                               new FhirDateTime(1983,4,23,7,44));
-	pat.BirthDateElement.Extension.Add(birthtime);
+	var birthAddress = new Address() { City = "Seattle" };
+	pat.AddExtension("http://hl7.org/fhir/StructureDefinition/birthPlace", birthAddress);
+
+	pat.BirthDate = "1983-04-23";
+	pat.BirthDateElement.AddExtension("http://hl7.org/fhir/StructureDefinition/patient-birthTime", 
+  		new FhirDateTime(1983, 4, 23, 7, 44));
+	pat.SetString("http://hl7.org/fhir/StructureDefinition/patient-mothersMaidenName", "Kramer");
 	
 	var address = new Address()
 	{
@@ -60,4 +60,4 @@ see the possibilities and choose what suits your programming style best.
 	pat.Contact.Add(contact);
 	
 	pat.Deceased = new FhirBoolean(false);
-
+```
