@@ -44,7 +44,7 @@ collection.Entry.Add(first_entry);
 collection.AddResourceEntry(res2, "urn:uuid:01d04293-ed74-4f93-aa0a-2f096a693fb1");
 ```
 
-In this example, we create a `Bundle` of type `Collection`, and for this kind of Bundle we need to make sure all resources have a `FullUrl`. The first resource, `res1`, already has a technical ID (`Resource.Id`). We construct its `FullUrl` using information from the resource instance, though the `ResourceIdentity` helper methods in the `Hl7.Fhir.Rest` namespace could also be used. For more details, see the [Resource Identity documentation](../client/resource-identity).
+In this example, we create a `Bundle` of type `Collection`, and for this kind of Bundle we need to make sure all resources have a `FullUrl`. The first resource, `res1`, already has a technical ID (`Resource.Id`). We construct its `FullUrl` using information from the resource instance, though the `ResourceIdentity` helper methods in the `Hl7.Fhir.Rest` namespace could also be used.
 
 The second resource, `res2`, is new and does not yet have `Resource.Id`, so we generate a temporary one.
 
