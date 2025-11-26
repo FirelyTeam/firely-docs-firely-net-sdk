@@ -125,6 +125,10 @@ var patched_pat = await client.PatchAsync<Patient>(patientId, patch);
 
 If the patch succeeds, `PatchAsync` returns the patched resource. On failure it throws a `FhirOperationException` with details.
 
+```{note}
+This example uses the `FHIRPath Patch` format as defined by FHIR. The client also supports sending patches in the `JSON Patch` format (RFC 6902). To do so, use the `PatchAsync` overload that takes a `string` containing the JSON Patch document instead of a `Parameters` resource. The same overload can also be used to send `XML Patch` documents. See the (FHIR patch specification)[https://fhir.hl7.org/fhir/http.html#patch] for more information.
+```
+
 ## Conditional interactions
 
 The SDK supports conditional versions of `CreateAsync`, `UpdateAsync`, `DeleteAsync`, and `PatchAsync`. Not all servers support conditional interactions; a server may return HTTP 412 with an [OperationOutcome] to indicate lack of support.
