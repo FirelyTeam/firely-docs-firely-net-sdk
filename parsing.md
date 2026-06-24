@@ -8,12 +8,11 @@
 :hidden: true
 
 Introduction <parsing/introduction>
-parsing/poco-parsing
+parsing/deserialization
 parsing/poco-serialization
 parsing/system-text-json-serialization
 parsing/system-text-json-deserialization
 parsing/xml-poco-serialization
-parsing/xml-poco-deserialization
 parsing/error-handling
 parsing/deserialization-behavior
 parsing/elementmodel

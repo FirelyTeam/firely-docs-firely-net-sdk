@@ -1,18 +1,14 @@
 # Parsing and serialization
 
-The Firely .NET SDK makes it easy to work with XML and Json-based FHIR data. There are two approaches for getting data in and out of your application:
+The Firely .NET SDK reads and writes FHIR data in both JSON and XML. Throughout this section the examples use JSON — by far the most common format. XML works the same way through the equivalent classes, and we point out the few places where it differs.
 
-- Work with the POCO classes (as described in {ref}`FHIR-model`). These are .NET classes that represent the FHIR resources mostly one-on-one.
-- Work with the `ElementModel` classes, which is an abstract memory model representing the FHIR data as an in-memory tree of data.
+Almost all work with FHIR data goes through the POCO classes (see {ref}`FHIR-model`): .NET classes such as `Patient` that mirror the FHIR resources. The SDK turns serialized FHIR into these POCOs and back again:
 
-The first approach is the simplest and is most applicable if you prefer working with strongly typed classes that align with the FHIR resources. E.g. there is a
-class `Patient` with a property `name`, as you would expect from looking at the FHIR documentation. For most users, this is all they need.
+- {doc}`/parsing/deserialization` — reading JSON or XML into POCOs.
+- {doc}`/parsing/error-handling` — how the deserializer reports problems, and the modes that control how strict it is.
 
-However, there are several reasons why the POCO-based approach may not work for you:
+```{note}
+The SDK 6 deserializers are built to capture *all* incoming data, even when it does not perfectly fit the POCO — unknown elements and mismatched values are preserved in the element's *overflow* (see {doc}`/model/dynamic-features`) rather than discarded. As a result, the POCO approach handles invalid or cross-version data that older SDKs could not.
+```
 
-- The generated POCO classes are based on a specific version of FHIR, so if you need to deal with FHIR data independent of versions, POCOs are cumbersome to work with.
-- The parsers for POCO classes cannot deal with incorrect data - there is no way to express invalid FHIR data as a POCO, so if you will get parser errors, there is no way to recover or correct the data.
-- You may only be working with FHIR data in the sense that you need to be able to parse, persist and retrieve bits of data, without needing the full overhead of creating POCOs in memory.
-- You need to be able to customize data when parsing or serializing data.
-
-The second approach, using the `ElementModel` abstraction, has been designed to work with these usecases. In fact, the POCO parsers are built on top of the more low-level `ElementModel` classes.
+For low-level, version-independent access to FHIR data as a generic tree, there is the older {doc}`ElementModel </parsing/elementmodel>` API, kept for backward compatibility.

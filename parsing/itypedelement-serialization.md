@@ -23,7 +23,7 @@ string xml = patientRootElement.ToXml();
 Patient p = patientRootElement.ToPoco<Patient>();
 ```
 
-It will come as no surprise that the higher level serializers and parsers described in {ref}`poco-parsing` are thin convenience methods, simply calling the more primitive methods described in the last sections.
+It will come as no surprise that the higher level serializers and parsers described in {doc}`deserialization` are thin convenience methods, simply calling the more primitive methods described in the last sections.
 
 ## Working with subtrees
 
