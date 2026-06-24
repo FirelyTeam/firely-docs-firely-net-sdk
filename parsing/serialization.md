@@ -60,7 +60,7 @@ Under the hood a summary is a `SerializationFilter`. You can also create one dir
 | `_summary=count` | `SerializationFilter.ForCount()` |
 | `_elements=…` | `SerializationFilter.ForElements(elements)` |
 
-The other summary forms mentioned in the FHIR specification need no special serializer support and can be constructed by hand.
+The only other value the FHIR `_summary` parameter defines is `false`, meaning the complete resource — that is just ordinary serialization, with no filter.
 
 ```csharp
 var json = FhirJsonSerializer.Default.SerializeToString(
