@@ -62,9 +62,7 @@ Calling `ModelInfo.ModelInspector` or `ModelInspector.ForAssembly()` repeatedly 
 
 A `ClassMapping` contains the metadata derived from the `FhirTypeAttribute` and lists the type's properties via `PropertyMapping` instances. When you obtain `ClassMapping`s through `ModelInspector` you typically do not need to construct them yourself. Each `ClassMapping` also maintains a reference to its parent `ModelInspector`, allowing you to navigate back to the inspector if you need related metadata.
 
-```{note}
-At this moment, there is little need to create your own `ClassMappings`, but in a future release we may add functionality to create custom mappings at runtime, for example to represent resources that were unknown at compile time.
-```
+It is also possible to create `ClassMapping` instances manually, for example to represent resources or datatypes that are only known at runtime. See [custom mappings](custom-mappings) for details.
 
 ## The PropertyMapping
 
@@ -76,26 +74,5 @@ There are three common ways to access properties on a `ClassMapping`:
 - `FindMappedElementByName()` finds a `PropertyMapping` by the exact element name.
 - `FindMappedElementByChoiceName()` also supports choice elements: for example, passing `onsetDateTime` will return the `PropertyMapping` for the `onset` element.
 
-It is possible to create custom `PropertyMapping` instances. This can be useful when building custom `ClassMapping`s or when providing metadata for dynamic elements stored in the overflow (see [dynamic features](dynamic-features.md)). Supplying type information for such elements enables the serialization and deserialization infrastructure to handle them correctly, including correct treatment of choice and repeating elements.
-
-The example below shows how to add three custom properties to the existing `Patient` mapping so that three dynamic elements stored in the overflow will be serialized and deserialized with the intended types:
-
-```csharp
-var patientMapping = inspector.FindClassMapping(typeof(Patient))!;
-
-// Create custom PropertyMappings for new element `patientLocation` of type `FhirUri`. This ensures that when deserializing,
-// the overflow will contain a `FhirUri` instance for this element.
-var customPropertyA = new PropertyMapping(patientMapping, "patientLocation", typeof(FhirUri));
-patientMapping.PropertyMappings.Add(customPropertyA);
-
-// Create custom PropertyMapping for new choice element `remarks` of type `FhirString` or `Markdown`. This will ensure that
-// when (de)serializing, the element will be recognized as a choice type, and contain the type suffix.
-var customPropertyB = new PropertyMapping(patientMapping, "remarks", typeof(DataType), [typeof(FhirString), typeof(Markdown)]);
-patientMapping.PropertyMappings.Add(customPropertyB);
-
-// Create custom PropertyMapping for new element `newList` of type `List<FhirString>`.
-// This will ensure that when (de)serializing, the element will be treated as a repeating element.
-var customPropertyC = new PropertyMapping(patientMapping, "newList", typeof(List<FhirString>));
-patientMapping.PropertyMappings.Add(customPropertyC);
-```
+It is possible to create custom `PropertyMapping` instances. This can be useful when building custom `ClassMapping`s or when providing metadata for dynamic elements stored in the overflow (see [dynamic features](dynamic-features.md)). See [custom mappings](custom-mappings) for examples.
 
