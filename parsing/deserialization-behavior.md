@@ -18,12 +18,12 @@ These are raised by the JSON parser as `FhirJsonException`. Unless marked `Fatal
 | `JSON120` | `OBJECTS_CANNOT_BE_EMPTY` | Error | The empty object holds no data; it is skipped. |
 | `JSON121` | `ARRAYS_CANNOT_BE_EMPTY` | Error | The empty array holds no data; it is skipped. |
 | `JSON125` | `PRIMITIVE_ARRAYS_ONLY_NULL` | Error | The nulls are left in place; there was no data to capture. |
-| `JSON129` | `DUPLICATE_PROPERTY` | **Fatal** | Only one of the two values can be kept, so data is lost. |
+| `JSON129` | `DUPLICATE_PROPERTY` | **Fatal** | The duplicates are merged into a single element; a conflicting primitive value keeps the first occurrence, so the later data is dropped. |
 | `JSON130` | `NESTED_ARRAY` | Error | The nested array is flattened into its parent, so no data is lost. |
 | `JSON131` | `UNEXPECTED_PRIMITIVE_VALUE_FOR_NON_PRIMITIVE` | Error | The primitive cannot fit the complex element, so it is preserved in that element's **overflow** under the key `value`. |
-| `JSON132` | `UNEXPECTED_OBJECT_VALUE_FOR_PRIMITIVE` | Error | The object is deserialized into the element; members that cannot fit are preserved in its **overflow**. |
-| `JSON133` | `USE_OF_UNDERSCORE_WITH_NON_PRIMITIVE` | Error | The underscore form is only valid for primitives; here it is ignored and the value parsed normally. |
-| `JSON134` | `UNDERSCORE_SHOULD_BE_OBJECT` | Error | The `_`-prefixed companion should be an object; the stray primitive is used as the element's value, unless the non-underscore property already set it. |
+| `JSON132` | `UNEXPECTED_OBJECT_VALUE_FOR_PRIMITIVE` | Error | The object is deserialized into the primitive: `id` and `extension` are set normally, and every other member — including a stray `value` — is preserved in the primitive's **overflow**. |
+| `JSON133` | `USE_OF_UNDERSCORE_WITH_NON_PRIMITIVE` | Error | The underscore form is only valid for primitives; here it is ignored and the complex value is parsed normally. |
+| `JSON134` | `UNDERSCORE_SHOULD_BE_OBJECT` | Error | The `_`-prefixed companion should be an object; the stray primitive is used as the element's value. If the non-underscore property already set the value, the stray primitive is silently dropped (this remains a non-fatal error). |
 
 ```{note}
 When a value cannot be placed in its typed property — as with `JSON131` and `JSON132` — the generated POCO keeps the value in the element's *overflow* and leaves the typed property empty. The data is therefore not lost, but it must be read through the overflow (see {doc}`/model/dynamic-features`), `Base.HasOverflow` becomes `true`, and the model validator additionally reports this as an overflow-causing `PROPERTY_TYPE_MISMATCH` (`PVAL127`).
