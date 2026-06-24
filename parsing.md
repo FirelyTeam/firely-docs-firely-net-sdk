@@ -10,9 +10,8 @@
 Introduction <parsing/introduction>
 parsing/deserialization
 parsing/serialization
-parsing/system-text-json-serialization
-parsing/system-text-json-deserialization
 parsing/error-handling
 parsing/deserialization-behavior
+parsing/system-text-json
 parsing/elementmodel
 ```

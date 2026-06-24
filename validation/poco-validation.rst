@@ -107,6 +107,6 @@ When the instance is invalid, this method will throw an Exception detailing the 
 
 The full set of codes can be found `in the source code <https://github.com/FirelyTeam/firely-net-common/blob/develop/src/Hl7.Fhir.Support.Poco/Validation/CodedValidationException.cs>`_
 
-The :ref:`new deserializer<systemtextjsondeserialization>` invokes the attribute-based validation described here while performing deserialization.
+The :ref:`new deserializer<system-text-json>` invokes the attribute-based validation described here while performing deserialization.
 This means that, after you have deserialized an object, there is no need to invoke validation yourself, and validation results should be consistent
 between deserialized POCOs and POCOs that are constructed in code.
