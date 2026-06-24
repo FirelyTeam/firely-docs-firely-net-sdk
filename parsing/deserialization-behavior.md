@@ -20,10 +20,14 @@ These are raised by the JSON parser as `FhirJsonException`. Unless marked `Fatal
 | `JSON125` | `PRIMITIVE_ARRAYS_ONLY_NULL` | Error | The nulls are left in place; there was no data to capture. |
 | `JSON129` | `DUPLICATE_PROPERTY` | **Fatal** | Only one of the two values can be kept, so data is lost. |
 | `JSON130` | `NESTED_ARRAY` | Error | The nested array is flattened into its parent, so no data is lost. |
-| `JSON131` | `UNEXPECTED_PRIMITIVE_VALUE_FOR_NON_PRIMITIVE` | Error | The primitive is still deserialized into the (non-primitive) element's `value`. |
-| `JSON132` | `UNEXPECTED_OBJECT_VALUE_FOR_PRIMITIVE` | Error | The object is still deserialized into the (primitive) element. |
+| `JSON131` | `UNEXPECTED_PRIMITIVE_VALUE_FOR_NON_PRIMITIVE` | Error | The primitive cannot fit the complex element, so it is preserved in that element's **overflow**. |
+| `JSON132` | `UNEXPECTED_OBJECT_VALUE_FOR_PRIMITIVE` | Error | The object is deserialized into the element; members that cannot fit are preserved in its **overflow**. |
 | `JSON133` | `USE_OF_UNDERSCORE_WITH_NON_PRIMITIVE` | Error | The underscore is ignored and the value is parsed normally. |
 | `JSON134` | `UNDERSCORE_SHOULD_BE_OBJECT` | Error | The primitive value is added as the element's `value`. |
+
+```{note}
+When a value cannot be placed in its typed property — as with `JSON131` and `JSON132` — the generated POCO keeps the value in the element's *overflow* and leaves the typed property empty. The data is therefore not lost, but it must be read through the overflow (see {doc}`/model/dynamic-features`), `Base.HasOverflow` becomes `true`, and the model validator additionally reports this as an overflow-causing `PROPERTY_TYPE_MISMATCH` (`PVAL127`).
+```
 
 ## XML syntax issues
 
