@@ -44,13 +44,28 @@ var json = FhirJsonSerializer.Default.SerializeToString(patient, pretty: true);
 
 ## Summaries
 
-FHIR defines [summary forms](http://hl7.org/fhir/search.html#summary) of a resource. Pass a `SummaryType` to serialize one of them, optionally restricting to specific top-level elements:
+FHIR defines [summary forms](http://hl7.org/fhir/search.html#summary) of a resource — reduced views that contain only certain elements. The simplest way to produce one is to pass a `SummaryType` to `SerializeToString`, optionally restricting to specific top-level elements:
 
 ```csharp
 var summary = FhirJsonSerializer.Default.SerializeToString(patient, SummaryType.Text);
 ```
 
-For cases the standard summary forms do not cover, you can pass a custom `SerializationFilter`.
+Under the hood a summary is a `SerializationFilter`. You can also create one directly and pass it as a factory to the serializer; the standard filters are available as factory methods:
+
+- `SerializationFilter.ForSummary()` — `_summary=true`
+- `SerializationFilter.ForText()` — `_summary=text`
+- `SerializationFilter.ForData()` — `_summary=data`
+- `SerializationFilter.ForCount()` — `_summary=count`
+- `SerializationFilter.ForElements(elements)` — `_elements=…`
+
+The other summary forms mentioned in the FHIR specification need no special serializer support and can be constructed by hand.
+
+```csharp
+var json = FhirJsonSerializer.Default.SerializeToString(
+    patient, filterFactory: () => SerializationFilter.ForSummary());
+```
+
+The filters are highly configurable, and you can write your own by subclassing `SerializationFilter`. For inspiration, see the (fairly simple) built-in implementations such as `ElementMetadataFilter.cs` and `BundleFilter.cs` in the SDK source.
 
 ## Convenience extensions
 
