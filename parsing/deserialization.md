@@ -21,7 +21,7 @@ If you work with a custom or runtime-chosen model, use the `BaseFhirJsonDeserial
 var deserializer = new BaseFhirJsonDeserializer(inspector);
 ```
 
-`DEFAULT` is one of several ready-made presets; the others control how strict the deserializer is. See {doc}`error-handling` for those and for how problems are reported.
+`DEFAULT` is one of several ready-made presets; the others control how strict the deserializer is. You can also construct a deserializer with your own `DeserializerSettings` when you need finer control. The presets, settings, and how problems are reported are all covered in {doc}`error-handling`.
 
 ## Reading a resource
 
@@ -45,6 +45,13 @@ To read a fragment that is not a resource — a `HumanName`, say — use `Deseri
 
 ```csharp
 var name = FhirJsonDeserializer.DEFAULT.Deserialize<HumanName>(json);
+```
+
+```{admonition} Experimental
+:class: warning
+FHIR only defines a serialization for complete *resources*, not for standalone datatypes. Reading or writing a bare datatype is a convenience the SDK offers outside the specification, and should be treated as experimental.
+
+It works for complex datatypes, but **FHIR primitives cannot be handled on their own**: a primitive's value and its `id`/`extension` are split across two sibling properties (`x` and `_x` in JSON) that only exist inside a parent object. A standalone primitive has nowhere to carry that companion, so the SDK falls back to a non-standard representation.
 ```
 
 ## Reading from a reader

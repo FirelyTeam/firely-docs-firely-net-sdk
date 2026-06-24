@@ -70,3 +70,10 @@ Everything above applies to XML through `FhirXmlSerializer` / `BaseFhirXmlSerial
 ```csharp
 var xml = FhirXmlSerializer.Default.SerializeToString(patient, pretty: true);
 ```
+
+When you serialize a *datatype* rather than a resource, the XML serializer wraps it in an element named after the type — for example a `HumanName` becomes `<HumanName>…</HumanName>`.
+
+```{admonition} Experimental
+:class: warning
+As with deserialization, serializing a standalone datatype is outside the FHIR specification (which only defines serialization for resources) and should be treated as experimental. In particular, a lone FHIR primitive has no faithful representation — see {doc}`deserialization`.
+```
