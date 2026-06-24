@@ -7,5 +7,4 @@
    :hidden:
 
    Introduction <cql/introduction>
-   cql/cql-packager
 
