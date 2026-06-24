@@ -1,7 +1,7 @@
-# ElementModel (historic reference)
+# ElementModel (legacy)
 
 ```{note}
-The ElementModel API described in this section predates the current serialization stack introduced in SDK 5 and 6. It is still functional and shipped with the SDK, but is no longer the recommended approach for most use cases. This reference is kept for users who are maintaining code that was written against the older API.
+The ElementModel API described in this section predates the current serialization stack introduced in SDK 5 and 6. It is still functional and shipped with the SDK, but is no longer the recommended approach for most use cases. This documentation is kept for users who are maintaining code written against the older API and want a gradual upgrade path.
 
 For current serialization and deserialization, see the POCO parsing and serialization pages.
 ```
