@@ -173,7 +173,7 @@ Besides the error filtering above, `DeserializerSettings` exposes these knobs:
 (validation-during-parsing)=
 ## Validation during parsing
 
-The model-validation issues (the `PVAL…` codes) are not produced by the parser but by a validator that the deserializer runs as it builds the POCO. By default this is `FhirAttributeValidator.Default`, which checks the structural rules expressed as attributes on the generated POCOs — cardinalities, coded values, string lengths, and so on.
+The model-validation issues (the `PVAL…` codes) are not produced by the parser but by a validator that the deserializer runs as it builds the POCO. By default this is `FhirAttributeValidator.Default`, which checks the structural rules expressed as attributes on the generated POCOs — cardinalities, coded values, string lengths, the validity of primitive values (dates, base64, and so on), and more.
 
 Which mode you choose decides whether this validator runs at all: `SyntaxOnly` and `Ostrich` switch it off (so only — or no — parser issues are reported), while every other mode leaves it on and then filters its output by severity.
 

@@ -70,6 +70,12 @@ Everything above applies to XML through the matching `FhirXmlDeserializer` / `Ba
 var patient = FhirXmlDeserializer.DEFAULT.Deserialize<Patient>(xml);
 ```
 
+## How primitive values are parsed
+
+For performance, the deserializer does not fully parse primitive values up front. It keeps the raw value from the input and only converts it to its .NET type when you read the element's `.Value` — so, for example, base64 data is not decoded and dates are not parsed until you actually use them.
+
+Whether a value is *valid* is therefore checked separately, by the validator that runs during parsing (see {doc}`error-handling`). With validation on (the default), an invalid literal is reported as an issue while deserializing; if you turn validation off, an invalid value instead surfaces as an exception when you later read `.Value`.
+
 ## Handling invalid input
 
 The methods shown here throw a `DeserializationFailedException` when the input has problems. To collect issues without throwing, use the `TryDeserialize…` variants, and to control which problems are treated as errors, choose a mode. Both are covered in {doc}`error-handling`.

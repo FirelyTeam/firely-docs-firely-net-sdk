@@ -56,7 +56,7 @@ var converterOptions = new FhirJsonConverterOptions
 var options = new JsonSerializerOptions().ForFhir(ModelInfo.ModelInspector, converterOptions);
 ```
 
-The available filters are listed under {doc}`serialization`.
+The available filters are listed under {doc}`serialization`. `FhirJsonConverterOptions` derives from `DeserializerSettings`, so every setting described in {doc}`error-handling` applies here too; `SummaryFilterFactory` is the one property it adds.
 
 ```{note}
 As with the other serializers, no validation is performed on serialization — an invalid POCO produces invalid FHIR. {ref}`Validate <validation>` first if you need guaranteed-valid output.

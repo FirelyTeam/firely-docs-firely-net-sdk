@@ -1,5 +1,5 @@
 (serialization-engine)=
-# The serialization engine
+# The Serialization Engine
 
 `IFhirSerializationEngine` is a small facade that bundles JSON and XML, serialization and deserialization, behind a single object. It is what `FhirClient` uses internally, and it is handy when you just want to move whole resources to and from strings without picking a specific (de)serializer.
 
