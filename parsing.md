@@ -9,10 +9,9 @@
 
 Introduction <parsing/introduction>
 parsing/deserialization
-parsing/poco-serialization
+parsing/serialization
 parsing/system-text-json-serialization
 parsing/system-text-json-deserialization
-parsing/xml-poco-serialization
 parsing/error-handling
 parsing/deserialization-behavior
 parsing/elementmodel
