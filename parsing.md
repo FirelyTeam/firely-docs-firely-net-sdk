@@ -13,5 +13,6 @@ parsing/serialization
 parsing/error-handling
 parsing/deserialization-behavior
 parsing/system-text-json
+parsing/serialization-engine
 parsing/elementmodel
 ```
