@@ -52,11 +52,13 @@ var summary = FhirJsonSerializer.Default.SerializeToString(patient, SummaryType.
 
 Under the hood a summary is a `SerializationFilter`. You can also create one directly and pass it as a factory to the serializer; the standard filters are available as factory methods:
 
-- `SerializationFilter.ForSummary()` — `_summary=true`
-- `SerializationFilter.ForText()` — `_summary=text`
-- `SerializationFilter.ForData()` — `_summary=data`
-- `SerializationFilter.ForCount()` — `_summary=count`
-- `SerializationFilter.ForElements(elements)` — `_elements=…`
+| Summary type | Factory method |
+|--------------|----------------|
+| `_summary=true` | `SerializationFilter.ForSummary()` |
+| `_summary=text` | `SerializationFilter.ForText()` |
+| `_summary=data` | `SerializationFilter.ForData()` |
+| `_summary=count` | `SerializationFilter.ForCount()` |
+| `_elements=…` | `SerializationFilter.ForElements(elements)` |
 
 The other summary forms mentioned in the FHIR specification need no special serializer support and can be constructed by hand.
 
