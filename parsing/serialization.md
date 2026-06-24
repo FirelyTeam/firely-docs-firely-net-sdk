@@ -94,3 +94,21 @@ When you serialize a *datatype* rather than a resource, the XML serializer wraps
 :class: warning
 As with deserialization, serializing a standalone datatype is outside the FHIR specification (which only defines serialization for resources) and should be treated as experimental. In particular, a lone FHIR primitive has no faithful representation — see {doc}`deserialization`.
 ```
+
+## Advanced: customizing primitive serialization
+
+You can change how primitive values are written to JSON by subclassing `BaseFhirJsonSerializer` and overriding `SerializePrimitiveValue`:
+
+```csharp
+protected override void SerializePrimitiveValue(object? value, Utf8JsonWriter writer)
+{
+    // custom handling, then fall back to the base implementation
+    base.SerializePrimitiveValue(value, writer);
+}
+```
+
+A typical reason is precision: `System.Text.Json` only writes numbers that fit in a .NET `decimal`, which can be less precise than FHIR allows for very large decimals; an override can write such values as raw JSON instead.
+
+```{note}
+This hook applies when you use the serializer classes directly. It is **not** used by the {doc}`System.Text.Json <system-text-json>` `ForFhir` converter, which creates its own serializer internally.
+```
