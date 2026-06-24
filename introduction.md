@@ -1,7 +1,7 @@
 # Welcome to the Firely .NET SDK Documentation!
 
 ```{tip}
-This is the documentation for the new SDK version 6.x. If you were familiar with version 5.x, we recommend checking out the section on what is new in SDK6 in the [release notes](releasenotes).
+This is the documentation for the new SDK version 6.x. If you were familiar with version 5.x, we recommend checking out the section on what is new in SDK6 in the [release notes](releasenotes). The SDK5 documentation can still be found [here](https://docs.fire.ly/projects/Firely-NET-SDK/en/sdk5/)
 ```
 
 This site provides comprehensive documentation for the Firely .NET SDK, a support SDK designed for working with [HL7 FHIR](http://www.hl7.org/fhir) on the Microsoft .NET platform.
@@ -22,7 +22,7 @@ Each SDK version is tailored to its respective FHIR release, ensuring compatibil
 
 It is also possible to write software that supports multiple FHIR specification releases by [using external aliases](model/multiple-fhir-versions).
 
-Most of the SDK's code can be found in the [main repository](https://github.com/FirelyTeam/firely-net-sdk). However, the code for [working with packages](https://github.com/FirelyTeam/Firely.Fhir.Packages) and [profile validation](https://github.com/FirelyTeam/firely-validator-api) is maintained in separate repositories. The SDK includes generated code for the FHIR classes, which is created using a [custom-built code generator](https://github.com/microsoft/fhir-codegen).
+Most of the SDK's code can be found in the [main repository](https://github.com/FirelyTeam/firely-net-sdk). However, the code for [working with packages](https://github.com/FirelyTeam/Firely.Fhir.Packages) and [profile validation](https://github.com/FirelyTeam/firely-validator-api) is maintained in separate repositories. The SDK includes generated code for the FHIR classes, which is created using a [custom-built code generator](https://github.com/FirelyTeam/fhir-codegen).
 
 ```{note}
 All code examples on these pages are for the R4 version of the library.

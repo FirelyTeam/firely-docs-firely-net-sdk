@@ -38,7 +38,7 @@ This example shows an element named `effective`. The attributes indicate this el
 
 You can of course access these attributes using `System.Reflection`, but the SDK needs this metadata frequently and therefore provides cached, optimized helpers: `ClassMapping`, `PropertyMapping`, and `ModelInspector`. These types make it easy and efficient to retrieve the metadata encoded in the attributes. We describe those classes below.
 
-In the section on [datatypes](datatypes), we discussed that shared datatypes, such as `Resource`, `HumanName`, and `Identifier` are distributed in a shared assembly called either `Hl7.Fhir.Base` and `Hl7.Fhir.Common`. As a result, when working with a single FHIR release you will typically use three assemblies: the two shared common assemblies and the release-specific assembly that contains types that vary between releases.
+In the section on [datatypes](datatypes), we discussed that shared datatypes, such as `Resource`, `HumanName`, and `Identifier` are distributed in the shared assemblies `Hl7.Fhir.Base` and `Hl7.Fhir.Conformance`. As a result, when working with a single FHIR release you will typically use three assemblies: the two shared assemblies and the release-specific assembly that contains types that vary between releases.
 
 ## The ModelInspector
 

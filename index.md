@@ -14,7 +14,7 @@ Back to all Firely Products <https://docs.fire.ly>
 Introduction <introduction>
 getting-started
 Working with the Model <model>
-client
+The FhirClient <client>
 parsing
 validation
 fhirpath
