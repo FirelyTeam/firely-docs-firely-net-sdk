@@ -149,6 +149,27 @@ new DeserializerSettings()
 
 The codes themselves are defined as constants on `FhirJsonException`, `FhirXmlException` and `CodedValidationException`. Rather than reproduce a list here that could go stale, see {doc}`deserialization-behavior` for the categorised reference, and the source for the authoritative set.
 
+## Deserializer settings
+
+The mode and any `Enforcing`/`Ignoring` calls all configure a `DeserializerSettings` object, which you hand to the deserializer's constructor:
+
+```csharp
+var settings = new DeserializerSettings().UsingMode(DeserializationMode.Recoverable);
+var deserializer = new FhirJsonDeserializer(settings);
+```
+
+Besides the error filtering above, `DeserializerSettings` exposes these knobs:
+
+| Setting | Default | Effect |
+|---------|---------|--------|
+| `Validator` | `FhirAttributeValidator.Default` | The validator run during parsing (see [below](#validation-during-parsing)). Set to `null` to disable model validation entirely. |
+| `NarrativeValidation` | `None` | Whether to validate the XHTML in a narrative against the FHIR rules. Off by default for performance; `Strict` mode turns it on. |
+| `AnnotateLineInfo` | `false` | Annotate each parsed object with its line and position in the source. Useful for diagnostics, but costs a lot of memory. |
+| `AnnotateResourceParseExceptions` | `false` | Attach each contained/child resource's issues to it as an annotation — convenient when processing bundles (e.g. batch submission). |
+| `DisallowXsiAttributesOnRoot` | `false` | Raise an error when an `xsi:schemaLocation` attribute is encountered (XML only). |
+| `AllowUnrecognizedEnums` | `false` | Shortcut for `Ignoring` the invalid-coded-value issue: accept codes outside the enumeration. |
+| `AcceptUnknownMembers` | `false` | Shortcut for `Ignoring` the unknown-element issue: accept elements not present in the POCO. |
+
 (validation-during-parsing)=
 ## Validation during parsing
 
