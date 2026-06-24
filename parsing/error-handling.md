@@ -101,17 +101,18 @@ A *mode* is a preset that tells the deserializer which categories of issue to ig
 | `SyntaxOnly` | nothing from the parser, but **model validation is switched off entirely** | off | not validated |
 | `Ostrich` | everything, including `Fatal` data-loss issues | off | not validated |
 
-`Strict` is the default for most operations: it reports everything. `Recoverable` is the usual choice for ingesting real-world data, `BackwardsCompatible` for reading data from other FHIR versions, and `Ostrich` only for debugging or when you are certain the input is correct.
+`Strict` is the default for most operations: it reports everything. `Recoverable` is the usual choice for ingesting real-world data, `BackwardsCompatible` for reading data from other FHIR versions, and `Ostrich` for debugging, when you are certain the input is correct, or when correctness is simply not important to your use case — for example when you only need a few elements of a resource and do not care whether the rest is valid.
 
-The deserializer classes expose these as static presets (note there is no preset for `NoOverflow` — use `UsingMode` for that):
+The deserializer classes expose these as static presets:
 
 ```csharp
 var d1 = FhirJsonDeserializer.DEFAULT;             // strict, but XHTML narrative not validated
 var d2 = FhirJsonDeserializer.STRICT;              // fully strict, including narrative
-var d3 = FhirJsonDeserializer.RECOVERABLE;
-var d4 = FhirJsonDeserializer.BACKWARDSCOMPATIBLE;
-var d5 = FhirJsonDeserializer.SYNTAXONLY;
-var d6 = FhirJsonDeserializer.OSTRICH;
+var d3 = FhirJsonDeserializer.NOOVERFLOW;
+var d4 = FhirJsonDeserializer.RECOVERABLE;
+var d5 = FhirJsonDeserializer.BACKWARDSCOMPATIBLE;
+var d6 = FhirJsonDeserializer.SYNTAXONLY;
+var d7 = FhirJsonDeserializer.OSTRICH;
 ```
 
 To build a deserializer for a mode yourself, pass settings configured with `UsingMode`:
