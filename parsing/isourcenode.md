@@ -27,7 +27,7 @@ Below is a tree which shows the instance data for an example Observation:
     "code":
     {
         "coding": [ { "code": "7113001", "system": "http://snomed.info/sct" }, { "et" : "cetera" } ]
-    }
+    },
     "valueQuantity":
     {
         "value": "185"
