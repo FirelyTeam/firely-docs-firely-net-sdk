@@ -1,3 +1,5 @@
+(FHIR-model)=
+
 ```{include} model/introduction.md
 ```
 
@@ -18,6 +20,7 @@ model/equality-and-cloning
 model/dynamic-features
 model/poconode-navigation
 model/model-metadata
+model/custom-mappings
 model/other-features
 model/model-overview
 model/multiple-fhir-versions

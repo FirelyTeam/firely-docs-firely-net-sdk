@@ -141,7 +141,7 @@ conditions.Add("identifier", "http://ids.acme.org|123456");
 ```
 
 ```{tip}
-See [Searching for resources](searching) for more explanation about `SearchParams` and example search syntax.
+See {doc}`search` for more explanation about `SearchParams` and example search syntax.
 ```
 
 For `CreateAsync`, the server can check whether an equivalent resource already exists based on the provided search parameters:
