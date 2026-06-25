@@ -76,7 +76,7 @@ ISourceNode patientNode = ...
 IResourceResolver zipSource = ZipSource.CreateValidationSource();
 ITypedElement patientRootElement = patientNode.ToTypedElement(zipSource);
 ITypedElement activeElement = patientRootElement.Children("active").First();
-Assert.AreEqual("boolean", activeElement.Type);
+Assert.AreEqual("boolean", activeElement.InstanceType);
 ```
 
 ## Compatibility with `IElementNavigator`
