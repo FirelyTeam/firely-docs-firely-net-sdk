@@ -41,12 +41,12 @@ The tree represented by the `ISourceNode` can be represented like this:
 :align: center
 ```
 
-Some of the more subtle point illustrated here are:
+Some of the more subtle points illustrated here are:
 
 - The root of the tree is named after the type of the instance (visible in Json as "resourceType", and a root element in Xml)
 - There is no explicit representation of an array of repeated elements, arrays are flattened into sibling nodes with the same name, just like repeating elements in Xml.
 - The location ensures each node is named uniquely by suffixing each path with an array index ([0], [1], etc), even if the given element does not repeat according to the FHIR specification (remember, at this level we do not have type information, nor are we aware of the differences between different versions of FHIR, so this information is simply not available).
-- The choice element `value`, has its instance type (`Quantity`) appended to it: the name of the node in the tree agrees with the name of the element in the Json (or xml) serialization.
+- The choice element `value` has its instance type (`Quantity`) appended to it: the name of the node in the tree agrees with the name of the element in the Json (or xml) serialization.
 
 The SDK offers a set of extension methods on top of `ISourceNode` (like `Visit()` and `Descendants()`) to make it easier to select subtrees and process the data in the tree.
 

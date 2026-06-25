@@ -55,7 +55,7 @@ The SDK offers a set of extension methods on top of `ITypedElement` (like `Visit
 
 The SDK enables you to turn data in POCO or `ISourceNode` form into an `ITypedElement` by calling the `ToTypedElement()` extension method.
 
-In the first case, the POCO has all additional type information available (being based on a strongly-typed object model), and simply surface this through the `ITypedElement` interface.
+In the first case, the POCO has all additional type information available (being based on a strongly-typed object model), and simply surfaces this through the `ITypedElement` interface.
 In the second case, the SDK needs an external source of type information to associate type information to the untyped nodes in the `ISourceNode` tree. The `ToTypedElement` method on `ISourceNode` looks like this:
 
 ```csharp
@@ -85,6 +85,6 @@ Previous versions of the SDK defined and used the precursor to `ITypedElement`, 
 
 ## Handling structural type errors
 
-While traversing the ITypedElement tree, the implementations will try to associate type information from the specification with the data encountered. If this fails, errors are by default thrown as exceptions, but the all underlying implementations of ITypedElement implement `IExceptionSource` to alter this behaviour. See {ref}`errorhandling` for more information.
+While traversing the ITypedElement tree, the implementations will try to associate type information from the specification with the data encountered. If this fails, errors are by default thrown as exceptions, but all underlying implementations of ITypedElement implement `IExceptionSource` to alter this behaviour. See {ref}`errorhandling` for more information.
 
 Detecting type errors is done *lazily*, so in order to detect all errors, one would have to do a complete visit of the tree, including forcing a read of the primitive data by getting the `Value` property. There is a convenience method `VisitAll()` that does exactly this. Additionally, there is a method `VisitAndCatch()` that will traverse the whole tree, returning a list of errors and warnings.
