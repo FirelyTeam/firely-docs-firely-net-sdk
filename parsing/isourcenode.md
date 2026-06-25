@@ -60,7 +60,7 @@ The FHIR parsers available (currently for the FHIR Xml and Json formats) impleme
 
 All methods optionally take a `settings` parameter and return an `ISourceNode`, which represents the root of the data read.
 
-Here is an example parsing a string of xml and then quering some of its data:
+Here is an example parsing a string of xml and then querying some of its data:
 
 ```csharp
 var xml = "<Patient xmlns=\"http://hl7.org/fhir\"><identifier>" +
@@ -71,7 +71,7 @@ Assert.AreEqual("official", use.Text);
 Assert.AreEqual("Patient.identifier[0].use[0]", use.Location);
 ```
 
-By swapping out the `FhirXmlNode` for an `FhirJsonNode` you can make this example to read Json data - there would not be any change to the rest of the code.
+By swapping out the `FhirXmlNode` for an `FhirJsonNode` you can make this example read Json data - there would not be any change to the rest of the code.
 
 ## Constructing a tree in memory
 
@@ -89,10 +89,10 @@ patient = SourceNode.Node("Patient",
             SourceNode.Valued("value", "world!"))));
 ```
 
-Note that by using the C# `using static Hl7.Fhir.ElementModel.SourceNode;` this example could be make quite a bit shorter.
+Note that by using the C# `using static Hl7.Fhir.ElementModel.SourceNode;` this example could be made quite a bit shorter.
 
 ## Handling parse errors
 
-By default, parsing errors thrown as exceptions, but all parsers implement `IExceptionSource` to alter this behaviour. See {ref}`errorhandling` for more information.
+By default, parsing errors are thrown as exceptions, but all parsers implement `IExceptionSource` to alter this behaviour. See {ref}`errorhandling` for more information.
 
 The parsers try to parse the source `lazily`, so in order to detect all parse errors, one would have to do a complete visit of the tree, including forcing a read of the primitive data by getting the `Text` property. There is a convenience method `VisitAll()` that does exactly this. Additionally, there is a method `VisitAndCatch()` that will traverse the whole tree, returning a list of parsing errors and warnings.

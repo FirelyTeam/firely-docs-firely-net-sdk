@@ -2,11 +2,11 @@
 # Handling errors
 
 It is pretty common to encounter errors while parsing (external) FHIR data - in fact so common that the Firely .NET SDK does not consider them true Exceptions but
-instead employs streaming error reporting for the parser classes. With streaming error reporting, you can subscribe to errors occuring in these components
+instead employs streaming error reporting for the parser classes. With streaming error reporting, you can subscribe to errors occurring in these components
 by installing a callback. When an error is encountered while parsing, this callback will be called with details about the error. There are several advantages to this approach:
 
 - Since errors are common, we avoid the cost of raising a true .NET exception and the associated unwrapping of the stack.
-- The parser will report errors as you navigate through the instance. This also means you can stop or halt wherever it fits your usecase.
+- The parser will report errors as you navigate through the instance. This also means you can stop or halt wherever it fits your use case.
 - You are not limited to processing just the first error. As long as you continue navigating the instance, parsing will continue.
 
 All components in the SDK (there are a few in addition to the parsers) that support streaming error reporting implement the `IExceptionSource` interface. It has a single property `ExceptionHandler`, which is a .NET delegate:
@@ -26,7 +26,7 @@ Note that, if there is no such delegate installed, a component (in this case the
 
 ## Working with IExceptionSource
 
-Installing a delegate by setting the `ExceptionHandler` property like this is feasible, but it is easy to forget to unregister the delegate (leading to unexpected call backs or memory leaks). In addition, you should check whether there was already a previously installed handler, which you to might need to forward the exception to once you have handled it.
+Installing a delegate by setting the `ExceptionHandler` property like this is feasible, but it is easy to forget to unregister the delegate (leading to unexpected callbacks or memory leaks). In addition, you should check whether there was already a previously installed handler, which you might need to forward the exception to once you have handled it.
 
 To make working with `ExceptionHandler` easier, we have added a `Catch()` extension method to `IExceptionSource`, which returns an `IDisposable`, so you can use the returned value in a `using` statement like so:
 
