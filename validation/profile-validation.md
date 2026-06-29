@@ -15,7 +15,7 @@ The validator translates the StructureDefinitions to an optimized, internal repr
 ```csharp
 var packageServer = "https://packages.simplifier.net";
 var fhirRelease = FhirRelease.STU3;
-var packageResolver = FhirPackageSource.CreateCorePackageSource(ModelInfo.ModelInspector, fhirRelease, packageServerUrl);
+var packageResolver = FhirPackageSource.CreateCorePackageSource(ModelInfo.ModelInspector, fhirRelease, packageServer);
 var resourceResolver = new CachedResolver(packageResolver);
 var terminologyService = new LocalTerminologyService(resourceResolver);
 
@@ -32,25 +32,13 @@ In practice, you would configure additional resolvers (using a `MultiResolver`),
 
 ## Validation results
 
-The validator returns a FHIR `OperationOutcome` resource. It has an additional `Success` property that can be checked to see if there are any important issues. The `Fatals`, `Errors` and `Warnings` contain the number pf issues that were found during validation for each category.
-
-<!--
-The ``Issues`` property contains all the issues that were found during validation, including the fatals, errors and warnings, but also trace information. The ``Issues`` property is never ``null``, but can be empty if no issues were found. The ``Issues`` property is a list of ``IssueAssertion`` objects, which contain the following information:
-
-While validating the instance, the validator will collect *evidence*, which is a list of warnings, errors and trace information. The report has an ``Evidence`` property that contains this full list, while the ``Errors`` and ``Warnings`` properties can be used to quickly filter on just the error and warnings. Each such error or warning is represented using an ``IssueAssertion``, which contains (amongst other information) the human-readable message, an issue number and the location in the instance where the issue was found. The issue number is an integer that corresponds to the code for an ``Issue`` as found in the ``Hl7.Fhir.Support`` namespace. This makes it easy to test for specific kind of errors:
--->
+The validator returns a FHIR `OperationOutcome` resource. It has an additional `Success` property that can be checked to see if there are any important issues. The `Fatals`, `Errors` and `Warnings` properties contain the number of issues that were found during validation for each category. Because the result is an `OperationOutcome`, its `Issue` entries carry a coding you can test against, which makes it easy to check for a specific kind of error:
 
 ```csharp
 var result = validator.Validate(p);
 result.Issue.SelectMany(i => i.Details.Coding).Should().Contain(c => c.Code == Issue.CONTENT_ELEMENT_CHOICE_INVALID_INSTANCE_TYPE.Code.ToString());
 result.Success.Should().BeFalse();
 ```
-
-<!--
-If you run multiple validations (for example, when you want to validate the same resource against several profiles), you can combine the results using the ``ResultReport.Combine()`` into a single report.
-
-Finally, the extension method ``ToOperationOutcome()`` can be used to convert the validation results into an ``OperationOutcome`` resource, which can be serialized and returned to the client when working in a RESTful environment.
--->
 
 ## External references
 
@@ -78,7 +66,7 @@ When implementing this interface, you can return either a `Resource` or an `Elem
 
 In the first `Validate()` example above, we passed an explicit profile url to validate against. This is not always necessary. If you leave out the profile url, the validator will try to find a profile url in the `Meta` of the instance. If it finds one, it will validate against that profile. If it does not find one, it will validate against the "default" core profile for the resource type. You would normally only pass in an explicit profile url if you want to validate against a specific profile, e.g. one for US Core or other national profiles.
 
-The behaviour of following the profiles in Meta can be changed by setting the `MetaProfileSelector` property.
+The behaviour of following the profiles in Meta can be changed by setting the `SelectValidationProfiles` property.
 
 ## Other configuration operations
 
@@ -86,11 +74,11 @@ You can pass in an instance of the `ValidationSettings` class to the constructor
 
 | Property | Use |
 |----------|-----|
-| ConstraintBestPractices | Determines how to deal with failures of FhirPath constraints marked as "best practice". Default is `Warning` |
-| SelectMetaProfiles | Determines which profiles from a Resource's `Meta` to validate the instance against. Default is to use all profiles in `Meta`. |
-| FollowExtensionUrl | Determines what do do when an extension is encountered. If not set, then a validation of an Extension will warn if the extension cannot be resolved, or will return an error when the extension cannot be resolved and is a modififier extension. |
+| ConstraintBestPractices | Determines how to deal with failures of FhirPath constraints marked as "best practice". Default is `Warning`. |
+| SelectValidationProfiles | Determines which profiles to validate the instance against. If not set, the profiles in the instance's `Meta` are used. |
+| FollowExtensionUrl | Determines what to do when an extension is encountered. If not set, a validation of an Extension will warn if the extension cannot be resolved, or return an error when it cannot be resolved and is a modifier extension. |
 | TypeNameMapper | A function that maps a type name found in `TypeRefComponent.Code` to a resolvable canonical. If not set, it will prefix the type with the standard `http://hl7.org/fhir/StructureDefinition` prefix. |
-| SetSkipConstraintValidation() | Enables or disables the validation of FhirPath constraints. Default is `false`. |
+| IncludeFilters / ExcludeFilters | Predicates that decide which assertions are run, e.g. to skip particular FhirPath constraints. By default an exclude filter suppresses the `dom-6` invariant. |
 
 ## Full Example
 
