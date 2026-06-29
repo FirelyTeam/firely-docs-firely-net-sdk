@@ -1,75 +1,81 @@
 (poco-validation)=
-# Validating POCOs with DataAnnotations
+# Validating POCOs
 
-The POCOs generated in the `Hl7.Fhir.Core` assembly are annotated with custom
-[ValidationAttributes](https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.dataannotations.validationattribute) based on the standard .NET
-validation framework from the `System.ComponentModel.DataAnnotations` namespace. These attributes validate primitive datatypes to make sure you use the
-correct format for datetimes, adhere to the correct cardinalities for repeating elements etc.
+The SDK can validate a POCO in memory against the structural rules of FHIR: cardinalities, the allowed types of choice elements, the format of primitive values, coded values against required bindings, and a handful of invariants. This catches the mistakes that a `StructureDefinition` for the core resources and datatypes expresses, without needing a terminology server or the full profile validator.
 
-For example the `AllowedTypes` attribute below specifies that the allowed choices for `ChargeItem.occurrence` are `dateTime` and `timing`. Since this attribute derives from `ValidationAttribute`, it takes part in validation and will at runtime validate that the `Occurrence` property is indeed assigned one of these types.
-
-```csharp
-[FhirElement("occurrence", InSummary=true, Order=160, Choice=ChoiceType.DatatypeChoice)]
-[AllowedTypes(typeof(Hl7.Fhir.Model.FhirDateTime),typeof(Hl7.Fhir.Model.Period),typeof(Hl7.Fhir.Model.Timing))]
-public Hl7.Fhir.Model.DataType Occurrence
-{
-}
+```{note}
+Despite what older documentation said, this validation does **not** use .NET's `System.ComponentModel.DataAnnotations` framework. The SDK has its own validator, `FhirAttributeValidator` (an `IPocoValidator`), which is modelled on that pattern but works off the cached `ClassMapping`/`PropertyMapping` metadata rather than reflection. The POCOs do not implement `IValidatableObject`.
 ```
 
-The following table lists the attributes used by the SDK:
+## Invoking validation
 
-| Attribute | Validation performed |
-|-----------|----------------------|
-| AllowedTypesAttribute | Applied to "choice" properties of type `DataType` (like `Observation.value[x]`), this attribute verifies whether the type of the instance data in the property is one of the allowed types for the choice. |
-| CardinalityAttribute | Applied to a property of type `List<T>`, this attribute verifies whether the number of items in the list conforms to the stated cardinality for the element. |
-| CanonicalPatternAttribute | Verifies whether the string property is a correctly formatted FHIR `canonical`. |
-| CodePatternAttribute | Verifies whether the string property is a correctly formatted FHIR `code`. |
-| DatePatternAttribute | Verifies whether the string property is a correctly formatted FHIR `date`. |
-| DateTimePatternAttribute | Verifies whether the string property is a correctly formatted FHIR `dateTime`. |
-| IdPatternAttribute | Verifies whether the string property is a correctly formatted FHIR `id`. |
-| InstantPatternAttribute | Verifies whether the string property is a correctly formatted FHIR `instance`. |
-| NarrativeXhtmlPattern | Verifies whether the string property (normally inside Div) in `Div` is valid XML and (if configured to do so), validates whether this XML adheres to the [additional rules for FHIR narrative](https://www.hl7.org/fhir/narrative.html). |
-| OidPatternAttribute | Verifies whether the string property is a correctly formatted FHIR `oid`. |
-| TimePatternAttribute | Verifies whether the string property is a correctly formatted FHIR `time`. |
-| UriPatternAttribute | Verifies whether the string property is a correctly formatted FHIR `uri`. |
-| UuidPatternAttribute | Verifies whether the string property is a correctly formatted FHIR `uuid`. |
-
-In addition, the POCO classes implement [IValidatableObject](https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.dataannotations.ivalidatableobject) to perform additional validations not bound to a single property:
-
-| POCO | Validation performed |
-|------|----------------------|
-| *All resources* | Validates that contained resources do not themselves have nested contained resources |
-| Code&lt;T&gt; | Validates that the string in `ObjectValue` can be parsed as one of the enum values in the enumeration `T`. |
-
-As is clear from the set of validations described above, the attribute-based validation does not cover all constraints that can be expressed using a `StructureDefinition`, not even all those for the non-profiled FHIR core datatypes. Notable constrains *not* checked are:
-
-* **Terminology** - the attribute validator will not call upon a terminology service to validate the coded datatypes, it will however validate correct values for all required, explicit bindings, since these are generated as .NET enumerations.
-* **Slices** - these are not used in the definitions of the core resources from which the POCOs are generated. There is also no trivial method to express these constraints in a .NET class model, so attribute validation does not cover them.
-* **FhirPath invariants** - FHIR model definitions generally contain additional invariants specified using [FhirPath](http://hl7.org/fhirpath/). These are not generated into the POCO classes and require an external FhirPath engine.
-
-If you need to include these aspects in your validation, you should use full (and slower) {ref}`poco validation<poco-validation>`.
-
-## How to invoke attribute validation
-
-Attribute can be invoked using the familiar validation methods from `System.ComponentModel.DataAnnotations`, so it is possible to call `Validator.ValidateObject()` or `IValidatableObject.Validate()` directly. However, the attributes mentioned in this section use specific extensions on the `ValidationContext` to work properly, so the SDK provides an extension method  `Validation.Validate(this Base, ...)` that can be used to ensure this context is properly instantiated:
+Add the `using` and call the `Validate()` extension on any POCO. It **returns** the validation problems as a collection — an empty result means the instance is valid. It does not throw:
 
 ```csharp
 using Hl7.Fhir.Validation;
 
-var patient = new Patient() {...}
-patient.Validate(recurse: true, narrativeValidation: NarrativeValidationKind.FhirXhtml);
+var errors = patient.Validate();
+if (errors.Count > 0)
+    // inspect the CodedValidationExceptions
 ```
 
-When the instance is invalid, this method will throw an Exception detailing the validation problem. All SDK validation attributes will throw an Exception of type `CodedValidationException`, which not only carries a message for the exception for human consumption, but also a pertinent code that can be used to recognize programmatically. These codes can be found as constants on `CodedValidationException`. Examples are:
+By default this validates the whole object tree, uses the model for your project's FHIR version, and validates narrative XHTML. The overload taking a `ModelInspector` additionally lets you opt out of recursion (`validateRecursively`) and supply a custom `IPocoValidator`.
 
-| Constant | Code | Message |
-|----------|------|---------|
-| PVAL101 | CHOICE_TYPE_NOT_ALLOWED_CODE | "Value is of type '{0}', which is not an allowed choice." |
-| PVAL107 | DATE_LITERAL_INVALID_CODE | "'{0}' is not a correct literal for a date." |
-| PVAL117 | CONTAINED_RESOURCES_CANNOT_BE_NESTED_CODE | "It is not allowed for a resource to contain resources which themselves contain resources." |
+```{note}
+The deserializers run this same validation automatically while parsing (depending on the {doc}`mode </parsing/error-handling>`). A POCO obtained from a deserializer that did not report issues is therefore already validated — there is no need to call `Validate()` on it again.
+```
 
-The full set of codes can be found [in the source code](https://github.com/FirelyTeam/firely-net-common/blob/develop/src/Hl7.Fhir.Support.Poco/Validation/CodedValidationException.cs)
+## What is validated
 
-The {ref}`new deserializer<system-text-json>` invokes the attribute-based validation described here while performing deserialization.
-This means that, after you have deserialized an object, there is no need to invoke validation yourself, and validation results should be consistent
-between deserialized POCOs and POCOs that are constructed in code.
+Two pieces of metadata participate as attributes (both derive from the SDK's `ValidatingFhirModelAttribute`, not from .NET's `ValidationAttribute`):
+
+| Attribute | Validation performed |
+|-----------|----------------------|
+| `AllowedTypesAttribute` | On a "choice" element (like `Observation.value[x]`), verifies the instance's type is one of the allowed choices. |
+| `CardinalityAttribute` | Verifies the number of items in a repeating element conforms to the element's min/max cardinality. |
+
+Everything else is validated by the types themselves and the validator's structural checks:
+
+- **Primitive value formats** — each primitive type validates its own value (e.g. a malformed `date`, `instant`, or invalid base64), so there are no separate per-format attributes.
+- **Coded values** — values bound to a required binding are generated as .NET enumerations and validated against them.
+- **Property types** — the value assigned to an element must be type-compatible with it.
+- **Unknown content** — elements not defined on the type, and unknown resource types.
+- **Object invariants** — checks not bound to a single property, such as contained resources not themselves containing resources, via `Base.ValidateInvariants()`.
+
+## What is not covered
+
+The in-memory validation does not cover the constraints that need more than the core metadata. Notably:
+
+* **Terminology** — it does not call a terminology service; it only checks required, explicit bindings (which are generated as enumerations).
+* **Slices** — not used by the core resources, and not readily expressible in a .NET class model.
+* **FhirPath invariants** — the additional `FhirPath` constraints in the FHIR definitions are not generated into the POCOs.
+
+If you need these, use the {ref}`profile validator <profile-validation>`.
+
+## Validation error codes
+
+Every problem is reported as a `CodedValidationException`, which carries a human-readable message and a stable code (a `PVAL…` constant on `CodedValidationException`) that you can switch on programmatically. The codes do not change between SDK versions.
+
+| Code | Constant | Checks that… |
+|------|----------|--------------|
+| `PVAL101` | `CHOICE_TYPE_NOT_ALLOWED` | a choice element's value is one of the allowed types. |
+| `PVAL102` | `INCORRECT_CARDINALITY_MIN` | an element has at least its minimum number of items. |
+| `PVAL103` | `INCORRECT_CARDINALITY_MAX` | an element has at most its maximum number of items. |
+| `PVAL104` | `REPEATING_ELEMENT_CANNOT_CONTAIN_NULL` | a repeating element contains no null entries. |
+| `PVAL105` | `MANDATORY_ELEMENT_MUST_BE_PRESENT` | a mandatory element is present. |
+| `PVAL114` | `NARRATIVE_XML_IS_MALFORMED` | narrative is well-formed XML. |
+| `PVAL115` | `NARRATIVE_XML_IS_INVALID` | narrative XML follows the FHIR narrative rules. |
+| `PVAL116` | `INVALID_CODED_VALUE` | a code is valid for its value set. |
+| `PVAL118` | `CONTAINED_RESOURCES_CANNOT_BE_NESTED` | contained resources do not themselves contain resources. |
+| `PVAL119` | `INVALID_STRING_LENGTH` | a string is neither empty nor over the maximum length. |
+| `PVAL120` | `INVALID_BASE64_VALUE` | a value is parseable as base64. |
+| `PVAL123` | `INCORRECT_LITERAL_VALUE_TYPE` | a literal is the right kind for its primitive type. |
+| `PVAL124` | `LITERAL_INVALID` | a literal is a valid value for its primitive type. |
+| `PVAL125` | `POSITIVE_INT_MUST_BE_POSITIVE` | a `positiveInt` is positive. |
+| `PVAL126` | `UNSIGNED_INT_MUST_NOT_BE_NEGATIVE` | an `unsignedInt` is not negative. |
+| `PVAL127` | `PROPERTY_TYPE_MISMATCH` | a value's type matches its element. |
+| `PVAL128` | `UNKNOWN_ELEMENT` | an element is defined on the type. |
+| `PVAL129` | `ELEMENT_CANNOT_BE_EMPTY` | an element actually carries a value. |
+| `PVAL130` | `UNKNOWN_RESOURCE_TYPE` | a resource's type is recognized. |
+
+Rather than depend on this list staying complete, the authoritative set is [in the source](https://github.com/FirelyTeam/firely-net-sdk/blob/develop/src/Hl7.Fhir.Base/Validation/CodedValidationException.cs).
