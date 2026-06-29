@@ -5,8 +5,8 @@ FHIR defines several operations related to terminologies. These operations let h
 and value sets without having to become experts in the fine details of code system, value set and concept map resources, and the underlying code systems and
 terminological principles.
 
-We have added support in the Firely .NET SDK to use these operations, both locally, as calling an external "Terminology Server" that have implemented these operations and
-return a result based on the input parameters. Both `LocalTerminologyService` as `ExternalTerminologyService` implement `ITerminologyService`.
+We have added support in the Firely .NET SDK to use these operations, both locally and by calling an external "Terminology Server" that has implemented these operations and
+returns a result based on the input parameters. Both `LocalTerminologyService` and `ExternalTerminologyService` implement `ITerminologyService`.
 
 ## ITerminologyService
 
@@ -14,34 +14,34 @@ return a result based on the input parameters. Both `LocalTerminologyService` as
 All functions represent a FHIR Terminology operation and have a `Parameters` resource as input that represents the input parameters of the FHIR operation. There is a specific helper class for each operation to easily create this `Parameters` resource.
 Each function returns the output of that specific operation, this can be a `Parameters` resource including all output parameters, or just a single `Resource` which was the result of your request.
 
-The following functions are defined in the interface are:
+The following functions are defined in the interface:
 
-- `Task<Parameters> ValueSetValidateCode(Parameters parameters, string id = null, bool useGet = false)`
+- `Task<Parameters> ValueSetValidateCode(Parameters parameters, string? id = null, bool useGet = false)`
 
 Represents the `$validate-code` operation on the ValueSet resource (https://www.hl7.org/fhir/valueset-operation-validate-code.html) and will validate that a coded value is in the set of codes allowed by a value set.
 The input parameters can be easily created using the `ValidateCodeParameters` class.
 
-- `Task<Parameters> CodeSystemValidateCode(Parameters parameters, string id = null, bool useGet = false)`
+- `Task<Parameters> CodeSystemValidateCode(Parameters parameters, string? id = null, bool useGet = false)`
 
 Represents the `$validate-code` operation on the CodeSystem resource (http://hl7.org/fhir/codesystem-operation-validate-code.html) and will validate that a coded value is in the code system.
 The input parameters can be easily created using the `ValidateCodeParameters` class.
 
-- `Task<Resource> Expand(Parameters parameters, string id = null, bool useGet = false)`
+- `Task<Resource> Expand(Parameters parameters, string? id = null, bool useGet = false)`
 
 Represents the `$expand` operation (http://hl7.org/fhir/valueset-operation-expand.html), which uses the definition of a value set to create a simple collection of codes suitable for use for data entry or validation.
 The input parameters can be easily created using the `ExpandParameters` class.
 
 - `Task<Parameters> Lookup(Parameters parameters, bool useGet = false)`
 
-Represents the `$lookup` operation (http://hl7.org/fhir/codesystem-operation-lookup.html), which given a given a code, system, or a Coding, get additional details about the concept, including definition, status, designations, and properties.
+Represents the `$lookup` operation (http://hl7.org/fhir/codesystem-operation-lookup.html), which, given a code, system, or a Coding, gets additional details about the concept, including definition, status, designations, and properties.
 The input parameters can be easily created using the `LookupParameters` class.
 
-- `Task<Parameters> Translate(Parameters parameters, string id = null, bool useGet = false)`
+- `Task<Parameters> Translate(Parameters parameters, string? id = null, bool useGet = false)`
 
 Represents the `translate` operation ("http://hl7.org/fhir/conceptmap-operation-translate.html"), which translates a code from one value set to another, based on the existing value set and concept maps resources, and/or other additional knowledge of the processor.
 The input parameters can be easily created using the `TranslateParameters` class.
 
-- `Task<Parameters> Subsumes(Parameters parameters, string id = null, bool useGet = false)`
+- `Task<Parameters> Subsumes(Parameters parameters, string? id = null, bool useGet = false)`
 
 Represents the `subsumes` operation ("http://hl7.org/fhir/codesystem-operation-subsumes.html") and tests the subsumption relationship between code/Coding A and code/Coding B given the semantics of subsumption in the underlying code system.
 The input parameters can be easily created using the `SubsumesParameters` class.
@@ -61,15 +61,15 @@ The `LocalTerminologyService` doesn't support all terminology features. To fully
 to let a dedicated terminology server handle your requests.
 ```
 
-The `LocalTerminologyService` requires an `IResourceResolver` to resolve all the FHIR resources needed to perform it's terminology logic.
+The `LocalTerminologyService` requires an `IResourceResolver` to resolve all the FHIR resources needed to perform its terminology logic.
 
 The following function is currently supported by the `LocalTerminologyService`:
 
-- `Task<Parameters> ValueSetValidateCode(Parameters parameters, string id = null, bool useGet = false)`
+- `Task<Parameters> ValueSetValidateCode(Parameters parameters, string? id = null, bool useGet = false)`
 
 This function validates that a coded value is in the set of codes allowed by a value set. The ValueSet is searched using the provided
 `IResourceResolver`, for example an {ref}`FhirPackageSource<fhir-package-source>` containing all FHIR artifacts from a given package.
-Once the ValueSet is found, the provides code will be validates against that ValueSet.
+Once the ValueSet is found, the provided code will be validated against that ValueSet.
 
 In some cases `ValueSets` are implicitly defined using the  `valueSet` element in a `CodeSystem` resource, which implicitly defines a ValueSet containing all codes from that CodeSystem.
 If the `IResourceResolver` also implements `IConformanceSource`, the `LocalTerminologyService` can still validate your code against such an implicitly defined ValueSet.
@@ -164,10 +164,10 @@ var localRouting = new TerminologyServiceRoutingSettings(local)
 
 var client = new FhirClient("https://someterminologyserver.org/fhir");
 var multi = new ExternalTerminologyService(client);
-var multiRouting = new TerminologyServiceRoutingSettings(multi);
+var multiRouting = new TerminologyServiceRoutingSettings(multi)
 {
     PreferredValueSets = new string[]{"http://hl7.fhir.org/ValueSet/*"}
-}
+};
 
 var multiTermService = new MultiTerminologyService(localRouting, multiRouting);
 ```
@@ -177,4 +177,4 @@ You can use a '*' to specify wildcards in the routing mechanism.
 ```
 
 The example above will route all ValueSets starting with "http://fire.ly/ValueSet/" to the local terminology service first, and the ValueSets starting with "http://hl7.fhir.org/ValueSet/" to the external service.
-All other incoming requests will be handles by the order the services have been passed to the constructor, in this case, first local, then external.
+All other incoming requests will be handled by the order the services have been passed to the constructor, in this case, first local, then external.
