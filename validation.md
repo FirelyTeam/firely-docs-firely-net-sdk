@@ -9,6 +9,7 @@
 
 Introduction <validation/introduction>
 validation/poco-validation
+validation/poco-validation-internals
 validation/profile-validation
 validation/terminology-service
 ```

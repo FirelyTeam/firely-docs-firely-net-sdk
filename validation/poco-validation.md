@@ -1,11 +1,7 @@
 (poco-validation)=
 # Validating POCOs
 
-The SDK can validate a POCO in memory against the structural rules of FHIR: cardinalities, the allowed types of choice elements, the format of primitive values, coded values against required bindings, and a handful of invariants. This catches the mistakes that a `StructureDefinition` for the core resources and datatypes expresses, without needing a terminology server or the full profile validator.
-
-```{note}
-Despite what older documentation said, this validation does **not** use .NET's `System.ComponentModel.DataAnnotations` framework. The SDK has its own validator, `FhirAttributeValidator` (an `IPocoValidator`), which is modelled on that pattern but works off the cached `ClassMapping`/`PropertyMapping` metadata rather than reflection. The POCOs do not implement `IValidatableObject`.
-```
+The SDK can validate a POCO in memory against the structural rules of FHIR: cardinalities, the allowed types of choice elements, the format of primitive values, coded values against required bindings, and a handful of invariants. These are the rules that can be expressed in the generated C# model — so you get them without needing a terminology server or the full profile validator.
 
 ## Invoking validation
 
@@ -19,7 +15,7 @@ if (errors.Count > 0)
     // inspect the CodedValidationExceptions
 ```
 
-By default this validates the whole object tree, uses the model for your project's FHIR version, and validates narrative XHTML. The overload taking a `ModelInspector` additionally lets you opt out of recursion (`validateRecursively`) and supply a custom `IPocoValidator`.
+By default this validates the whole object tree, uses the model for your project's FHIR version, and validates narrative XHTML.
 
 ```{note}
 The deserializers run this same validation automatically while parsing (depending on the {doc}`mode </parsing/error-handling>`). A POCO obtained from a deserializer that did not report issues is therefore already validated — there is no need to call `Validate()` on it again.
@@ -27,26 +23,19 @@ The deserializers run this same validation automatically while parsing (dependin
 
 ## What is validated
 
-Two pieces of metadata participate as attributes (both derive from the SDK's `ValidatingFhirModelAttribute`, not from .NET's `ValidationAttribute`):
+- **Cardinality** — repeating elements have an allowed number of items, and mandatory elements are present.
+- **Choice types** — a choice element (like `Observation.value[x]`) holds one of its allowed types.
+- **Primitive formats** — primitive values are well-formed (e.g. a valid `date`, `instant`, or base64).
+- **Coded values** — values bound to a required binding are valid members of the binding (these are generated as .NET enumerations).
+- **Invariants** — a few checks not bound to a single property, such as contained resources not themselves containing resources.
 
-| Attribute | Validation performed |
-|-----------|----------------------|
-| `AllowedTypesAttribute` | On a "choice" element (like `Observation.value[x]`), verifies the instance's type is one of the allowed choices. |
-| `CardinalityAttribute` | Verifies the number of items in a repeating element conforms to the element's min/max cardinality. |
-
-Everything else is validated by the types themselves and the validator's structural checks:
-
-- **Primitive value formats** — each primitive type validates its own value (e.g. a malformed `date`, `instant`, or invalid base64), so there are no separate per-format attributes.
-- **Coded values** — values bound to a required binding are generated as .NET enumerations and validated against them.
-- **Property types** — the value assigned to an element must be type-compatible with it.
-- **Unknown content** — elements not defined on the type, and unknown resource types.
-- **Object invariants** — checks not bound to a single property, such as contained resources not themselves containing resources, via `Base.ValidateInvariants()`.
+For *how* these checks are implemented, and how to customize or replace the validator, see {doc}`poco-validation-internals`.
 
 ## What is not covered
 
-The in-memory validation does not cover the constraints that need more than the core metadata. Notably:
+The in-memory validation only covers what the C# model can express. Notably it does **not** cover:
 
-* **Terminology** — it does not call a terminology service; it only checks required, explicit bindings (which are generated as enumerations).
+* **Terminology** — it does not call a terminology service; it only checks required, explicit bindings.
 * **Slices** — not used by the core resources, and not readily expressible in a .NET class model.
 * **FhirPath invariants** — the additional `FhirPath` constraints in the FHIR definitions are not generated into the POCOs.
 
