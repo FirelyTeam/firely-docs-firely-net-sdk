@@ -16,6 +16,7 @@ getting-started
 Working with the Model <model>
 The FhirClient <client>
 parsing
+terminology
 validation
 fhirpath
 cql

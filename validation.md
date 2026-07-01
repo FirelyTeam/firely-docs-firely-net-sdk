@@ -12,5 +12,4 @@ validation/poco-validation
 validation/poco-validation-internals
 validation/profile-validation
 validation/profile-validation-internals
-validation/terminology-service
 ```
