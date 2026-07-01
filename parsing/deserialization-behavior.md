@@ -65,38 +65,18 @@ The two formats share the same model and modes, but a few behaviors are format-s
 
 Otherwise both produce the same model-validation issues and obey the same modes.
 
-<!-- TODO(pval-relocate): The PVAL model-validation codes below belong to the validation chapter.
-     When that chapter is (re)written, move the authoritative table there and leave only a
-     cross-reference here. See memory note pval-codes-relocate-to-validation. -->
-
 ## Model-validation issues
 
-```{note}
-These issues come from the validator that runs during parsing (see {ref}`validation-during-parsing`), not from the parser itself. They are covered in depth in the {ref}`validation chapter<poco-validation>`; the table here is a quick reference for how they surface during deserialization.
-```
+Beyond the syntax issues above, the validator that runs during parsing (see {ref}`validation-during-parsing`) raises model-validation issues as `CodedValidationException` (codes `PVAL…`). The full list of these codes lives in the {ref}`validation chapter <poco-validation>`; this section only covers how they surface during deserialization.
 
-These are raised as `CodedValidationException` (codes `PVAL…`). The ones marked **overflow** in the last column are the issues that indicate data did *not* fit a typed property and was placed in overflow — in other words, if none of these were raised, the POCO can be used without checking `Base.Overflow`.
+The following codes indicate that data did **not** fit a typed property and was captured in overflow — if none of these were raised, the POCO can be used without checking `Base.Overflow`:
 
-| Code | Constant | Causes overflow |
-|------|----------|-----------------|
-| `PVAL101` | `CHOICE_TYPE_NOT_ALLOWED` | |
-| `PVAL102` | `INCORRECT_CARDINALITY_MIN` | |
-| `PVAL103` | `INCORRECT_CARDINALITY_MAX` | |
-| `PVAL104` | `REPEATING_ELEMENT_CANNOT_CONTAIN_NULL` | |
-| `PVAL105` | `MANDATORY_ELEMENT_MUST_BE_PRESENT` | |
-| `PVAL114` | `NARRATIVE_XML_IS_MALFORMED` | |
-| `PVAL115` | `NARRATIVE_XML_IS_INVALID` | |
-| `PVAL116` | `INVALID_CODED_VALUE` | yes |
-| `PVAL118` | `CONTAINED_RESOURCES_CANNOT_BE_NESTED` | |
-| `PVAL119` | `INVALID_STRING_LENGTH` | yes |
-| `PVAL120` | `INVALID_BASE64_VALUE` | yes |
-| `PVAL123` | `INCORRECT_LITERAL_VALUE_TYPE` | yes |
-| `PVAL124` | `LITERAL_INVALID` | yes |
-| `PVAL125` | `POSITIVE_INT_MUST_BE_POSITIVE` | |
-| `PVAL126` | `UNSIGNED_INT_MUST_NOT_BE_NEGATIVE` | |
-| `PVAL127` | `PROPERTY_TYPE_MISMATCH` | yes |
-| `PVAL128` | `UNKNOWN_ELEMENT` | yes |
-| `PVAL129` | `ELEMENT_CANNOT_BE_EMPTY` | |
-| `PVAL130` | `UNKNOWN_RESOURCE_TYPE` | |
+- `INVALID_CODED_VALUE` (`PVAL116`)
+- `INVALID_STRING_LENGTH` (`PVAL119`)
+- `INVALID_BASE64_VALUE` (`PVAL120`)
+- `INCORRECT_LITERAL_VALUE_TYPE` (`PVAL123`)
+- `LITERAL_INVALID` (`PVAL124`)
+- `PROPERTY_TYPE_MISMATCH` (`PVAL127`)
+- `UNKNOWN_ELEMENT` (`PVAL128`)
 
-Of these, the ones allowed through in `BackwardsCompatible` mode — because a newer FHIR version could legitimately introduce them — are `INVALID_CODED_VALUE`, `UNKNOWN_ELEMENT`, `CHOICE_TYPE_NOT_ALLOWED` and `UNKNOWN_RESOURCE_TYPE`.
+The issues allowed through in `BackwardsCompatible` mode — because a newer FHIR version could legitimately introduce them — are `INVALID_CODED_VALUE`, `UNKNOWN_ELEMENT`, `CHOICE_TYPE_NOT_ALLOWED` and `UNKNOWN_RESOURCE_TYPE`.
