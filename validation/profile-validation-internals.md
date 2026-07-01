@@ -32,14 +32,11 @@ var resolver = StructureDefinitionToElementSchemaResolver.CreatedCached(source);
 var settings = new ValidationSettings(resolver, terminologyService);
 
 var schema = resolver.GetSchema(Canonical.ForCoreType("Patient"));
-var report = schema.Validate(patient.ToTypedElement(ModelInfo.ModelInspector), settings);
+var node = patient.ToPocoNode(ModelInfo.ModelInspector);
+var report = ((IValidatable)schema).Validate(node, settings, new ValidationState());
 ```
 
-`schema.Validate(...)` returns a `ResultReport`. The `ValidationSettings` is the same type described in {doc}`profile-validation`; here you construct it directly (with the public constructor that takes the schema resolver and terminology service) instead of letting the wrapper build it.
-
-```{note}
-The public low-level `Validate` overload currently accepts an `ITypedElement`, which it converts to a POCO node internally — so validating a POCO means passing it through `ToTypedElement()` first. A POCO-based entry point in line with SDK 6's POCO-first direction is expected as this API is reviewed.
-```
+A schema is an `IAssertion`, and the `IValidatable` / `IGroupValidatable` interfaces it implements expose the `Validate` methods — one taking a single `PocoNode`, one taking a set. You pass the instance as a `PocoNode` (via `ToPocoNode`), the `ValidationSettings` — the same type described in {doc}`profile-validation`, constructed directly here with its public constructor — and a fresh `ValidationState` (the per-run state the engine threads through validation). The call returns a `ResultReport`.
 
 ## The ResultReport
 
