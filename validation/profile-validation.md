@@ -83,3 +83,7 @@ You can pass in an instance of the `ValidationSettings` class to the constructor
 ## Full Example
 
 We have created a full example that shows how to use the validator using a terminology service and the FHIR core package resolvers. See [this GitHub repo](https://github.com/FirelyTeam/Firely.Fhir.ValidationDemo) for more information.
+
+## Beyond the Validator
+
+The `Validator` is a high-level wrapper over a lower-level engine that compiles StructureDefinitions into schemas and runs them against instances. For most callers it is the right entry point. If you need finer control — tuning schema caching, adding custom compilation rules, or working with the raw validation result — see {doc}`profile-validation-internals`.
