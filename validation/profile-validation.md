@@ -1,7 +1,7 @@
 (profile-validation)=
 # Validating data against profiles
 
-The profile validator is distributed as a separate package, and can be found on NuGet, by searching for `Firely.Fhir.Validation.<spec version>`. The main class in this package is the `Validator`. To construct a new instance, we can supply the constructor with several dependencies:
+The profile validator is distributed as a separate package and can be found on NuGet by searching for `Firely.Fhir.Validation.<spec version>`. The main class in this package is the `Validator`. To construct a new instance, we can supply the constructor with several dependencies:
 
 * Required: A reference to a resource resolver (see {ref}`fhir-package-source`), specifically an `IAsyncResourceResolver`. This service allows the validator to retrieve the profiles that are referenced by the profile being validated.
 * Required: A reference to a terminology service (see {ref}`terminology-service`), specifically a `ICodeValidationTerminologyService`. This service is needed to validate the codes used in the instance against the code systems and value sets specified in the profile.
@@ -28,7 +28,7 @@ var result = validator.Validate(testOrganization, profile);
 
 The above code initializes a package resolver, which is configured to retrieve the basic core FHIR STU3 packages. It also creates a terminology service, which is configured to use the same resource resolver to retrieve the code systems and value sets that are referenced by the profiles. Finally, it creates a validator, and runs a validation against a new instance of the Organization resource, using the standard Organization profile.
 
-In practice, you would configure additional resolvers (using a `MultiResolver`), which could combine the core packages with profiles found on a shared drive storage, a database etcetera.
+In practice, you would configure additional resolvers (using a `MultiResolver`), which could combine the core packages with profiles found on shared-drive storage, in a database, and so on.
 
 ## Validation results
 
@@ -64,7 +64,7 @@ When implementing this interface, you can return either a `Resource` or an `Elem
 
 ## Selecting profiles to validate against
 
-In the first `Validate()` example above, we passed an explicit profile url to validate against. This is not always necessary. If you leave out the profile url, the validator will try to find a profile url in the `Meta` of the instance. If it finds one, it will validate against that profile. If it does not find one, it will validate against the "default" core profile for the resource type. You would normally only pass in an explicit profile url if you want to validate against a specific profile, e.g. one for US Core or other national profiles.
+In the first `Validate()` example above, we passed an explicit profile URL to validate against. This is not always necessary. If you leave out the profile URL, the validator will try to find a profile URL in the `Meta` of the instance. If it finds one, it will validate against that profile. If it does not find one, it will validate against the "default" core profile for the resource type. You would normally only pass in an explicit profile URL if you want to validate against a specific profile, e.g. one for US Core or other national profiles.
 
 The behaviour of following the profiles in Meta can be changed by setting the `SelectValidationProfiles` property.
 
