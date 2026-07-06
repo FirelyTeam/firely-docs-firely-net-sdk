@@ -8,7 +8,7 @@ The SDK exposes these operations through a single abstraction, `ITerminologyServ
 
 Every terminology operation is a method on `ITerminologyService`. Each takes a `Parameters` resource describing the operation's input and returns the operation's output — either another `Parameters` resource or a single `Resource`. A helper class per operation makes building the input easy (for example `ValidateCodeParameters` and `ExpandParameters`).
 
-`ITerminologyService` is itself composed of smaller, role-specific interfaces, so a component can depend on just the slice it needs. The profile validator, for instance, only requires `ICodeValidationTerminologyService` — the validate-code operations.
+`ITerminologyService` is itself composed of smaller, role-specific interfaces, so a component can depend on just the slice it needs. The profile validator, for instance, only requires `ICodeValidationTerminologyService` — the value-set validate-code (`ValueSetValidateCode`) and subsumption (`Subsumes`) operations.
 
 The operations are:
 
@@ -31,7 +31,7 @@ Their full signatures are listed under {doc}`/terminology/implementations`.
 
 ## The implementations
 
-- **`LocalTerminologyService`** — resolves and evaluates terminology in-process, using an `IResourceResolver` to find the code systems and value sets. No external dependency, but it supports only a subset of the operations.
+- **`LocalTerminologyService`** — resolves and evaluates terminology in-process, using an `IAsyncResourceResolver` to find the code systems and value sets. No external dependency, but it supports only a subset of the operations.
 - **`ExternalTerminologyService`** — delegates every operation to an external terminology server through a `FhirClient`.
 - **`CustomValueSetTerminologyService`** — validates codes against a fixed, code-defined value set (the base for the built-in `MimeTypeTerminologyService` and `LanguageTerminologyService`).
 - **`MultiTerminologyService`** — combines several services, with fallback and routing.

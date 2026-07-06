@@ -22,11 +22,11 @@
 The `LocalTerminologyService` does not support every terminology feature; fully supporting them requires a lot of terminology expertise. For advanced features, use an `ExternalTerminologyService` and let a dedicated terminology server handle the request.
 ```
 
-It requires an `IResourceResolver` to find the FHIR resources it needs. The following operation is currently supported:
+It requires an `IAsyncResourceResolver` to find the FHIR resources it needs. The following operation is currently supported:
 
-- `ValueSetValidateCode` — validates that a coded value is in the set of codes allowed by a value set. The value set is found through the provided `IResourceResolver`, for example a {ref}`FhirPackageSource<fhir-package-source>` containing all the artifacts from a package.
+- `ValueSetValidateCode` — validates that a coded value is in the set of codes allowed by a value set. The value set is found through the provided `IAsyncResourceResolver`, for example a {ref}`FhirPackageSource<fhir-package-source>` containing all the artifacts from a package.
 
-In some cases a `ValueSet` is defined implicitly by the `valueSet` element of a `CodeSystem` (an implicit value set of all the codes in that code system). If the `IResourceResolver` also implements `IConformanceSource`, `LocalTerminologyService` can validate against such an implicitly defined value set too.
+In some cases a `ValueSet` is defined implicitly by the `valueSet` element of a `CodeSystem` (an implicit value set of all the codes in that code system). If the resolver also implements a conformance source (`IConformanceSource`, or `ICommonConformanceSource` on FHIR versions after STU3), `LocalTerminologyService` can validate against such an implicitly defined value set too.
 
 ## ExternalTerminologyService
 
