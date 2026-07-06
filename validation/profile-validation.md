@@ -60,7 +60,7 @@ public interface IExternalReferenceResolver
 }
 ```
 
-When implementing this interface, you can return either a `Resource` or an `ElementNode`, depending on whether you are working with POCO's or `ITypedElement`-based models. Return `null` if the reference cannot be resolved.
+When implementing this interface, you can return either a `Resource` or an `ElementNode`, depending on whether you are working with POCOs or `ITypedElement`-based models. Return `null` if the reference cannot be resolved.
 
 ## Selecting profiles to validate against
 

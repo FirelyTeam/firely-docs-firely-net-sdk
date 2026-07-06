@@ -36,13 +36,21 @@ public Validator(
     IElementSchemaResolver? schemaResolver = null)   // inject a tuned resolver
 ```
 
-For example, to supply a resolver (whose caching and custom `ISchemaBuilder`s you control) and treat best-practice constraints as errors:
+For example, to supply a schema resolver (whose caching and custom `ISchemaBuilder`s you control) and treat best-practice constraints as errors:
 
 ```csharp
-var resolver = StructureDefinitionToElementSchemaResolver.CreatedCached(source);
+// The same resource resolver and terminology service as on the profile-validation page.
+var resourceResolver = new CachedResolver(
+    FhirPackageSource.CreateCorePackageSource(ModelInfo.ModelInspector, FhirRelease.STU3, "https://packages.simplifier.net"));
+var terminologyService = new LocalTerminologyService(resourceResolver);
+
+// A schema resolver you construct yourself, so you control its caching and any custom ISchemaBuilders.
+var schemaResolver = StructureDefinitionToElementSchemaResolver.CreatedCached(resourceResolver);
 var settings = new ValidationSettings { ConstraintBestPractices = ValidateBestPracticesSeverity.Error };
 
-var validator = new Validator(source, terminologyService, settings: settings, schemaResolver: resolver);
+var validator = new Validator(resourceResolver, terminologyService, settings: settings, schemaResolver: schemaResolver);
+
+var patient = new Patient();
 var outcome = validator.Validate(patient);
 ```
 

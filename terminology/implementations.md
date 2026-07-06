@@ -4,15 +4,15 @@
 
 `ITerminologyService` defines a method per FHIR terminology operation. Each takes a `Parameters` resource — built with the matching helper class — and returns the operation's output as a `Parameters` or a single `Resource`. Most operations also accept an optional `id` and a `useGet` flag (which makes an external client use `GET` instead of `POST`).
 
-| Method | FHIR operation | Input helper |
-|--------|----------------|--------------|
-| `ValueSetValidateCode` | `$validate-code` on ValueSet | `ValidateCodeParameters` |
-| `CodeSystemValidateCode` | `$validate-code` on CodeSystem | `ValidateCodeParameters` |
-| `Expand` | `$expand` | `ExpandParameters` |
-| `Lookup` | `$lookup` | `LookupParameters` |
-| `Translate` | `$translate` | `TranslateParameters` |
-| `Subsumes` | `$subsumes` | `SubsumesParameters` |
-| `Closure` | `$closure` | `ClosureParameters` |
+| Operation | Method | FHIR operation | Input helper |
+|-----------|--------|----------------|--------------|
+| Validate a code against a value set | `ValueSetValidateCode` | `$validate-code` (ValueSet) | `ValidateCodeParameters` |
+| Validate a code in a code system | `CodeSystemValidateCode` | `$validate-code` (CodeSystem) | `ValidateCodeParameters` |
+| Expand a value set | `Expand` | `$expand` | `ExpandParameters` |
+| Look up a concept | `Lookup` | `$lookup` | `LookupParameters` |
+| Translate a code | `Translate` | `$translate` | `TranslateParameters` |
+| Test subsumption | `Subsumes` | `$subsumes` | `SubsumesParameters` |
+| Maintain a closure table | `Closure` | `$closure` | `ClosureParameters` |
 
 ## LocalTerminologyService
 

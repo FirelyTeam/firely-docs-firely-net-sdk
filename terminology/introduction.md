@@ -10,19 +10,7 @@ Every terminology operation is a method on `ITerminologyService`. Each takes a `
 
 `ITerminologyService` is itself composed of smaller, role-specific interfaces, so a component can depend on just the slice it needs. The profile validator, for instance, only requires `ICodeValidationTerminologyService` — the value-set validate-code (`ValueSetValidateCode`) and subsumption (`Subsumes`) operations.
 
-The operations are:
-
-| Operation | Method | FHIR operation |
-|-----------|--------|----------------|
-| Validate a code against a value set | `ValueSetValidateCode` | `$validate-code` (ValueSet) |
-| Validate a code in a code system | `CodeSystemValidateCode` | `$validate-code` (CodeSystem) |
-| Expand a value set | `Expand` | `$expand` |
-| Look up a concept | `Lookup` | `$lookup` |
-| Translate a code | `Translate` | `$translate` |
-| Test subsumption | `Subsumes` | `$subsumes` |
-| Maintain a closure table | `Closure` | `$closure` |
-
-Their full signatures are listed under {doc}`/terminology/implementations`.
+The operations cover validating a code against a value set or code system, expanding a value set, looking up a concept, translating a code, testing subsumption, and maintaining a closure table. Each operation, with its method name, FHIR operation, and input helper class, is listed under {doc}`/terminology/implementations`.
 
 ## Two ways to use them
 

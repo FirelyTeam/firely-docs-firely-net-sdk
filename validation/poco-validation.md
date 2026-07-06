@@ -12,7 +12,11 @@ using Hl7.Fhir.Validation;
 
 var errors = patient.Validate();
 if (errors.Count > 0)
+{
     // inspect the CodedValidationExceptions
+    foreach (var error in errors)
+        Console.WriteLine($"{error.ErrorCode}: {error.Message}");
+}
 ```
 
 By default this validates the whole object tree, uses the model for your project's FHIR version, and validates narrative XHTML.
