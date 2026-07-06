@@ -71,12 +71,12 @@ Beyond the syntax issues above, the validator that runs during parsing (see {ref
 
 The following codes indicate that data did **not** fit a typed property and was captured in overflow — if none of these were raised, the POCO can be used without checking `Base.Overflow`:
 
-- `INVALID_CODED_VALUE` (`PVAL116`)
-- `INVALID_STRING_LENGTH` (`PVAL119`)
-- `INVALID_BASE64_VALUE` (`PVAL120`)
-- `INCORRECT_LITERAL_VALUE_TYPE` (`PVAL123`)
-- `LITERAL_INVALID` (`PVAL124`)
-- `PROPERTY_TYPE_MISMATCH` (`PVAL127`)
-- `UNKNOWN_ELEMENT` (`PVAL128`)
+- `INVALID_CODED_VALUE_CODE` (`PVAL116`)
+- `INVALID_STRING_LENGTH_CODE` (`PVAL119`)
+- `INVALID_BASE64_VALUE_CODE` (`PVAL120`)
+- `INCORRECT_LITERAL_VALUE_TYPE_CODE` (`PVAL123`)
+- `LITERAL_INVALID_CODE` (`PVAL124`)
+- `PROPERTY_TYPE_MISMATCH_CODE` (`PVAL127`)
+- `UNKNOWN_ELEMENT_CODE` (`PVAL128`)
 
-The issues allowed through in `BackwardsCompatible` mode — because a newer FHIR version could legitimately introduce them — are `INVALID_CODED_VALUE`, `UNKNOWN_ELEMENT`, `CHOICE_TYPE_NOT_ALLOWED` and `UNKNOWN_RESOURCE_TYPE`.
+The issues allowed through in `BackwardsCompatible` mode — because a newer FHIR version could legitimately introduce them — are `INVALID_CODED_VALUE_CODE`, `UNKNOWN_ELEMENT_CODE`, `CHOICE_TYPE_NOT_ALLOWED_CODE` and `UNKNOWN_RESOURCE_TYPE_CODE`.
