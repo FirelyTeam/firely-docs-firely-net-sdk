@@ -100,7 +100,7 @@ As with deserialization, serializing a standalone datatype is outside the FHIR s
 You can change how primitive values are written to JSON by subclassing `BaseFhirJsonSerializer` and overriding `SerializePrimitiveValue`:
 
 ```csharp
-protected override void SerializePrimitiveValue(object? value, Utf8JsonWriter writer)
+protected override void SerializePrimitiveValue(PrimitiveType value, Utf8JsonWriter writer)
 {
     // custom handling, then fall back to the base implementation
     base.SerializePrimitiveValue(value, writer);
