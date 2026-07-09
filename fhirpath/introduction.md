@@ -32,14 +32,19 @@ var extensions = p.Select("Patient.extension");
 When you run the `Select` method on a POCO, the nodes you will get returned are POCOs, in this example they would be of type `Hl7.Fhir.Model.Extension`.
 When running FhirPath on `ITypedElement`, the nodes will be of type `ITypedElement` (and its `InstanceType` in this case would be `Extension`).
 
-`Select()` consistently returns a list of nodes, even on a non-repeating element of a primitive type. `p.Select("Patient.active")`
-would therefore return an `IEnumerable<Base>`, for which the only member is a POCO of type `FhirBoolean`, not a string (true/false).
-It's worth noting that this function will still return .NET primitive values (as in .NET int32 etc) when these are encountered in the FhirPath expression, e.g.
-`Select("4+5")`. If you want to avoid this, you can use the convenience method `ToFhirValues()`, which will translate all such
-.NET primitive values to their equivalent FHIR primitive types:
+`Select()` consistently returns a list of nodes (an `IEnumerable<Base>`), even on a non-repeating element of a primitive type. Selecting a FHIR
+element therefore yields the corresponding POCO: `p.Select("Patient.active")` returns a single node that is a `FhirBoolean`, not a string (true/false).
+
+Note, however, that a *computed* expression produces a FhirPath system value rather than a FHIR POCO. For example, `p.Select("4+5")` returns a single
+node holding the integer `9`, but that node is a FhirPath system value — it is not an `Hl7.Fhir.Model.Integer`. So when an expression can evaluate to
+a computed value, don't assume the result is a FHIR type:
 
 ```csharp
 Patient p = new() {...}
-var t = p.Select("true").ToFhirValues().Single();
-Assert.IsTrue(t is FhirBoolean);
+
+// Selecting a FHIR element yields the corresponding POCO
+var active = p.Select("Patient.active").Single();   // a FhirBoolean
+
+// A computed expression yields a FhirPath system value, not a FHIR POCO
+var sum = p.Select("4+5").Single();                 // not an Hl7.Fhir.Model.Integer
 ```

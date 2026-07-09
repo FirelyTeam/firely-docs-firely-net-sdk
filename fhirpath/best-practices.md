@@ -16,10 +16,6 @@ var active = b.Select("Bundle.entry.ofType(Patient).organization.resolve()");
 // The engine was started from the nested Patient node, so it does not know how to find other entries.
 var patient = b.Entry.Select(e => e.Resource).OfType<Patient>().First();
 var active2 = patient.Select("organization.resolve()");
-
-// This is fine too, since the context is transferred from call to call.
-var org2 = b.Select("Bundle.entry.ofType(Patient)");
-var active3 = org2.Select("organization.resolve()");
 ```
 
 ## Set `%resource` on the evaluation context
