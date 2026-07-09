@@ -17,3 +17,8 @@ You can now use the compiler to:
 
 Invoking the `CompiledExpression` is equivalent to using the `Select()` function described above. The other functions, like `IsBoolean`
 are also available (as extension methods).
+
+Note that the built-in extension methods (`Select()`, `Scalar()`, etc.) don't recompile the expression on every call: internally they use a
+`FhirPathCompilerCache`, which pairs a configured `FhirPathCompiler` with a cache of already-compiled expressions (by default holding up to 500 entries).
+If you invoke your own `FhirPathCompiler` directly, you bypass this cache — so for expressions you evaluate repeatedly, either cache the resulting
+`CompiledExpression` yourself or create your own `FhirPathCompilerCache` (its constructor takes an optional `FhirPathCompiler` and cache size).

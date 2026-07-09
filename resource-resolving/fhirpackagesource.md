@@ -45,6 +45,11 @@ var fhirRelease = FhirRelease.STU3;
 FhirPackageSource resolver = FhirPackageSource.CreateCorePackageSource(ModelInfo.ModelInspector, fhirRelease, packageServer);
 ```
 
+Besides the core and expansions packages, `CreateCorePackageSource` also pulls in the FHIR extensions (`hl7.fhir.uv.extensions`) and tools
+(`hl7.fhir.uv.tools`) packages, using their latest available versions by default. If you need reproducible builds, you can pin those with the
+optional `extensionsVersion` and `toolsVersion` parameters. Note that DSTU2 and R4B have no extensions or tools packages, so passing these
+arguments for those releases is not supported.
+
 ```{note}
 You need an active internet connection to connect to a package server. The `FhirPackageSource` will first check if the specified packages are already installed locally before searching for the packages online. FHIR packages are installed by default in `C:\Users\{user}\.fhir\packages\` (Windows) or `~/.fhir/packages/` (macOS and Linux).
 ```
