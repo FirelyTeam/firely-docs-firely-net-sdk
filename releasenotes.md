@@ -11,17 +11,3 @@ Some of the key changes include:
 * Improved support for [dynamic access to FHIR data](model/dynamic-features), including new methods for working with overflow data and invalid values.
 * Enhanced [equality comparison features](model/equality-and-cloning), allowing for more customization when comparing FHIR model instances.
 
-
-
-## TODO
-New stuff I will still need to document
-
-* IToSystemPrimitive
-* primitive value validations in poco-validation.md
-* Dynamic datatypes
-* PocoNode navigation down the tree
-* Parsers/serializers improvements
-* REST client improvements
-* Maybe add section on terminology services?
-
-
