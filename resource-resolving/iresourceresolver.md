@@ -46,7 +46,7 @@ else
 
 ## Convenience extension methods
 
-There are a number of useful extension methods that simplify use of the `IAsyncResourceResolver` interface:
+There are a number of useful extension methods that simplify the use of the `IAsyncResourceResolver` interface:
 
 * `FindStructureDefinitionAsync(this IAsyncResourceResolver resolver, string uri)` — resolves a StructureDefinition.
 * `FindStructureDefinitionForCoreTypeAsync(this IAsyncResourceResolver resolver, string coreType)` — resolves a StructureDefinition for a named FHIR resource or datatype.

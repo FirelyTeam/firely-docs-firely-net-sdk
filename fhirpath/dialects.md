@@ -1,12 +1,12 @@
 # Dialects of FhirPath
 
-FhirPath is most commonly used as an integrated language within HL7 FHIR. The language was (despite the name) designed to be used in other contexts than FHIR,
-and is also used within [CQL](https://cql.hl7.org/index.html) for example. Each of these contexts can add additional variables and functions to the basic FhirPath language.
+FhirPath is most commonly used as an integrated language within HL7 FHIR. The language was (despite the name) designed to be used in contexts other than FHIR,
+and is also used within [CQL](https://cql.hl7.org/index.html), for example. Each of these contexts can add additional variables and functions to the basic FhirPath language.
 FHIR itself defines its own extensions to the language in [an appendix to the FHIR specification](https://www.hl7.org/fhir/fhirpath.html).
 
-In the SDK, this distinction is visible. When you are executing a FhirPath expression against `ITypedElement` (which could represent all models, also those from CQL),
+In the SDK, this distinction is visible. When you are executing a FhirPath expression against `ITypedElement` (which could represent all models, including those from CQL),
 we are not assuming any context, and the expression can (by default) *only* use the basic FhirPath functions. This means for example that a Fhir-specific function
-like `resolve()` is not available when executing FhirPath against `ITypedElement`.  When you are using POCO's - which are specifically generated for FHIR, the SDK
+like `resolve()` is not available when executing FhirPath against `ITypedElement`. When you are using POCOs - which are specifically generated for FHIR - the SDK
 will have support for these extra functions. So:
 
 ```csharp
@@ -21,7 +21,7 @@ Assert.ThrowsException<ArgumentException>(() => data.IsTrue("hasValue()"));
 
 It is possible to change this default behaviour for `ITypedElement` by installing the Fhir dialect before you first use one of the FhirPath evaluation functions.
 To achieve this, you have to manipulate the default table of symbols used by the FhirPath compiler: `FhirPathCompiler.DefaultSymbolTable.AddFhirExtensions();`
-This is, however, a global setting, which might (or better: will) cause problems when different parts of your applications need to use different dialects.
+This is, however, a global setting, which might (or better: will) cause problems when different parts of your application need to use different dialects.
 To circumvent this problem, you will need to use the lower-level FhirPath support functions, as shown in the next section.
 
 The following functions of the FHIR dialect are currently supported by the SDK:

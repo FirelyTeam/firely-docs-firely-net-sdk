@@ -29,10 +29,10 @@ Patient p = new() {...}
 var extensions = p.Select("Patient.extension");
 ```
 
-When you run the `Select` method on a POCO, the nodes you will get returned are POCO's, in this example they would be of type `Hl7.Fhir.Model.Extension`.
+When you run the `Select` method on a POCO, the nodes you will get returned are POCOs, in this example they would be of type `Hl7.Fhir.Model.Extension`.
 When running FhirPath on `ITypedElement`, the nodes will be of type `ITypedElement` (and its `InstanceType` in this case would be `Extension`).
 
-`Select()` consistently returns a list of nodes, even on a non-repeating element of a primitive type, `p.Select("Patient.active")`
+`Select()` consistently returns a list of nodes, even on a non-repeating element of a primitive type. `p.Select("Patient.active")`
 would therefore return an `IEnumerable<Base>`, for which the only member is a POCO of type `FhirBoolean`, not a string (true/false).
 It's worth noting that this function will still return .NET primitive values (as in .NET int32 etc) when these are encountered in the FhirPath expression, e.g.
 `Select("4+5")`. If you want to avoid this, you can use the convenience method `ToFhirValues()`, which will translate all such

@@ -1,7 +1,7 @@
 # Standard resolvers
 
-The SDK supplies a number of implementations for `IResourceResolver`. These allow you to resolve resources from filesystem directories,
-zip files, but there are specific implementations that help with caching or combining several resolvers as well. Resolvers whose name ends in `Source` also
+The SDK supplies a number of implementations for `IResourceResolver`. These allow you to resolve resources from filesystem directories
+and zip files, and there are specific implementations that help with caching or combining several resolvers as well. Resolvers whose name ends in `Source` also
 implement `IConformanceSource`.
 
 Below is an example of how to use a resolver to resolve a resource. The example uses several resolvers that are documented below:
@@ -35,7 +35,7 @@ unpacking the zip multiple times.
 Previously, the SDK was shipped by default with a `specification.zip` file, which contained all the conformance resources of the core FHIR
 specification. To use this file, the ZipSource has a static factory method, `CreateValidationSource`, that will create a ZipSource that refers to
 this `specification.zip`. As of version 4.0.0, the SDK no longer ships with a `specification.zip` file, and developers are encouraged to
-use the newer NPM files, that are more up-to-date and are now the main source of conformance resources for both the standard specification and
+use the newer NPM files, which are more up-to-date and are now the main source of conformance resources for both the standard specification and
 implementation guides. The `specification.zip` files can be downloaded as separate NuGet packages, named `Hl7.Fhir.Specification.Data.R4`, etcetera.
 
 There is also a `CommonZipSource`. See below for more information.
