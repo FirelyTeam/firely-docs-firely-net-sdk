@@ -1,0 +1,24 @@
+# Invoking the FhirPath Compiler directly
+
+The FhirPath compiler is just another public class in the `Hl7.FhirPath` namespace. It has a constructor which takes an argument of type `SymbolTable` - the key
+to full control over the installed dialect:
+
+```csharp
+var symbolTable = new SymbolTable()
+      .AddStandardFP()
+      .AddFhirExtensions();
+var newCompiler = new FhirPathCompiler(symbolTable);
+```
+
+You can now use the compiler to:
+
+* `Compile()` an expression to a ready-to-execute delegate (called `CompiledExpression`)
+* `Parse()` an expression to an abstract symbol tree, for display or debugging purposes
+
+Invoking the `CompiledExpression` is equivalent to using the `Select()` function described above. The other functions, like `IsBoolean`
+are also available (as extension methods).
+
+Note that the built-in extension methods (`Select()`, `Scalar()`, etc.) don't recompile the expression on every call: internally they use a
+`FhirPathCompilerCache`, which pairs a configured `FhirPathCompiler` with a cache of already-compiled expressions (by default holding up to 500 entries).
+If you invoke your own `FhirPathCompiler` directly, you bypass this cache — so for expressions you evaluate repeatedly, either cache the resulting
+`CompiledExpression` yourself or create your own `FhirPathCompilerCache` (its constructor takes an optional `FhirPathCompiler` and cache size).
