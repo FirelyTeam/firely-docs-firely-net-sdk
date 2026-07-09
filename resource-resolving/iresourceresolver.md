@@ -1,4 +1,4 @@
-# The IResourceResolver interface
+# The IAsyncResourceResolver interface
 
 The `IAsyncResourceResolver` interface is used to resolve conformance resources from the specification or an implementation guide
 (e.g. StructureDefinition, ValueSet, CodeSystem):
@@ -57,7 +57,7 @@ These methods return the resolved resource, or `null` if the resource is not fou
 
 ## IConformanceSource
 
-There is a related interface `IConformanceSource`, which extends `IResourceResolver`. It has methods to find specific types of conformance
+There is a related interface `IConformanceSource`, which extends `ICommonConformanceSource`. It has methods to find specific types of conformance
 resources using criteria other than the canonical uri:
 
 ```csharp
@@ -77,4 +77,4 @@ public interface IConformanceSource : ICommonConformanceSource
 }
 ```
 
-This interface is not supported by all implementations of `IResourceResolver`.
+This interface is not supported by all implementations of `IAsyncResourceResolver`.

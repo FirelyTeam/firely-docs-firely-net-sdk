@@ -1,6 +1,6 @@
 # Standard resolvers
 
-The SDK supplies a number of implementations for `IResourceResolver`. These allow you to resolve resources from filesystem directories
+The SDK supplies a number of implementations for `IAsyncResourceResolver`. These allow you to resolve resources from filesystem directories
 and zip files, and there are specific implementations that help with caching or combining several resolvers as well. Resolvers whose name ends in `Source` also
 implement `IConformanceSource`.
 

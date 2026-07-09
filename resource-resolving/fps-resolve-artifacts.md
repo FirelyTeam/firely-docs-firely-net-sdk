@@ -35,8 +35,8 @@ FhirPackageSource resolver = new(ModelInfo.ModelInspector, new string[] { packag
 CodeSystem cs = resolver.FindCodeSystemByValueSet("http://hl7.org/fhir/ValueSet/address-type");
 
 //Find ConceptMaps by source and/or target (sourceUri or targetUri can be null)
-ConceptMap cms = resolver.FindConceptMaps(sourceUri: "http://hl7.org/fhir/ValueSet/data-absent-reason", targetUri: "http://hl7.org/fhir/ValueSet/v3-NullFlavor");
+IEnumerable<ConceptMap> cms = resolver.FindConceptMaps(sourceUri: "http://hl7.org/fhir/ValueSet/data-absent-reason", targetUri: "http://hl7.org/fhir/ValueSet/v3-NullFlavor");
 
 //Find NamingSystem by uniqueId
-NamingSystem ns = resolver.FindNamingSystem("http://snomed.info/sct");
+NamingSystem? ns = resolver.FindNamingSystem("http://snomed.info/sct");
 ```
