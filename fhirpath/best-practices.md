@@ -18,20 +18,28 @@ var patient = b.Entry.Select(e => e.Resource).OfType<Patient>().First();
 var active2 = patient.Select("organization.resolve()");
 ```
 
-## Set `%resource` on the evaluation context
+## The `%resource` and `%rootResource` variables
 
-Although not many FhirPath statements use the `%resource` and `%rootResource` environment variables, they *do* get used, and the default constructors will
-make it easy for you to *not* set them (blame us for that). To make sure these variables work well, you should pass a sensible `EvaluationContext` to the
-FhirPath functions, even though they are optional:
+Some FhirPath statements use the `%resource` and `%rootResource` environment variables. When you evaluate an expression through the POCO extension methods,
+the engine infers these automatically from the input: `%resource` becomes the resource that contains the node you are evaluating (or the root of the input
+itself when it is not inside a resource), and `%rootResource` the outermost resource. So in the common case these variables just work, without you having to
+configure anything:
 
 ```csharp
 Patient p = new() {...}
-var hasName = p.IsTrue("Patient.name.exists()",
-    new FhirEvaluationContext { Resource = p.ToPocoNode(ModelInfo.ModelInspector) });
+var hasName = p.IsTrue("%resource.name.exists()");   // %resource is inferred from p
 ```
 
-As you can see, we pass a new `FhirEvaluationContext` whose `Resource` is set to the root of the object. The FhirPath engine works on a `PocoNode`, which navigates
-the POCO tree and keeps track of parent, contained, and `Bundle` entry nodes — the bookkeeping that makes `resolve()` work (see the previous section).
+If you need `%resource` to point at a different resource than the one the engine would infer, set the `Resource` (and/or `RootResource`) property on a
+`FhirEvaluationContext` explicitly — an explicitly-set value overrides the inferred one:
+
+```csharp
+var ctx = new FhirEvaluationContext { Resource = someResource.ToPocoNode(ModelInfo.ModelInspector) };
+var hasName = p.IsTrue("%resource.name.exists()", ctx);
+```
+
+The engine can infer these variables because it works on a `PocoNode`, which navigates the POCO tree and keeps track of parent, contained, and `Bundle`
+entry nodes — the same bookkeeping that makes `resolve()` work (see the previous section).
 
 ## Set the `ElementResolver` on the `FhirEvaluationContext`
 
