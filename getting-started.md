@@ -8,7 +8,7 @@ As mentioned in the [introduction](introduction), you need to select the [approp
 
 All other NuGet packages provided by Firely are either directly or indirectly used by these three main packages.
 
-## Install via .nuspec
+## Install via the .NET CLI
 
 Run the following command to add the package:
 
