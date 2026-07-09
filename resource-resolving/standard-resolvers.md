@@ -1,8 +1,9 @@
 # Standard resolvers
 
 The SDK supplies a number of implementations for `IAsyncResourceResolver`. These allow you to resolve resources from filesystem directories
-and zip files, and there are specific implementations that help with caching or combining several resolvers as well. Resolvers whose name ends in `Source` also
-implement `IConformanceSource`.
+and zip files, and there are specific implementations that help with caching or combining several resolvers as well. Resolvers whose name ends in `Source`
+(such as `DirectorySource` and `ZipSource`) typically also implement `IConformanceSource`; their 'common' counterparts (see below) implement the narrower
+`ICommonConformanceSource`, and `SnapshotSource` implements neither, since it only wraps an existing resolver.
 
 Below is an example of how to use a resolver to resolve a resource. The example uses several resolvers that are documented below:
 

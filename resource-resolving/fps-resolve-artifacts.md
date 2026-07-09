@@ -1,7 +1,7 @@
 # How to resolve artifacts from packages
 
 The most common use case for the FHIR Package source is to resolve conformance resources like `StructureDefinition`s, `ValueSet`s, and `CodeSystem`s from specific FHIR packages.
-`FhirPackageSource` implements `IAsyncResourceResolver`, `IArtifactSource`, and `IConformanceSource`.
+`FhirPackageSource` implements `IAsyncResourceResolver` and `IArtifactSource`.
 That means all conformance resources can be resolved by specifying their canonical url.
 
 ```csharp
@@ -32,11 +32,11 @@ Next to that, there are some specific functions for certain resource types.
 FhirPackageSource resolver = new(ModelInfo.ModelInspector, new string[] { package1, package2 });
 
 //Find CodeSystems by ValueSets
-CodeSystem cs = resolver.FindCodeSystemByValueSet("http://hl7.org/fhir/ValueSet/address-type");
+var cs = (await resolver.FindCodeSystemByValueSet("http://hl7.org/fhir/ValueSet/address-type")) as CodeSystem;
 
 //Find ConceptMaps by source and/or target (sourceUri or targetUri can be null)
-IEnumerable<ConceptMap> cms = resolver.FindConceptMaps(sourceUri: "http://hl7.org/fhir/ValueSet/data-absent-reason", targetUri: "http://hl7.org/fhir/ValueSet/v3-NullFlavor");
+IEnumerable<Resource> cms = await resolver.FindConceptMaps(sourceUri: "http://hl7.org/fhir/ValueSet/data-absent-reason", targetUri: "http://hl7.org/fhir/ValueSet/v3-NullFlavor");
 
 //Find NamingSystem by uniqueId
-NamingSystem? ns = resolver.FindNamingSystem("http://snomed.info/sct");
+var ns = (await resolver.FindNamingSystemByUniqueId("http://snomed.info/sct")) as NamingSystem;
 ```
