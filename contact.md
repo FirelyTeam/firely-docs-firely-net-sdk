@@ -11,4 +11,4 @@ For broader discussions, there's a ["FHIR on .NET" Google
 group](https://groups.google.com/forum/#!forum/fhir-dotnet).
 
 If you're interested in a FHIR training, or want to know what other FHIR tools are available,
-please check [here](https://www.fire.ly//).
+please check [here](https://www.fire.ly/).
