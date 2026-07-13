@@ -80,3 +80,12 @@ The following codes indicate that data did **not** fit a typed property and was 
 - `UNKNOWN_ELEMENT_CODE` (`PVAL128`)
 
 The issues allowed through in `BackwardsCompatible` mode — because a newer FHIR version could legitimately introduce them — are `INVALID_CODED_VALUE_CODE`, `UNKNOWN_ELEMENT_CODE`, `CHOICE_TYPE_NOT_ALLOWED_CODE` and `UNKNOWN_RESOURCE_TYPE_CODE`.
+
+## Case-sensitivity of names
+
+FHIR element and resource-type names are case-sensitive. When a name matches a known element or resource type in everything but its casing (for example `birthdate` for `birthDate`, or `patient` for `Patient`), how the deserializer treats it depends on whether the mode reports the wrong-case error:
+
+- When the wrong-case error is reported — as in `Strict` mode, the default — the wrong-cased name is **not** bound to the element it resembles. Its value is kept in the overflow under the name exactly as written, and a `WRONG_CASED_ELEMENT` (`PVAL131`) or `WRONG_CASED_RESOURCE_TYPE` (`PVAL132`) error is raised, so the parse fails.
+- When the mode ignores that error — the lenient modes such as `Recoverable`, `NoOverflow` and `BackwardsCompatible` — the name is bound to the element it nearly matches and no error is reported.
+
+Because a wrong-cased name is bound to its typed property under lenient binding, `WRONG_CASED_ELEMENT` is *not* an overflow-causing issue: data only lands in the overflow under the strict binding that reports it, in which case the parse fails on the error itself.

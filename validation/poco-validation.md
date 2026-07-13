@@ -70,5 +70,7 @@ Every problem is reported as a `CodedValidationException`, which carries a human
 | `PVAL128` | `UNKNOWN_ELEMENT_CODE` | an element is defined on the type. |
 | `PVAL129` | `ELEMENT_CANNOT_BE_EMPTY_CODE` | an element actually carries a value. |
 | `PVAL130` | `UNKNOWN_RESOURCE_TYPE_CODE` | a resource's type is recognized. |
+| `PVAL131` | `WRONG_CASED_ELEMENT_CODE` | an element name uses the correct casing (FHIR names are case-sensitive). |
+| `PVAL132` | `WRONG_CASED_RESOURCE_TYPE_CODE` | a resource type name uses the correct casing. |
 
 Rather than depend on this list staying complete, the authoritative set is [in the source](https://github.com/FirelyTeam/firely-net-sdk/blob/develop/src/Hl7.Fhir.Base/Validation/CodedValidationException.cs).
